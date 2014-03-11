@@ -442,11 +442,11 @@ img.resize-sidebar{
 
 .navigations .alignleft a,
 .navigations .alignright a {
-	background: #aa0000; /* for non-css3 browsers */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#aa0000', endColorstr='#660000'); /* for IE */
-	background: -webkit-gradient(linear, left top, left bottom, from(#a00), to(#600)); /* for webkit browsers */
-	background: -moz-linear-gradient(top, #a00, #600); /* for firefox 3.6+ */
-	background-image: -o-linear-gradient(#a00, #600);
+	background: #C4C4C4; /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#C4C4C4', endColorstr='#3B3B3B'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#C4C4C4), to(#3B3B3B)); /* for webkit browsers */
+	background: -moz-linear-gradient(top, #C4C4C4, #3B3B3B); /* for firefox 3.6+ */
+	background-image: -o-linear-gradient(#C4C4C4, #3B3B3B);
 	
 	border-radius: 3px;
 	color: #fff;
@@ -460,7 +460,7 @@ img.resize-sidebar{
 
 .navigations .alignleft a:hover,
 .navigations .alignright a:hover {
-	background: #a00;
+	background: #3B3B3B;
 }
 
 .navigations .alignleft a,
