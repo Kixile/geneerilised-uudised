@@ -88,12 +88,12 @@ div.hr {
 }
 
 div.content p.tags {
-	background: url('images/tag.png') left no-repeat;
+	background: url('images/') left no-repeat;
 	padding-left: 23px;
 }
 
 div.content p.comments {
-	background: url('images/comment.gif') left no-repeat;
+	background: url('images/') left no-repeat;
 	padding-left: 23px;
 }
 
@@ -191,7 +191,7 @@ div.content p.comments {
 }
 
 #menu-main-container ul li:hover {
-	background: #a00;
+	background: rgb(59, 59, 59);
 }
 
 #menu-main-container ul li a {
