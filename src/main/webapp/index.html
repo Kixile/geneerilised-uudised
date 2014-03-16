@@ -1,43 +1,13 @@
 <!DOCTYPE html>
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width; initial-scale=1.0">
-	<title>Geneerilised uudised - Jump off a cliff</title>
-	<link rel="stylesheet" href="stilesheet.css" type="text/css" media="screen" />
+	#include("templates/template-head.html")
 </head>
 
 <body class="home blog">
 
 	<div id="header"> <!-- Header start -->
-		<div id="header-content">
-			<div class="logo">
-				<a href="">Generic news</a>
-			</div>
-			
-			<div id="menu-utility-container">
-				<ul id="menu-utility" class="menu">
-					<li id="menu-item-001" class="menu-item"><a href="">Login</a></li>
-					<li id="menu-item-002" class="menu-item"><a href="">About us</a></li>
-					<li id="menu-item-003" class="menu-item"><a href="">Write for us</a></li>
-					<li id="menu-item-004" class="menu-item"><a href="">User settings</a></li>
-				</ul>
-			</div>
-			
-			<div id="menu-main-container">
-				<div class="menumainnav">
-					<button id="menu-button" class="menu-button" value="Open menu"></button>
-					<ul id="menumainnav" class="menu">
-						<li id="menu-item-005" class="menu-item menumainnav"><a href="">R 1</a></li>
-						<li id="menu-item-006" class="menu-item menumainnav"><a href="">R 2</a></li>
-						<li id="menu-item-007" class="menu-item menumainnav"><a href="">R 3</a></li>
-						<li id="menu-item-008" class="menu-item menumainnav"><a href="">R 4</a></li>
-						<li id="menu-item-009" class="menu-item menumainnav"><a href="">R 5</a></li>
-						<li id="menu-item-010" class="menu-item menumainnav"><a href="">R 6</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+		#include("templates/template-header.html")
 	</div> <!-- header end -->
 
 	<div id="page-wrapper"> <!-- News start here -->
@@ -105,102 +75,13 @@
 					</div>
 				</div>
 				<div id="sidebar">
-				<div class="block"> <!-- search block -->
-					<h3>Search</h3>
-					<form id="tfnewsearch" method="get" action="http://www.google.com">
-						<input type="text" class="tftextinput" name="q" size="21" maxlength="120"><input type="submit" value="search" class="tfbutton">
-					</form>
-					<div class="clear"></div>
+					#include("templates/template-sidebar.html")
 				</div>
-				<div class="block"> <!-- main block constuctioon way on sidebar-->
-					<h3>Hot topics</h3>
-					<p><img class = "resize-sidebar" title="placeholder" src="images/placeholder2.png" alt=""></p>
-					<ul class="">
-						<li><h4><a title="Hot topic 1" rel="bookmark" href="">Hot topic 1</a></h4></li>
-						<li><h4><a title="Hot topic 2" rel="bookmark" href="">Hot topic 2</a></h4></li>
-						<li><h4><a title="Hot topic 3" rel="bookmark" href="">Hot topic 3</a></h4></li>
-						<li><h4><a title="Hot topic 4" rel="bookmark" href="">Hot topic 4</a></h4></li>
-						<li><h4><a title="More here" rel="bookmark" href="">More...</a></h4></li>
-					</ul>
-					<div class="clear"></div>
-				</div>
-				
-				<div class="block"> <!-- main block constuctioon way on sidebar-->
-					<h3>Pool</h3>
-					<p class="pool-text">Here goes explenatori text or a question. Bla bla Bla bla Bla bla Bla bla Bla bla Bla bla.</p>
-					<h5> We may use some premade solution, will see...</h5>
-					<div class="clear"></div>
-				</div>
-			</div>
 			</div>
 		</div>
 	</div>
 	
 	<div id="footer">
-		<div class="container">
-			<div id="footer-content">
-				<div class="footer-col">
-					<h4>Stuff from top</h4>
-					
-					<ul>
-						<li>
-							<a href="/">Home</a>
-						</li>
-						<li>
-							<a href="/">About us</a>
-						</li>
-						<li>
-							<a href="/">3rd thing</a>
-						</li>
-					</ul>
-					
-					<ul>
-						<li>
-							<a href="/">Write for us</a>
-						</li>
-						<li>
-							<a href="/">User settings</a>
-						</li>
-						<li>
-							<a href="/">One more...</a>
-						</li>
-					</ul>
-					
-				</div>
-			
-				<div class="footer-col">
-					<h4>Contacts</h4>
-					<ul>
-						<li>
-							<a href="/">Contact one</a>
-						</li>
-						<li>
-							<a href="/">Contact 2</a>
-						</li>
-						<li>
-							<a href="/">Contact 3</a>
-						</li>
-					</ul>
-					
-				</div>
-			
-				<div class="footer-col">
-					<h4>Info and thanks and such</h4>
-					<ul>
-						<li>
-							<a href="http://www.jonathansutcliffe.com/">Alot of Jonathan Sutcliffe work was used.</a>
-						</li>
-						<li>
-							<a href="/">info 2</a>
-						</li>
-						<li>
-							<a href="/">info 3</a>
-						</li>
-					</ul>
-					
-				</div>
-				<div class="clear"></div>
-			</div>
-		</div>
+		#include("templates/template-footer.html")
 	</div>
 </body>
