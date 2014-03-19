@@ -27,7 +27,7 @@
 	
 	<servlet>
 		<servlet-name>Velocity</servlet-name>
-		<servlet-class>main.java.com.servlets.Velocity</jsp-file>
+		<servlet-class>main.java.com.servlets.Velocity</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
