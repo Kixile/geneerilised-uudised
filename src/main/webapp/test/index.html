@@ -1,42 +1,35 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 
 <head>
 	<script src="../javascript/jquery-2.1.0.js"></script>
 	<script src="1.js"></script>
-	
-<script>
-$.getJSON("../articles/article.json",{}, function( data ){ 
-  document.getElementById("header").innerHTML=data.header;
-  document.getElementById("authortime").innerHTML="By " + data.author + " on " + data.time;
-  document.getElementById("image").src=data.image;
-  document.getElementById("text").innerHTML=data.body;
-  for (i=0;i<data.tags.length;i++){
-	document.getElementById('tags').innerHTML += '<a>' + data.tags[i] + '</a>';
-	}
-});
-
-</script>
 
 </head>
 
 <body class="home blog">
 
-	<div id="page-wrapper"> <!-- News start here -->
+	<div id="page-wrapper">
 		<div id="page">
 			<div id="content">
 				<div class="content">
-					<div id="post-prototype-001" class="block"> <!-- article example -->
+					<div id="post-prototype-001" class="block">
 						<div class="post-inner">
+						
+						<form name="input" action="/hello" method="get">
+							Username: <input type="text" name="user">
+						<input type="submit" value="Submit">
+						</form> 
+						
 							<h2 id="header"></h2>
 							<div class="entry">
-								<p id="authortime" class="info"></p> <!-- here is submition info-->
-								<p><img id="image" alt="" src="images/placeholder2.png" title="placeholder"></p><!-- illustrative image -->
-								<p id="text"><!-- article text -->
+								<p id="authortime" class="info"></p>
+								<p><img id="image" alt="" src="images/placeholder2.png" title="placeholder"></p>
+								<p id="text">
 								</p>
-								<p><a id="js-article-001" class="more-link" href="#" onclick="return fn()">>> Read more...</a></p><!-- link to the full article -->
+								<p><a id="js-article-001" class="more-link" href="#" onclick="return fn()">>> Read more...</a></p>
 							</div>
-							<div class="hr"></div> <!-- seperator -->
-							<p id="tags" class="tags"><!-- tags column -->
+							<div class="hr"></div>
+							<p id="tags" class="tags">
 							</p>
 							<p class="comments">
 								<a title=">> Comment on this" href="">>> Comment on this...</a>
@@ -48,4 +41,63 @@ $.getJSON("../articles/article.json",{}, function( data ){
 		</div>
 	</div>
 
+</body> -->
+
+<!DOCTYPE html>
+
+<head>
+	#include("templates/template-head.html")
+</head>
+
+<body class="home blog">
+
+	<div id="header"> <!-- Header start -->
+		#include("templates/template-header.html")
+	</div> <!-- header end -->
+
+	<div id="page-wrapper"> <!-- News start here -->
+		<div id="page">
+			<div id="content">
+				<div class="content">
+					<div id="submit text" class="block"> <!-- article example -->
+						<div class="post-inner">
+							<h1>Submit article...</h1>
+							<div class="hr"></div>
+							<div class="entry">
+							
+								<form name="input" method="get" action="/hello">
+									<h2>Header: </h2> <textarea name="header" id="header-input" onfocus="this.value=''; setbg('#e5fff3');" onblur="setbg('white')"></textarea>
+									<div class="hr"></div>
+									<h2>Article text: </h2> 
+									<textarea name="text-input" id="text-input" onfocus="this.value=''; setbg('#e5fff3');" onblur="setbg('white')">Enter your article here...</textarea>
+									<div class="hr"></div>
+									<h2>Enter tags (each separated by a coma): </h2> 
+									<textarea name="tags-input" id="tags-input" onfocus="this.value=''; setbg('#e5fff3');" onblur="setbg('white')">Enter tags...</textarea> 
+									<div class="hr"></div>
+									<input id="article-submit" type="submit" value="Post">
+								</form>
+								
+							</div>
+						</div>
+					</div>
+					
+					<div class="navigations">
+							<div class="alignleft">
+							</div>
+							<div class="alignright">
+							</div>
+							<div class="clear"></div>
+					</div>
+					
+				</div>
+				<div id="sidebar">
+					#include("templates/template-sidebar.html")
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="footer">
+		#include("templates/template-footer.html")
+	</div>
 </body>

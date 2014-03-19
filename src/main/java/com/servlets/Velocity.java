@@ -1,4 +1,4 @@
-package vldemo2.servlets;
+package main.java.com.servlets;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -19,7 +19,11 @@ import java.io.IOException;
 @WebServlet(value = "*.html")
 public class Velocity extends HttpServlet {
 
-    private VelocityEngine engine;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private VelocityEngine engine;
 
     @Override
     public void init(ServletConfig config) throws ServletException {

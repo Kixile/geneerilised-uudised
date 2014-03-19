@@ -9,6 +9,11 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+    
+    	<servlet>
+		<servlet-name>hello</servlet-name>
+		<servlet-class>main.java.com.servlets.HelloServlet</servlet-class>
+	</servlet>
 
     <servlet>
         <servlet-name>spring</servlet-name>
@@ -25,4 +30,9 @@
         <servlet-name>spring</servlet-name>
         <url-pattern>/people/*</url-pattern>
     </servlet-mapping>
+    
+    	<servlet-mapping>
+		<servlet-name>hello</servlet-name>
+		<url-pattern>/hello/*</url-pattern>
+	</servlet-mapping>
 </web-app>
