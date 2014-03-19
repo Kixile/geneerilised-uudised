@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 public class HelloServlet extends HttpServlet {
 
 	/**
@@ -20,19 +22,20 @@ public class HelloServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
 		
-		String placeArr = req.getParameterValues("header")[0];
-		String placeArr2 = req.getParameterValues("text-input")[0];
-		String placeArr3 = req.getParameterValues("tags-input")[0];
+		String[] head = req.getParameterValues("header");
+		String[] text = req.getParameterValues("text-input");
+		String[] tag = req.getParameterValues("tags-input");
 		
-		String[] parts = placeArr3.split(", ");
+		Article a = new Article(head[0], text[0], tag[0]);
 		
-		PrintWriter writer = resp.getWriter();
-		writer.println("<html><head><title>Hello</title></head><body>");
-		writer.println("<p>Header -  "+ placeArr +"</p>");
-		writer.println("<p>posted text: " + placeArr2 + "</p>");
-		for(String a : parts){
-			writer.println( a );
-		}
-		writer.println("</body></html>");	
+		Gson gson = new Gson();
+		
+		String json = gson.toJson(a);  
+		
+		PrintWriter writer = new PrintWriter("src/main/webapp/json/"+head[0].replaceAll(" ","_")+".json", "UTF-8");
+		writer.println(json);
+		writer.close();
+		
+		resp.sendRedirect("index.html");
 	}
 }

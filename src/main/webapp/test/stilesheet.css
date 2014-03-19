@@ -135,6 +135,13 @@ textarea#tags-input {
 	background-repeat: no-repeat;
 }
 
+input#article-submit {
+	font-size: 24px;
+	text-align: centre;
+	width: 100px;
+	height: 50px;
+}
+
 /* header work here*/
 
 #header {
@@ -688,6 +695,42 @@ div#footer-content div.footer-col {
 	#header .logo a {
 		margin-left: 10px;
 	}
+	
+	textarea#header-input {
+	font-size: 20px;
+	width: 600px;
+	height: 24px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+
+textarea#text-input {
+	font-size: 12px;
+	width: 600px;
+	height: 500px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+
+textarea#tags-input {
+	font-size: 12px;
+	width: 600px;
+	height: 24px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
 }
 
 @media screen and (max-width: 976px) {
@@ -753,6 +796,43 @@ div#footer-content div.footer-col {
 	#sidebar div.ad-desktop > div {
 		margin: 0 auto;
 	}
+	
+textarea#header-input {
+	font-size: 20px;
+	width: 95%;
+	height: 24px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+
+textarea#text-input {
+	font-size: 12px;
+	width: 95%;
+	height: 500px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+
+textarea#tags-input {
+	font-size: 12px;
+	width: 95%;
+	height: 24px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+	
 }
 
 @media screen and (max-width: 700px) {
