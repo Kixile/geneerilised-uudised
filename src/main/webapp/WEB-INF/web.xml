@@ -10,10 +10,21 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
     
-    	<servlet>
+    <servlet>
 		<servlet-name>hello</servlet-name>
 		<servlet-class>main.java.com.servlets.HelloServlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>hello2</servlet-name>
+		<jsp-file>/jsp/hello.jsp</jsp-file>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>hello2</servlet-name>
+		<url-pattern>/hello2</url-pattern>
+	</servlet-mapping>
+
 
     <servlet>
         <servlet-name>spring</servlet-name>
