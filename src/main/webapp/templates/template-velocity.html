@@ -15,7 +15,6 @@
 			<div id="content">
 				<div class="content">
 					#foreach($product in $test)
-					
 					<div id="$product.header" class="block"> <!-- article example -->
 						<div class="post-inner">
 							<h2>$product.header</h2>
@@ -29,9 +28,10 @@
 							</div>
 							<div class="hr"></div> <!-- seperator -->
 							<p class="tags"><!-- tags column -->
-								<a rel="" href="">Tag1</a>, 
-								<a rel="" href="">Tag2</a>, 
-								<a rel="" href="">Tag3</a>
+								
+								#foreach($product2 in $product.tags)
+								<a rel="" href="">$product2</a>, 
+								#end
 							</p>
 							<p class="comments">
 								<a title=">> Comment on this" href="">>> Comment on this...</a>

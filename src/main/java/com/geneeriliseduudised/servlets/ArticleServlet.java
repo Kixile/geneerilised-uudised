@@ -21,7 +21,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
-public class ArticleServlte extends HttpServlet {
+public class ArticleServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private VelocityEngine engine = new VelocityEngine();;
@@ -52,7 +52,7 @@ public class ArticleServlte extends HttpServlet {
 			throws ServletException, IOException {
 		
 		Article[] articles = new Article[5];
-		articles[0] = new Article("header1", "texttexttexttexttexttexttexttext", "tag1, tag2");
+		articles[0] = new Article("header333", "texttexttexttexttexttexttexttext", "tag1, tag2");
 		articles[1] = new Article("header2", "texttexttexttexttexttexttexttext", "tag1, tag2");
 		articles[2] = new Article("header3", "texttexttexttexttexttexttexttext", "tag1, tag2");
 		articles[3] = new Article("header4", "texttexttexttexttexttexttexttext", "tag1, tag2");
