@@ -11,19 +11,22 @@
     </welcome-file-list>
     
     <servlet>
+		<servlet-name>ArticleServlte</servlet-name>
+		<servlet-class>com.geneeriliseduudised.servlets.ArticleServlte</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>ArticleServlte</servlet-name>
+		<url-pattern>/article</url-pattern>
+	</servlet-mapping>
+	
+	
+    
+    <servlet>
 		<servlet-name>hello</servlet-name>
 		<servlet-class>com.geneeriliseduudised.servlets.HelloServlet</servlet-class>
 	</servlet>
 	
-	<servlet>
-		<servlet-name>hello2</servlet-name>
-		<jsp-file>/jsp/hello.jsp</jsp-file>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>hello2</servlet-name>
-		<url-pattern>/hello2</url-pattern>
-	</servlet-mapping>
 	
 	<servlet>
 		<servlet-name>Velocity</servlet-name>
