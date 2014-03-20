@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<head>
+	#include("./src/main/webapp/templates/template-head.html")
+</head>
+
+<body class="home blog">
+
+	<div id="header"> <!-- Header start -->
+		#include("./src/main/webapp/templates/template-header.html")
+	</div> <!-- header end -->
+
+	<div id="page-wrapper"> <!-- News start here -->
+		<div id="page">
+			<div id="content">
+				<div class="content">
+					#foreach($product in $test)
+					
+					<div id="$product.header" class="block"> <!-- article example -->
+						<div class="post-inner">
+							<h2>$product.header</h2>
+							<div class="entry">
+								<p class="info">By someone on whatever date it is.</p> <!-- here is submition info-->
+								<p><img alt="" src="images/placeholder2.png" title="placeholder"></p><!-- illustrative image -->
+								<p><!-- article text -->
+									$product.text
+								</p>
+								<p><a class="more-link" href="">>> Read more...</a></p><!-- link to the full article -->
+							</div>
+							<div class="hr"></div> <!-- seperator -->
+							<p class="tags"><!-- tags column -->
+								<a rel="" href="">Tag1</a>, 
+								<a rel="" href="">Tag2</a>, 
+								<a rel="" href="">Tag3</a>
+							</p>
+							<p class="comments">
+								<a title=">> Comment on this" href="">>> Comment on this...</a>
+							</p>
+						</div>
+					</div>
+					
+					#end
+					<div class="navigations">
+							<div class="alignleft">
+								<a href="">&#60; &#60;</a>
+							</div>
+							<div class="alignright">
+								<a href="">&#62; &#62;</a>
+							</div>
+							<div class="clear"></div>
+					</div>
+				</div>
+				<div id="sidebar">
+					#include("./src/main/webapp/templates/template-sidebar.html")
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="footer">
+		#include("./src/main/webapp/templates/template-footer.html")
+	</div>
+</body>

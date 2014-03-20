@@ -61,6 +61,7 @@ public class ArticleServlte extends HttpServlet {
 		
 		VelocityContext context = new VelocityContext();
 		context.put( "name", new String("Velocity") );
+		context.put("test", articles);
 		Template template = null;
 		
 		
