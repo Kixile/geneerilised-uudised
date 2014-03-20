@@ -1,4 +1,4 @@
-package main.java.com.servlets;
+package com.geneeriliseduudised.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;

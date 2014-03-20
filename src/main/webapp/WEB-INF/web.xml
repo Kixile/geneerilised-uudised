@@ -12,7 +12,7 @@
     
     <servlet>
 		<servlet-name>hello</servlet-name>
-		<servlet-class>main.java.com.servlets.HelloServlet</servlet-class>
+		<servlet-class>com.geneeriliseduudised.servlets.HelloServlet</servlet-class>
 	</servlet>
 	
 	<servlet>
@@ -27,7 +27,7 @@
 	
 	<servlet>
 		<servlet-name>Velocity</servlet-name>
-		<servlet-class>main.java.com.servlets.Velocity</servlet-class>
+		<servlet-class>com.geneeriliseduudised.servlets.Velocity</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
@@ -35,7 +35,15 @@
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>DbConn</servlet-name>
+		<servlet-class>com.geneeriliseduudised.servlets.DbConn</servlet-class>
+	</servlet>
 
+	<servlet-mapping>
+		<servlet-name>DbConn</servlet-name>
+		<url-pattern>/articledump</url-pattern>
+	</servlet-mapping>
 
     <servlet>
         <servlet-name>spring</servlet-name>

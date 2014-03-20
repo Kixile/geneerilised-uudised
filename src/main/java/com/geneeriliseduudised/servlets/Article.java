@@ -1,4 +1,4 @@
-package main.java.com.servlets;
+package com.geneeriliseduudised.servlets;
 
 public class Article {
 	private String header;

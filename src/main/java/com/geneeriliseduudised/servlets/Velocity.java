@@ -1,4 +1,4 @@
-package main.java.com.servlets;
+package com.geneeriliseduudised.servlets;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
