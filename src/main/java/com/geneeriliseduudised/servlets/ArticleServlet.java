@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.Format;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
+import org.apache.velocity.anakia.OutputWrapper;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -29,7 +31,8 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 public class ArticleServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private VelocityEngine engine = new VelocityEngine();;
+	private VelocityEngine engine = new VelocityEngine();
+
 	Connection con = null;
 	
 	public void connect(){
@@ -67,6 +70,7 @@ public class ArticleServlet extends HttpServlet {
     
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
+		
 		String sql = "SELECT * FROM artikkel_create";
 		ResultSet rs = request(sql);
 		Article[] articles = new Article[5];
@@ -95,15 +99,15 @@ public class ArticleServlet extends HttpServlet {
 		
 		
 		VelocityContext context = new VelocityContext();
+
 		context.put( "name", new String("Velocity") );
+		context.put( "umlaut", new String("äöüpõ"));
 		context.put("test", articles);
 		Template template = null;
 		
-		
-		
 		try
 		{
-		   template = Velocity.getTemplate("./src/main/webapp/templates/template-velocity.html");
+		   template = Velocity.getTemplate("./src/main/webapp/templates/template-velocity.html", "UTF-8");
 		}
 		catch( ResourceNotFoundException rnfe )
 		{
