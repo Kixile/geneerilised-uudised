@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <head>
 	#include("./src/main/webapp/templates/template-head.html")
@@ -15,14 +15,14 @@
 			<div id="content">
 				<div class="content">
 					#foreach($product in $test)
-					<div id="$product.header" class="block"> <!-- article example -->
+					<div id="$product.header.replace(" ", "_")" class="block"> <!-- article example -->
 						<div class="post-inner">
 							<h2>$product.header</h2>
 							<div class="entry">
-								<p class="info">By someone on whatever date it is.</p> <!-- here is submition info-->
+								<p class="info">By $product.username on $product.date</p> <!-- here is submition info-->
 								<p><img alt="" src="images/placeholder2.png" title="placeholder"></p><!-- illustrative image -->
 								<p><!-- article text -->
-									$product.text
+									$product.summary
 								</p>
 								<p><a class="more-link" href="">>> Read more...</a></p><!-- link to the full article -->
 							</div>
