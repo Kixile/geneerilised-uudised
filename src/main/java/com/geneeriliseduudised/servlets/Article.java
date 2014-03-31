@@ -1,6 +1,7 @@
 package com.geneeriliseduudised.servlets;
 
 public class Article {
+	private String id;
 	private String header;
 	private String text;
 	private String[] tags;
@@ -10,8 +11,9 @@ public class Article {
 	
 
 	public Article(String header, String text, String tags, String date,
-			String username, String summary) {
+			String username, String summary, String id) {
 		super();
+		this.id = id;
 		this.header = header;
 		this.text = text;
 		this.tags = tags.split(";");
@@ -19,6 +21,19 @@ public class Article {
 		this.username = username;
 		this.summary = summary;
 	}
+
+	
+
+	public String getId() {
+		return id;
+	}
+
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 
 
 	public String getHeader() {

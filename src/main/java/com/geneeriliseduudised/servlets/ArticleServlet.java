@@ -1,14 +1,18 @@
 package com.geneeriliseduudised.servlets;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.Format;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -17,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.WordUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 import org.apache.velocity.anakia.OutputWrapper;
@@ -51,7 +56,7 @@ public class ArticleServlet extends HttpServlet {
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
-//			stmt.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -60,54 +65,100 @@ public class ArticleServlet extends HttpServlet {
 	
 	
     public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    	super.init(config);
         engine.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
         engine.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
         engine.init();
+        Velocity.setProperty( Velocity.INPUT_ENCODING, "UTF-8" );
+        Velocity.setProperty( Velocity.OUTPUT_ENCODING, "UTF-8" );
         connect();
     }
     
     
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
+
+		
+		//for buttons and better article scrolling
+		String uri = /*req.getScheme() + "://" +
+	             req.getServerName() + */
+	            /* ("http".equals(req.getScheme()) && req.getServerPort() == 80 || "https".equals(req.getScheme()) && req.getServerPort() == 443 ? "" : ":" + req.getServerPort() ) +
+	             */req.getRequestURI() /*+
+	            (req.getQueryString() != null ? "?" + req.getQueryString() : "")*/;
+		
+		
+		init();
+		
+		Statement stmt = null;
+		
+		try {
+			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		} catch (SQLException e3) {
+			// TODO Auto-generated catch block
+			//e3.printStackTrace();
+		}
+
 		
 		String sql = "SELECT * FROM artikkel_create";
-		ResultSet rs = request(sql);
-		Article[] articles = new Article[5];
+		ResultSet rs = null;
+		
 		try {
-			int n = 0;
-			while(rs.next() && n < 5){
-				articles[n] = new Article(rs.getString("pealkiri"), 
+			rs = stmt.executeQuery(sql);
+		} catch (SQLException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+		int rowAmmount = 0;
+
+		List<Article> articlesList = new ArrayList<Article>();
+		
+		try {
+			while(rs.next()){
+				articlesList.add(new Article(rs.getString("pealkiri"), 
 						rs.getString("sisu"), "helo", rs.getString("aeg"),
-						rs.getString("kasutajanimi"), rs.getString("lyhisisu"));
-				n++;
+						rs.getString("kasutajanimi"), rs.getString("lyhisisu"), rs.getString("artikkel_id")));
+				rowAmmount ++;
 			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-//		try {
-//			rs.close();
-//		} catch (SQLException e1) {
-//			e1.printStackTrace();
-//		}
 
-//		articles[0] = new Article("header333", "texttexttexttexttexttexttexttext", "tag1, tag2");
-//		articles[1] = new Article("header2", "texttexttexttexttexttexttexttext", "tag1, tag2");
-//		articles[2] = new Article("header3", "texttexttexttexttexttexttexttext", "tag1, tag2");
-//		articles[3] = new Article("header4", "texttexttexttexttexttexttexttext", "tag1, tag2");
-//		articles[4] = new Article("header5", "texttexttexttexttexttexttexttext", "tag1, tag2");
-		
-		
 		VelocityContext context = new VelocityContext();
-
-		context.put( "name", new String("Velocity") );
-		context.put( "umlaut", new String("äöüpõ"));
-		context.put("test", articles);
+		
+		String[] uriSplit = uri.split("/");
+		int pageIndex = 0;
+		if (uriSplit.length < 3){
+			articlesList = articlesList.subList(0, 5);
+		}
+		else if ((WordUtils.uncapitalize(uriSplit[2].substring(0,4))).equals("page")){
+			pageIndex = Integer.parseInt(uriSplit[2].replaceAll("\\D+",""));
+			if (pageIndex*5 > rowAmmount){
+				articlesList = articlesList.subList((pageIndex-1)*5, rowAmmount);
+			}
+			else{
+				articlesList = articlesList.subList((pageIndex-1)*5, (pageIndex)*5);
+			}
+			
+		}
+		else{
+			articlesList = articlesList.subList(0, 1);
+		}
+		
+		context.put("next", "/article/page" + (pageIndex + 1));
+		context.put("previous", "/article/page" + (pageIndex - 1));
+		context.put("nextPagecheck", (pageIndex*5 > rowAmmount));
+		context.put("uri", uri);
+		context.put("uri2", uriSplit.length);
+		//context.put("uri3", uriSplit[2]);
+		//context.put("debug1", (WordUtils.uncapitalize(uriSplit[2].substring(0,4))).equals("page"));
+		context.put("index", rowAmmount);
+		context.put("artList", articlesList);
 		Template template = null;
 		
 		try
 		{
 		   template = Velocity.getTemplate("./src/main/webapp/templates/template-velocity.html", "UTF-8");
+		   
 		}
 		catch( ResourceNotFoundException rnfe )
 		{
@@ -123,14 +174,16 @@ public class ArticleServlet extends HttpServlet {
 		  // threw an exception
 		}
 		catch( Exception e )
-		{}
-		
+		{
+			
+		}
+		//Writer sw = new PrintWriter(new PrintStream(resp.getOutputStream(), true, encoding));
 		StringWriter sw = new StringWriter();
 
 		template.merge( context, sw );
 		
 		PrintWriter writer = resp.getWriter();
 		writer.println(sw);
-
+		
 	}
 }

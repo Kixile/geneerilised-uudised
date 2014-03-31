@@ -14,17 +14,20 @@
 		<div id="page">
 			<div id="content">
 				<div class="content">
-					#foreach($product in $test)
+					#foreach($product in $artList)
 					<div id="$product.header.replace(" ", "_")" class="block"> <!-- article example -->
 						<div class="post-inner">
-							<h2>$product.header</h2>
+							<a href="$product.id/$product.header.replace(" ", "_")""><h2>$product.header</h2></a>
 							<div class="entry">
 								<p class="info">By $product.username on $product.date</p> <!-- here is submition info-->
 								<p><img alt="" src="images/placeholder2.png" title="placeholder"></p><!-- illustrative image -->
 								<p><!-- article text -->
-									
-									$umlaut
-									
+									$uri1
+									$uri2
+									$uri3
+									<h1>$debug1</h1>
+									<!--$product.id-->
+									<!--$index-->
 									$product.text
 								</p>
 								<p><a class="more-link" href="">>> Read more...</a></p><!-- link to the full article -->
@@ -44,12 +47,29 @@
 					
 					#end
 					<div class="navigations">
-							<div class="alignleft">
-								<a href="">&#60; &#60;</a>
-							</div>
+							#if( $uri == "/article" || $uri == "/article/page1")
 							<div class="alignright">
-								<a href="">&#62; &#62;</a>
+								<a href="$next">Next page &#62; &#62;</a>
 							</div>
+							
+							#elseif ($nextPagecheck )
+							<div class="alignleft">
+								<a href="$previous">&#60; &#60; Previous page </a>
+							</div>
+							
+							#else
+							
+							<div class="alignleft">
+								<a href="$previous">&#60; &#60; Previous page </a>
+							</div>
+							
+							<div class="alignright">
+								<a href="$next">Next page &#62; &#62;</a>
+							</div>
+							
+							#end
+							
+							
 							<div class="clear"></div>
 					</div>
 				</div>

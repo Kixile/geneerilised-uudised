@@ -17,7 +17,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>ArticleServlet</servlet-name>
-		<url-pattern>/article</url-pattern>
+		<url-pattern>/article/*</url-pattern>
 	</servlet-mapping>
 	
 	
