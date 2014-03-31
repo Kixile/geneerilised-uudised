@@ -14,25 +14,24 @@
 		<servlet-name>ArticleServlet</servlet-name>
 		<servlet-class>com.geneeriliseduudised.servlets.ArticleServlet</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>ArticleServlet</servlet-name>
 		<url-pattern>/article</url-pattern>
 	</servlet-mapping>
 	
-	
-    
     <servlet>
 		<servlet-name>hello</servlet-name>
 		<servlet-class>com.geneeriliseduudised.servlets.HelloServlet</servlet-class>
-	</servlet>
-	
+	</servlet>    
+    <servlet-mapping>
+		<servlet-name>hello</servlet-name>
+		<url-pattern>/hello/*</url-pattern>
+	</servlet-mapping>
 	
 	<servlet>
 		<servlet-name>Velocity</servlet-name>
 		<servlet-class>com.geneeriliseduudised.servlets.Velocity</servlet-class>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>Velocity</servlet-name>
 		<url-pattern>*.html</url-pattern>
@@ -42,12 +41,29 @@
 		<servlet-name>DbConn</servlet-name>
 		<servlet-class>com.geneeriliseduudised.servlets.DbConn</servlet-class>
 	</servlet>
-
 	<servlet-mapping>
 		<servlet-name>DbConn</servlet-name>
 		<url-pattern>/articledump</url-pattern>
 	</servlet-mapping>
-
+	
+	<servlet>
+		<servlet-name>OAuthSigninServlet</servlet-name>
+		<servlet-class>com.geneeriliseduudised.servlets.OAuthSigninServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OAuthSigninServlet</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>OAuthCallbackServlet</servlet-name>
+		<servlet-class>com.geneeriliseduudised.servlets.OAuthCallbackServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OAuthCallbackServlet</servlet-name>
+		<url-pattern>/oauth2callback</url-pattern>
+	</servlet-mapping>	
+	
     <servlet>
         <servlet-name>spring</servlet-name>
         <servlet-class>
@@ -63,9 +79,5 @@
         <servlet-name>spring</servlet-name>
         <url-pattern>/people/*</url-pattern>
     </servlet-mapping>
-    
-    	<servlet-mapping>
-		<servlet-name>hello</servlet-name>
-		<url-pattern>/hello/*</url-pattern>
-	</servlet-mapping>
+
 </web-app>
