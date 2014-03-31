@@ -74,11 +74,18 @@ public class ArticleServlet extends HttpServlet {
 		String sql = "SELECT * FROM artikkel_create";
 		ResultSet rs = request(sql);
 		Article[] articles = new Article[5];
-		try {
+		try {			
+			
 			int n = 0;
 			while(rs.next() && n < 5){
+				String tagQuery = "SELECT * FROM tags WHERE artikkel_id = " + rs.getString("artikkel_id") + ";";
+				ResultSet tagSet = request(tagQuery);
+				String tags = "";
+				while(tagSet.next()) {
+					tags = tags.concat(tagSet.getString("nimi") + ";");
+				}
 				articles[n] = new Article(rs.getString("pealkiri"), 
-						rs.getString("sisu"), "helo", rs.getString("aeg"),
+						rs.getString("sisu"), tags, rs.getString("aeg"),
 						rs.getString("kasutajanimi"), rs.getString("lyhisisu"));
 				n++;
 			}
