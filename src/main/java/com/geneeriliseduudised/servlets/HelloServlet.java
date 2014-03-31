@@ -55,7 +55,7 @@ public class HelloServlet extends HttpServlet {
 		String[] head = req.getParameterValues("header");
 		String[] text = req.getParameterValues("text-input");
 		String[] tag = req.getParameterValues("tags-input");
-		DateFormat formaat = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat formaat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date today = new Date();
 		String todaystring = formaat.format(today);
 		String userid = "1";
