@@ -11,21 +11,21 @@
     </welcome-file-list>
     
     <servlet>
-		<servlet-name>ArticleServlet</servlet-name>
-		<servlet-class>com.geneeriliseduudised.servlets.ArticleServlet</servlet-class>
+		<servlet-name>ArticleDisplayServlet</servlet-name>
+		<servlet-class>com.geneeriliseduudised.servlets.ArticleDisplayServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ArticleServlet</servlet-name>
+		<servlet-name>ArticleDisplayServlet</servlet-name>
 		<url-pattern>/article</url-pattern>
 	</servlet-mapping>
 	
     <servlet>
-		<servlet-name>hello</servlet-name>
-		<servlet-class>com.geneeriliseduudised.servlets.HelloServlet</servlet-class>
+		<servlet-name>ArticleWriteServlet</servlet-name>
+		<servlet-class>com.geneeriliseduudised.servlets.ArticleWriteServlet</servlet-class>
 	</servlet>    
     <servlet-mapping>
-		<servlet-name>hello</servlet-name>
-		<url-pattern>/hello/*</url-pattern>
+		<servlet-name>ArticleWriteServlet</servlet-name>
+		<url-pattern>/postarticle</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>

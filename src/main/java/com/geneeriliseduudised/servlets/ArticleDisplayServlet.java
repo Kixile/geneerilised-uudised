@@ -28,7 +28,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
-public class ArticleServlet extends HttpServlet {
+public class ArticleDisplayServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private VelocityEngine engine = new VelocityEngine();
@@ -108,8 +108,8 @@ public class ArticleServlet extends HttpServlet {
 		VelocityContext context = new VelocityContext();
 
 		context.put( "name", new String("Velocity") );
-		context.put( "umlaut", new String("äöüpõ"));
-		context.put("test", articles);
+		context.put( "umlaut", new String("ÜMLÄÜTTTEST"));
+		context.put("articles", articles);
 		Template template = null;
 		
 		try

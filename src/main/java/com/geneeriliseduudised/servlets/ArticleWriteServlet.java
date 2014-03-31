@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +23,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 
-public class HelloServlet extends HttpServlet {
+public class ArticleWriteServlet extends HttpServlet {
 
 	/**
 	 * 
@@ -96,7 +97,8 @@ public class HelloServlet extends HttpServlet {
 		String[] head = req.getParameterValues("header");
 		String[] text = req.getParameterValues("text-input");
 		String[] tag = req.getParameterValues("tags-input");
-		String[] tags = tag[0].split(",");
+		String [] tags = tag[0].split(",");
+		
 		//SimpleDateFormat formaat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date today = new Date();
 		Timestamp timestamp = new Timestamp(today.getTime());
