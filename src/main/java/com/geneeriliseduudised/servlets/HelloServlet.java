@@ -74,6 +74,6 @@ public class HelloServlet extends HttpServlet {
 //		writer.println(json);
 //		writer.close();
 		
-		resp.sendRedirect("index.html");
+		resp.sendRedirect("/");
 	}
 }

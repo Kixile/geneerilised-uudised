@@ -1,30 +1,24 @@
 package com.geneeriliseduudised.servlets;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.WordUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
-import org.apache.velocity.anakia.OutputWrapper;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -39,6 +33,7 @@ public class ArticleServlet extends HttpServlet {
 	private VelocityEngine engine = new VelocityEngine();
 
 	Connection con = null;
+	ResultSet rs = null;
 	
 	public void connect(){
 		try {
@@ -71,8 +66,47 @@ public class ArticleServlet extends HttpServlet {
         engine.init();
         Velocity.setProperty( Velocity.INPUT_ENCODING, "UTF-8" );
         Velocity.setProperty( Velocity.OUTPUT_ENCODING, "UTF-8" );
-        connect();
     }
+    
+    
+	public void close(){
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException ex) { /* ignore */ }
+			rs = null;
+		}
+		if (con != null) {
+			try {
+				con.close();
+			} catch (SQLException ex) { /* ignore */ }
+			con = null;
+		}
+	}
+	
+	public static boolean isInteger(String str) {
+		if (str == null) {
+			return false;
+		}
+		int length = str.length();
+		if (length == 0) {
+			return false;
+		}
+		int i = 0;
+		if (str.charAt(0) == '-') {
+			if (length == 1) {
+				return false;
+			}
+			i = 1;
+		}
+		for (; i < length; i++) {
+			char c = str.charAt(i);
+			if (c <= '/' || c >= ':') {
+				return false;
+			}
+		}
+		return true;
+	}
     
     
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
@@ -85,22 +119,20 @@ public class ArticleServlet extends HttpServlet {
 	            /* ("http".equals(req.getScheme()) && req.getServerPort() == 80 || "https".equals(req.getScheme()) && req.getServerPort() == 443 ? "" : ":" + req.getServerPort() ) +
 	             */req.getRequestURI() /*+
 	            (req.getQueryString() != null ? "?" + req.getQueryString() : "")*/;
-		
-		
+		close();
 		init();
-		
+		connect();
 		Statement stmt = null;
 		
 		try {
 			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 		} catch (SQLException e3) {
-			// TODO Auto-generated catch block
-			//e3.printStackTrace();
+			
 		}
 
 		
 		String sql = "SELECT * FROM artikkel_create";
-		ResultSet rs = null;
+		
 		
 		try {
 			rs = stmt.executeQuery(sql);
@@ -126,17 +158,21 @@ public class ArticleServlet extends HttpServlet {
 		VelocityContext context = new VelocityContext();
 		
 		String[] uriSplit = uri.split("/");
-		int pageIndex = 0;
-		if (uriSplit.length < 3){
+		int pageIndex = 1;
+		if (uriSplit.length < 1){
 			articlesList = articlesList.subList(0, 5);
 		}
-		else if ((WordUtils.uncapitalize(uriSplit[2].substring(0,4))).equals("page")){
+		else if (isInteger(uriSplit[2])){
 			pageIndex = Integer.parseInt(uriSplit[2].replaceAll("\\D+",""));
-			if (pageIndex*5 > rowAmmount){
+			if (pageIndex*5 >= rowAmmount){
 				articlesList = articlesList.subList((pageIndex-1)*5, rowAmmount);
 			}
 			else{
 				articlesList = articlesList.subList((pageIndex-1)*5, (pageIndex)*5);
+			}
+			if (pageIndex == 1){
+				pageIndex = 1;
+				articlesList = articlesList.subList(0, 5);
 			}
 			
 		}
@@ -144,11 +180,11 @@ public class ArticleServlet extends HttpServlet {
 			articlesList = articlesList.subList(0, 1);
 		}
 		
-		context.put("next", "/article/page" + (pageIndex + 1));
-		context.put("previous", "/article/page" + (pageIndex - 1));
-		context.put("nextPagecheck", (pageIndex*5 > rowAmmount));
+		context.put("next", "/page/" + (pageIndex + 1));
+		context.put("previous", "/page/" + (pageIndex - 1));
+		context.put("nextPagecheck", (pageIndex*5 >= rowAmmount));
 		context.put("uri", uri);
-		context.put("uri2", uriSplit.length);
+		context.put("pagein", pageIndex);
 		//context.put("uri3", uriSplit[2]);
 		//context.put("debug1", (WordUtils.uncapitalize(uriSplit[2].substring(0,4))).equals("page"));
 		context.put("index", rowAmmount);
@@ -181,9 +217,10 @@ public class ArticleServlet extends HttpServlet {
 		StringWriter sw = new StringWriter();
 
 		template.merge( context, sw );
-		
+		resp.setCharacterEncoding("UTF-8");
 		PrintWriter writer = resp.getWriter();
 		writer.println(sw);
 		
+		close();
 	}
 }

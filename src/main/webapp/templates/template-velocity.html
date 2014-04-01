@@ -17,17 +17,17 @@
 					#foreach($product in $artList)
 					<div id="$product.header.replace(" ", "_")" class="block"> <!-- article example -->
 						<div class="post-inner">
-							<a href="$product.id/$product.header.replace(" ", "_")""><h2>$product.header</h2></a>
+							<a href="$product.id/$product.header.replace(" ", "_")"><h2>$product.header</h2></a>
 							<div class="entry">
 								<p class="info">By $product.username on $product.date</p> <!-- here is submition info-->
-								<p><img alt="" src="images/placeholder2.png" title="placeholder"></p><!-- illustrative image -->
+								<p><img alt="" src="/images/placeholder2.png" title="placeholder"></p><!-- illustrative image -->
 								<p><!-- article text -->
 									$uri1
 									$uri2
 									$uri3
-									<h1>$debug1</h1>
-									<!--$product.id-->
-									<!--$index-->
+									<h1>$nextPagecheck</h1>
+									$product.id
+									$index
 									$product.text
 								</p>
 								<p><a class="more-link" href="">>> Read more...</a></p><!-- link to the full article -->
@@ -47,7 +47,7 @@
 					
 					#end
 					<div class="navigations">
-							#if( $uri == "/article" || $uri == "/article/page1")
+							#if( $uri == "" || $uri == "/page1" || $pagein == 1)
 							<div class="alignright">
 								<a href="$next">Next page &#62; &#62;</a>
 							</div>
