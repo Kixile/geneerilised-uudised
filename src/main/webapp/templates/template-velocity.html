@@ -1,6 +1,5 @@
-<!--
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
--->
+
 <head>
 	#include("./src/main/webapp/templates/template-head.html")
 </head>
@@ -15,25 +14,17 @@
 		<div id="page">
 			<div id="content">
 				<div class="content">
-					#foreach($product in $articles)
+					#foreach($product in $artList)
 					<div id="$product.header.replace(" ", "_")" class="block"> <!-- article example -->
 						<div class="post-inner">
 							<h2>$product.header</h2>
 							<div class="entry">
 								<p class="info">By $product.username on $product.date</p> <!-- here is submition info-->
-								<p><img alt="" src="images/placeholder2.png" title="placeholder"></p><!-- illustrative image -->
+								<p><img alt="" src="/images/placeholder2.png" title="placeholder"></p><!-- illustrative image -->
 								<p><!-- article text -->
-									#set( $foo = "õäöi" )
-									
-									$foo
-									
-									õäöi
-									
-									$umlaut
-									
 									$product.text
 								</p>
-								<p><a class="more-link" href="">>> Read more...</a></p><!-- link to the full article -->
+								<p><a class="more-link" href="/article/$product.id/$product.header.replace(" ", "_")">>> Read more...</a></p><!-- link to the full article -->
 							</div>
 							<div class="hr"></div> <!-- seperator -->
 							<p class="tags"><!-- tags column -->
@@ -50,12 +41,29 @@
 					
 					#end
 					<div class="navigations">
-							<div class="alignleft">
-								<a href="">&#60; &#60;</a>
-							</div>
+							#if( $uri == "" || $uri == "/page/1" || $pagein == 1)
 							<div class="alignright">
-								<a href="">&#62; &#62;</a>
+								<a href="$next">Next page &#62; &#62;</a>
 							</div>
+							
+							#elseif ($nextPagecheck)
+							<div class="alignleft">
+								<a href="$previous">&#60; &#60; Previous page </a>
+							</div>
+							
+							#else
+							
+							<div class="alignleft">
+								<a href=" #if($uri == "/page/2") / #{else} $previous #end ">&#60; &#60; Previous page </a>
+							</div>
+								
+							<div class="alignright">
+								<a href="$next">Next page &#62; &#62;</a>
+							</div>
+							
+							#end
+							
+							
 							<div class="clear"></div>
 					</div>
 				</div>

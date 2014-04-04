@@ -6,10 +6,6 @@
     id="WebApp_ID" version="2.5">
     <display-name>geneerilised-uudised</display-name>
  
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
-    
     <servlet>
 		<servlet-name>SessionServlet</servlet-name>
 		<servlet-class>com.geneeriliseduudised.servlets.SessionServlet</servlet-class>
@@ -18,19 +14,28 @@
 		<servlet-name>SessionServlet</servlet-name>
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
-    
-    
-    
-    
+	
     <servlet>
 		<servlet-name>ArticleDisplayServlet</servlet-name>
 		<servlet-class>com.geneeriliseduudised.servlets.ArticleDisplayServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ArticleDisplayServlet</servlet-name>
-		<url-pattern>/article</url-pattern>
+		<url-pattern>/page/*</url-pattern>
+		<url-pattern> </url-pattern>
 	</servlet-mapping>
 	
+	 <servlet>
+		<servlet-name>MainArticleServlet</servlet-name>
+		<servlet-class>com.geneeriliseduudised.servlets.MainArticleServlet</servlet-class>
+	</servlet>	
+	<servlet-mapping>
+		<servlet-name>MainArticleServlet</servlet-name>
+		<url-pattern>/article/*</url-pattern>
+	</servlet-mapping>
+	
+	
+    
     <servlet>
 		<servlet-name>ArticleWriteServlet</servlet-name>
 		<servlet-class>com.geneeriliseduudised.servlets.ArticleWriteServlet</servlet-class>
@@ -39,6 +44,7 @@
 		<servlet-name>ArticleWriteServlet</servlet-name>
 		<url-pattern>/postarticle</url-pattern>
 	</servlet-mapping>
+	
 	
 	<servlet>
 		<servlet-name>Velocity</servlet-name>
@@ -101,5 +107,4 @@
         <servlet-name>spring</servlet-name>
         <url-pattern>/people/*</url-pattern>
     </servlet-mapping>
-
 </web-app>

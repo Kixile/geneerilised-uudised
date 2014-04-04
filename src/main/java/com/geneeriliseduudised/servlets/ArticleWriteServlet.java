@@ -84,6 +84,7 @@ public class ArticleWriteServlet extends HttpServlet {
 			stmt3.close();
 			stmt4.close();
 			stmt5.close();
+			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

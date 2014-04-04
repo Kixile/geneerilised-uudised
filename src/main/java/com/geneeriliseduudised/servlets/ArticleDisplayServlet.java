@@ -8,10 +8,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.Format;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
-import org.apache.velocity.anakia.OutputWrapper;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ResourceNotFoundException;
@@ -34,6 +33,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 	private VelocityEngine engine = new VelocityEngine();
 
 	Connection con = null;
+	ResultSet rs = null;
 	
 	public void connect(){
 		try {
@@ -51,7 +51,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 		try {
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
-//			stmt.close();
+			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -60,61 +60,140 @@ public class ArticleDisplayServlet extends HttpServlet {
 	
 	
     public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    	super.init(config);
         engine.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
         engine.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
         engine.init();
-        connect();
+        Velocity.setProperty( Velocity.INPUT_ENCODING, "UTF-8" );
+        Velocity.setProperty( Velocity.OUTPUT_ENCODING, "UTF-8" );
     }
+    
+    
+	public void close(){
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException ex) { /* ignore */ }
+			rs = null;
+		}
+		if (con != null) {
+			try {
+				con.close();
+			} catch (SQLException ex) { /* ignore */ }
+			con = null;
+		}
+	}
+	
+	public static boolean isInteger(String str) {
+		if (str == null) {
+			return false;
+		}
+		int length = str.length();
+		if (length == 0) {
+			return false;
+		}
+		int i = 0;
+		if (str.charAt(0) == '-') {
+			if (length == 1) {
+				return false;
+			}
+			i = 1;
+		}
+		for (; i < length; i++) {
+			char c = str.charAt(i);
+			if (c <= '/' || c >= ':') {
+				return false;
+			}
+		}
+		return true;
+	}
     
     
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException, IOException {
+
+		
+		//for buttons and better article scrolling
+		String uri = /*req.getScheme() + "://" +
+	             req.getServerName() + */
+	            /* ("http".equals(req.getScheme()) && req.getServerPort() == 80 || "https".equals(req.getScheme()) && req.getServerPort() == 443 ? "" : ":" + req.getServerPort() ) +
+	             */req.getRequestURI() /*+
+	            (req.getQueryString() != null ? "?" + req.getQueryString() : "")*/;
+		close();
+		init();
+		connect();
+		Statement stmt = null;
+		
+		try {
+			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+		} catch (SQLException e3) {
+			
+		}
+
 		
 		String sql = "SELECT * FROM artikkel_create";
-		ResultSet rs = request(sql);
-		Article[] articles = new Article[5];
-		try {			
-			
-			int n = 0;
-			while(rs.next() && n < 5){
-				String tagQuery = "SELECT * FROM tags WHERE artikkel_id = " + rs.getString("artikkel_id") + ";";
-				ResultSet tagSet = request(tagQuery);
-				String tags = "";
-				while(tagSet.next()) {
-					tags = tags.concat(tagSet.getString("nimi") + ";");
-				}
-				articles[n] = new Article(rs.getString("pealkiri"), 
-						rs.getString("sisu"), tags, rs.getString("aeg"),
-						rs.getString("kasutajanimi"), rs.getString("lyhisisu"));
-				n++;
+		
+		
+		try {
+			rs = stmt.executeQuery(sql);
+		} catch (SQLException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+		int rowAmmount = 0;
+
+		List<Article> articlesList = new ArrayList<Article>();
+		
+		try {
+			while(rs.next()){
+				articlesList.add(new Article(rs.getString("pealkiri"), 
+						rs.getString("sisu"), "helo", rs.getString("aeg"),
+						rs.getString("kasutaja_id"), rs.getString("lyhisisu"), rs.getString("artikkel_id"), "omg"));
+				rowAmmount ++;
 			}
+			con.close();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-//		try {
-//			rs.close();
-//		} catch (SQLException e1) {
-//			e1.printStackTrace();
-//		}
 
-//		articles[0] = new Article("header333", "texttexttexttexttexttexttexttext", "tag1, tag2");
-//		articles[1] = new Article("header2", "texttexttexttexttexttexttexttext", "tag1, tag2");
-//		articles[2] = new Article("header3", "texttexttexttexttexttexttexttext", "tag1, tag2");
-//		articles[3] = new Article("header4", "texttexttexttexttexttexttexttext", "tag1, tag2");
-//		articles[4] = new Article("header5", "texttexttexttexttexttexttexttext", "tag1, tag2");
-		
-		
 		VelocityContext context = new VelocityContext();
-
-		context.put( "name", new String("Velocity") );
-		context.put( "umlaut", new String("ÜMLÄÜTTTEST"));
-		context.put("articles", articles);
+		
+		String[] uriSplit = uri.split("/");
+		int pageIndex = 1;
+		if (uriSplit.length < 1){
+			articlesList = articlesList.subList(0, 5);
+		}
+		else if (isInteger(uriSplit[2])){
+			pageIndex = Integer.parseInt(uriSplit[2].replaceAll("\\D+",""));
+			if (pageIndex*5 >= rowAmmount){
+				articlesList = articlesList.subList((pageIndex-1)*5, rowAmmount);
+			}
+			else{
+				articlesList = articlesList.subList((pageIndex-1)*5, (pageIndex)*5);
+			}
+			if (pageIndex == 1){
+				pageIndex = 1;
+				articlesList = articlesList.subList(0, 5);
+			}
+			
+		}
+		else{
+			articlesList = articlesList.subList(0, 1);
+		}
+		
+		context.put("next", "/page/" + (pageIndex + 1));
+		context.put("previous", "/page/" + (pageIndex - 1));
+		context.put("nextPagecheck", (pageIndex*5 >= rowAmmount));
+		context.put("uri", uri);
+		context.put("pagein", pageIndex);
+		context.put("index", rowAmmount);
+		context.put("artList", articlesList);
 		Template template = null;
 		
 		try
 		{
 		   template = Velocity.getTemplate("./src/main/webapp/templates/template-velocity.html", "UTF-8");
+		   
 		}
 		catch( ResourceNotFoundException rnfe )
 		{
@@ -130,14 +209,17 @@ public class ArticleDisplayServlet extends HttpServlet {
 		  // threw an exception
 		}
 		catch( Exception e )
-		{}
-		
+		{
+			
+		}
+		//Writer sw = new PrintWriter(new PrintStream(resp.getOutputStream(), true, encoding));
 		StringWriter sw = new StringWriter();
 
 		template.merge( context, sw );
-		
+		resp.setCharacterEncoding("UTF-8");
 		PrintWriter writer = resp.getWriter();
 		writer.println(sw);
-
+		
+		close();
 	}
 }
