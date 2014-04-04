@@ -17,13 +17,12 @@
 					#foreach($product in $artList)
 					<div id="$product.header.replace(" ", "_")" class="block"> <!-- article example -->
 						<div class="post-inner">
-							<a href="/article/$product.id/$product.header.replace(" ", "_")"><h2>$product.header</h2></a>
+							<h2>$product.header</h2>
 							<div class="entry">
 								<p class="info">By $product.username on $product.date</p> <!-- here is submition info-->
 								<p><img alt="" src="/images/placeholder2.png" title="placeholder"></p><!-- illustrative image -->
 								<p><!-- article text -->
 									$product.text
-									$uri
 								</p>
 								<p><a class="more-link" href="/article/$product.id/$product.header.replace(" ", "_")">>> Read more...</a></p><!-- link to the full article -->
 							</div>
