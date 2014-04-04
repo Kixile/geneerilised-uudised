@@ -109,6 +109,7 @@ textarea#header-input {
 	background-image: url(bg.gif);
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	resize: none; 
 }
 
 textarea#text-input {
@@ -121,6 +122,7 @@ textarea#text-input {
 	background-image: url(bg.gif);
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	resize: none; 
 }
 
 textarea#tags-input {
@@ -133,6 +135,7 @@ textarea#tags-input {
 	background-image: url(bg.gif);
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	resize: none; 
 }
 
 input#article-submit {
@@ -140,6 +143,7 @@ input#article-submit {
 	text-align: centre;
 	width: 100px;
 	height: 50px;
+	resize: none; 
 }
 
 /* header work here*/
@@ -706,6 +710,7 @@ div#footer-content div.footer-col {
 	background-image: url(bg.gif);
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	resize: none; 
 }
 
 textarea#text-input {
@@ -718,6 +723,7 @@ textarea#text-input {
 	background-image: url(bg.gif);
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	resize: none; 
 }
 
 textarea#tags-input {
@@ -730,6 +736,7 @@ textarea#tags-input {
 	background-image: url(bg.gif);
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	resize: none; 
 }
 }
 

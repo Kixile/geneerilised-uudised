@@ -97,6 +97,19 @@ div.content p.comments {
 	padding-left: 23px;
 }
 
+textarea#image-input {
+	font-size: 12px;
+	width: 600px;
+	height: 14px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	resize: none; 
+}
+
 textarea#header-input {
 	font-size: 20px;
 	width: 600px;
@@ -107,6 +120,7 @@ textarea#header-input {
 	background-image: url(bg.gif);
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	resize: none; 
 }
 
 textarea#text-input {
@@ -119,6 +133,7 @@ textarea#text-input {
 	background-image: url(bg.gif);
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	resize: none; 
 }
 
 textarea#tags-input {
@@ -131,6 +146,7 @@ textarea#tags-input {
 	background-image: url(bg.gif);
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	resize: none; 
 }
 
 input#article-submit {
@@ -704,6 +720,7 @@ div#footer-content div.footer-col {
 	background-image: url(bg.gif);
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	resize: none; 
 }
 
 textarea#text-input {
@@ -716,6 +733,7 @@ textarea#text-input {
 	background-image: url(bg.gif);
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	resize: none; 
 }
 
 textarea#tags-input {
@@ -728,6 +746,7 @@ textarea#tags-input {
 	background-image: url(bg.gif);
 	background-position: bottom right;
 	background-repeat: no-repeat;
+	resize: none; 
 }
 }
 

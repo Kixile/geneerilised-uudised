@@ -55,24 +55,17 @@ public class HelloServlet extends HttpServlet {
 		String[] head = req.getParameterValues("header");
 		String[] text = req.getParameterValues("text-input");
 		String[] tag = req.getParameterValues("tags-input");
+		String[] image = req.getParameterValues("text-input");
 		DateFormat formaat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date today = new Date();
 		String todaystring = formaat.format(today);
 		String userid = "1";
 		
-		String info = "INSERT INTO artikkel(pealkiri, aeg, sisu, kasutaja_id) "
-				+ "VALUES('" + head[0] + "', '" + todaystring + "', '" + text[0] + "', " + userid + ");";
+		String info = "INSERT INTO artikkel(pealkiri, aeg, sisu, kasutaja_id, html ) "
+				+ "VALUES('" + head[0] + "', '" + todaystring + "', '" + text[0] + "', " + userid + image +");";
 		submit(info);
 		
-//		Article a = new Article(head[0], text[0], tag[0]);
-//		
-//		Gson gson = new Gson();
-//		
-//		String json = gson.toJson(a);  
-//		
-//		PrintWriter writer = new PrintWriter("src/main/webapp/json/"+head[0].replaceAll(" ","_")+".json", "UTF-8");
-//		writer.println(json);
-//		writer.close();
+
 		
 		resp.sendRedirect("/");
 	}

@@ -8,10 +8,11 @@ public class Article {
 	private String date;
 	private String username;
 	private String summary;
+	private String image;
 	
 
 	public Article(String header, String text, String tags, String date,
-			String username, String summary, String id) {
+			String username, String summary, String id, String image) {
 		super();
 		this.id = id;
 		this.header = header;
@@ -20,9 +21,32 @@ public class Article {
 		this.date = date;
 		this.username = username;
 		this.summary = summary;
+		this.image = image;
 	}
 
 	
+
+	
+	public Article() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+	
+
+	public String getImage() {
+		return image;
+	}
+
+
+
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+
+
 
 	public String getId() {
 		return id;

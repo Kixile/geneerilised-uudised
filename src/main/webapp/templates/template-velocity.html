@@ -17,20 +17,15 @@
 					#foreach($product in $artList)
 					<div id="$product.header.replace(" ", "_")" class="block"> <!-- article example -->
 						<div class="post-inner">
-							<a href="$product.id/$product.header.replace(" ", "_")"><h2>$product.header</h2></a>
+							<a href="/article/$product.id/$product.header.replace(" ", "_")"><h2>$product.header</h2></a>
 							<div class="entry">
 								<p class="info">By $product.username on $product.date</p> <!-- here is submition info-->
 								<p><img alt="" src="/images/placeholder2.png" title="placeholder"></p><!-- illustrative image -->
 								<p><!-- article text -->
-									$uri1
-									$uri2
-									$uri3
-									<h1>$nextPagecheck</h1>
-									$product.id
-									$index
 									$product.text
+									$uri
 								</p>
-								<p><a class="more-link" href="">>> Read more...</a></p><!-- link to the full article -->
+								<p><a class="more-link" href="/article/$product.id/$product.header.replace(" ", "_")">>> Read more...</a></p><!-- link to the full article -->
 							</div>
 							<div class="hr"></div> <!-- seperator -->
 							<p class="tags"><!-- tags column -->
@@ -47,12 +42,12 @@
 					
 					#end
 					<div class="navigations">
-							#if( $uri == "" || $uri == "/page1" || $pagein == 1)
+							#if( $uri == "" || $uri == "/page/1" || $pagein == 1)
 							<div class="alignright">
 								<a href="$next">Next page &#62; &#62;</a>
 							</div>
 							
-							#elseif ($nextPagecheck )
+							#elseif ($nextPagecheck)
 							<div class="alignleft">
 								<a href="$previous">&#60; &#60; Previous page </a>
 							</div>
@@ -60,9 +55,9 @@
 							#else
 							
 							<div class="alignleft">
-								<a href="$previous">&#60; &#60; Previous page </a>
+								<a href=" #if($uri == "/page/2") / #{else} $previous #end ">&#60; &#60; Previous page </a>
 							</div>
-							
+								
 							<div class="alignright">
 								<a href="$next">Next page &#62; &#62;</a>
 							</div>

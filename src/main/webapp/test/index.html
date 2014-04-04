@@ -68,11 +68,13 @@
 								<form name="input" method="get" action="/hello">
 									<h2>Header: </h2> <textarea name="header" id="header-input" onblur="setbg('white')"></textarea>
 									<div class="hr"></div>
+									<h2>Image (imgur link): </h2> <textarea name="image" id="image-input" onblur="setbg('white')"></textarea>
+									<div class="hr"></div>
 									<h2>Article text: </h2> 
-									<textarea name="text-input" id="text-input"  onblur="setbg('white')">Enter your article here...</textarea>
+									<textarea name="text-input" id="text-input"  onblur="setbg('white')">...</textarea>
 									<div class="hr"></div>
 									<h2>Enter tags (each separated by a coma): </h2> 
-									<textarea name="tags-input" id="tags-input"  onblur="setbg('white')">Enter tags...</textarea> 
+									<textarea name="tags-input" id="tags-input"  onblur="setbg('white')">tag1,tag2</textarea> 
 									<div class="hr"></div>
 									<input id="article-submit" type="submit" value="Post">
 								</form>

@@ -131,7 +131,7 @@ public class ArticleServlet extends HttpServlet {
 		}
 
 		
-		String sql = "SELECT * FROM artikkel_create";
+		String sql = "SELECT * FROM artikkel";
 		
 		
 		try {
@@ -148,7 +148,7 @@ public class ArticleServlet extends HttpServlet {
 			while(rs.next()){
 				articlesList.add(new Article(rs.getString("pealkiri"), 
 						rs.getString("sisu"), "helo", rs.getString("aeg"),
-						rs.getString("kasutajanimi"), rs.getString("lyhisisu"), rs.getString("artikkel_id")));
+						rs.getString("kasutaja_id"), rs.getString("lyhisisu"), rs.getString("artikkel_id"), rs.getString("pilt")));
 				rowAmmount ++;
 			}
 		} catch (SQLException e1) {
