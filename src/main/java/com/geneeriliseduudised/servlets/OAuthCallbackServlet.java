@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,8 +23,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.json.JSONObject;
 import org.apache.http.message.BasicNameValuePair;
 
 import com.google.common.collect.ImmutableMap;
@@ -50,22 +50,37 @@ public class OAuthCallbackServlet extends HttpServlet{
 	    JSONObject jsonObject = null;
 	    
 	    // get json from string
-	    try {
-	     jsonObject = (JSONObject) new JSONParser().parse(body);
-	    } catch (org.json.simple.parser.ParseException e) {
-	     throw new RuntimeException("Unable to parse json " + body);
-	    }
+	    jsonObject = new JSONObject (body);
+
 	    // retrieve token
 	    String accessToken = (String) jsonObject.get("access_token");
 	    // store token in session for further use
 	    req.getSession().setAttribute("access_token", accessToken);
 	    
 	    // use token to get user info from Google
-	    String json = get(new StringBuilder("https://www.googleapis.com/oauth2/v2/userinfo?access_token=").
+	    String userDataString = get(new StringBuilder("https://www.googleapis.com/oauth2/v2/userinfo?access_token=").
 	    		append(accessToken).toString());
+ 	    
+	    JSONObject userDataJsonObject = new JSONObject (userDataString);
+	    String userEmail = userDataJsonObject.getString("email");
+	    
+	    //get session id, save session id to cookie
+		String state = null;
+		try{		
+			state = req.getSession().getAttribute("state").toString();
+		}catch (Exception e){
+			// this is bad, state should exist
+			resp.getWriter().println("Error: session not found");
+		}
+	    Cookie userIdCookie = new Cookie("genericNewsUserId",state);
+	    resp.addCookie(userIdCookie);
 	    
 	    // print userinfo to browser
-	    resp.getWriter().println(json);
+	    
+	    
+	    resp.getWriter().println(userEmail);
+	    
+	    
 	}
 	
 	
