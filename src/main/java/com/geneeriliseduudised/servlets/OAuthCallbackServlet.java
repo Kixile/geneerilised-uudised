@@ -29,10 +29,17 @@ import org.apache.http.message.BasicNameValuePair;
 import com.google.common.collect.ImmutableMap;
 
 public class OAuthCallbackServlet extends HttpServlet{
+	
+	/** Handles the token request callback from Google, inited by OAuthSigninServlet, and requests data using the token. 
+	 * 
+	 */
+	private static final long serialVersionUID = 1055758581569443293L;
+	
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		// if error validating
 	    if (req.getParameter("error") != null) {
-		    resp.getWriter().println(req.getParameter("error"));
+		    resp.getWriter().println(req.getParameter("Error in callback validation"));
 		    return;
 		   }
 	    // code to turn in for access token
@@ -56,29 +63,26 @@ public class OAuthCallbackServlet extends HttpServlet{
 	    String accessToken = (String) jsonObject.get("access_token");
 	    // store token in session for further use
 	    req.getSession().setAttribute("access_token", accessToken);
-	    
 	    // use token to get user info from Google
 	    String userDataString = get(new StringBuilder("https://www.googleapis.com/oauth2/v2/userinfo?access_token=").
 	    		append(accessToken).toString());
  	    
 	    JSONObject userDataJsonObject = new JSONObject (userDataString);
-	    String userEmail = userDataJsonObject.getString("email");
+	    String userId = userDataJsonObject.getString("email");
 	    
 	    //get session id, save session id to cookie
 		String state = null;
 		try{		
 			state = req.getSession().getAttribute("state").toString();
-		}catch (Exception e){
-			// this is bad, state should exist
-			resp.getWriter().println("Error: session not found");
+		}finally{		
 		}
-	    Cookie userIdCookie = new Cookie("genericNewsUserId",state);
-	    resp.addCookie(userIdCookie);
-	    
-	    // print userinfo to browser
+	    Cookie sessionIdCookie = new Cookie("SESSIONID",state);
+	    resp.addCookie(sessionIdCookie);
 	    
 	    
-	    resp.getWriter().println(userEmail);
+	    
+	    // print userinfo to browser	        
+	    resp.getWriter().println("userid:"+userId+"\nsessionid:"+state);
 	    
 	    
 	}

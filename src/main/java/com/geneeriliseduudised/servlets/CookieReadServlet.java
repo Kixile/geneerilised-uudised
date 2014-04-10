@@ -9,16 +9,21 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CookieReadServlet extends HttpServlet{
 	
+	/** Test servlet for reading cookies
+	 * 
+	 */
+	private static final long serialVersionUID = -4602380048998493062L;
+
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		Cookie[] cookies = req.getCookies();
 
-		String genericNewsUserId = null;
+		String sessionId = null;
 		for(Cookie cookie : cookies){
-		    if("genericNewsUserId".equals(cookie.getName())){
-		    	genericNewsUserId = cookie.getValue();
+		    if("SESSIONID".equals(cookie.getName())){
+		    	sessionId = cookie.getValue();
 		    }
 		}
-		resp.getWriter().println("Session is: "+ genericNewsUserId);
+		resp.getWriter().println("Session id is: "+ sessionId);
 		
 	}
 

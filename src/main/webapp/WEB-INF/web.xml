@@ -4,8 +4,14 @@
     xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     id="WebApp_ID" version="2.5">
+    
     <display-name>geneerilised-uudised</display-name>
- 
+   
+    <context-param>
+    	<param-name>org.eclipse.jetty.servlet.SessionCookie</param-name>
+    	<param-value>SESSIONID</param-value>
+    </context-param>
+   
     <servlet>
 		<servlet-name>SessionServlet</servlet-name>
 		<servlet-class>com.geneeriliseduudised.servlets.SessionServlet</servlet-class>
@@ -33,9 +39,7 @@
 		<servlet-name>MainArticleServlet</servlet-name>
 		<url-pattern>/article/*</url-pattern>
 	</servlet-mapping>
-	
-	
-    
+	 
     <servlet>
 		<servlet-name>ArticleWriteServlet</servlet-name>
 		<servlet-class>com.geneeriliseduudised.servlets.ArticleWriteServlet</servlet-class>

@@ -3,21 +3,36 @@ package com.geneeriliseduudised.servlets;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-
+import java.lang.System;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class OAuthSigninServlet extends HttpServlet{
+
+	/** Handles creating and sending OAuth token requests to Google.
+	 * 
+	 */
 	
-	//XXX: localhost:8080 only!
-	//TODO: move out from source code
-	// heroku config:set GITHUB_USERNAME=joesmith
-	// System.getEnv("envar")
-	public static final String OAUTH_CLIENT_ID = "101097860686-9i8l9hr9n8nd9slb8njk001t6qcf6iop.apps.googleusercontent.com";
-	public static final String OAUTH_CLIENT_SECRET = "PmhD1dBIhnrD3ekvPaJHl61-";
-	public static final String OAUTH_REDIRECT_URI = "http://localhost:8080/oauth2callback";
 	
+	// environment variables have to be set!
+	// example: 	heroku config:set GITHUB_USERNAME=joesmith
+
+	
+	private static final long serialVersionUID = -7761963272295233213L;
+	public static String OAUTH_CLIENT_ID = null;
+	public static String OAUTH_CLIENT_SECRET = null;
+	public static String OAUTH_REDIRECT_URI = null;
+	
+	public void init(){
+		OAUTH_CLIENT_ID = System.getenv("OAUTH_CLIENT_ID");
+		OAUTH_CLIENT_SECRET = System.getenv("OAUTH_CLIENT_SECRET");
+		OAUTH_REDIRECT_URI = System.getenv("OAUTH_REDIRECT_URI");
+		if (OAUTH_CLIENT_ID == null  | OAUTH_CLIENT_SECRET == null  | OAUTH_REDIRECT_URI == null){
+			throw new NullPointerException ("Invalid OAuth ID / SECRET / REDIRECT URI" );
+		}
+		
+	}
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException{
 		String state = null;
