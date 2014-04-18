@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<head>
+	#include("./src/main/webapp/templates/template-head.html")
+	<script src="/assets/jquery-2.1.0.js"></script>
+	<script src="/assets/vldemo2-auctions.js"></script>
+	<script src="/assets/demoapp.js"></script>
+
+</head>
+
+<body class="home blog">
+
+	<div id="header"> <!-- Header start -->
+		#include("./src/main/webapp/templates/template-header.html")
+	</div> <!-- header end -->
+
+	<div id="page-wrapper"> <!-- News start here -->
+		<div id="page">
+			<div id="content">
+				<div class="content">
+				
+					<div id="$art.header.replace(" ", "_")" class="block"> <!-- article example -->
+						<div class="post-inner">
+							<h2>$art.header</h2>
+							<div class="entry">
+								<p class="info">By $art.username on $art.date</p> <!-- here is submition info-->
+								<p><img alt="" src="/images/placeholder2.png" title="placeholder"></p><!-- illustrative image -->
+								<p><!-- article text -->
+									$art.text
+								</p>
+							</div>
+							<div class="hr"></div> <!-- seperator -->
+							<p class="tags"><!-- tags column -->
+								tags!
+								#foreach($product2 in $product.tags)
+								<a rel="" href="">$product2</a>, 
+								#end
+							</p>	
+							<div>				
+								<h1>Comments: </h1>
+								<ul id="items"></ul>
+									<div id="viewing">
+										<ol class="commentlist">
+											<div id="bids"></div>
+										</ol>
+									<div id="mycomment" class="hidden">
+									<p>
+										<h3>Alias</h3>
+										<input id="alias" type="text"></input>
+									</p>
+									<p>
+										<h3>Comment</h3>
+										<textarea id="comment" type="text" ></textarea>
+										</p>
+									<p><button id="makepost">Post comment</button></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="sidebar">
+					#include("./src/main/webapp/templates/template-sidebar.html")
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="footer">
+		#include("./src/main/webapp/templates/template-footer.html")
+	</div>
+</body>

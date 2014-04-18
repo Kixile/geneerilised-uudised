@@ -19,40 +19,41 @@ import java.io.IOException;
 @WebServlet(value = "*.html")
 public class Velocity extends HttpServlet {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private VelocityEngine engine;
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        engine = createTemplateEngine(config.getServletContext());
-    }
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		engine = createTemplateEngine(config.getServletContext());
+	}
 
-    private VelocityEngine createTemplateEngine(ServletContext context) {
-        // velocity must know where /src/main/webapp is deployed
-        // details in the developer guide (Configuring resource loaders)
-        String templatePath = context.getRealPath("/");
+	private VelocityEngine createTemplateEngine(ServletContext context) {
+		String templatePath = context.getRealPath("/");
 
-        VelocityEngine engine = new VelocityEngine();
-        engine.addProperty("file.resource.loader.path", templatePath);
-        engine.init();
-        return engine;
-    }
+		VelocityEngine engine = new VelocityEngine();
+		engine.addProperty("file.resource.loader.path", templatePath);
+		engine.addProperty("output.encoding", "UTF-8");
+		engine.addProperty("input.encoding", "UTF-8");
+		engine.init();
+		return engine;
+	}
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        VelocityContext context = new VelocityContext();
-        // add additional data to the context here
-        // it can then be used inside the templates
-        getTemplate(req).merge(context, resp.getWriter());
-    }
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		VelocityContext context = new VelocityContext();
+		// add additional data to the context here
+		// it can then be used inside the templates
+		getTemplate(req).merge(context, resp.getWriter());
+		resp.setContentType("text/html; charset=UTF-8");
+	}
 
-    private Template getTemplate(HttpServletRequest req) {
-        return engine.getTemplate(req.getRequestURI(), "UTF-8");
-    }
+	private Template getTemplate(HttpServletRequest req) {
+		return engine.getTemplate(req.getRequestURI(), "UTF-8");
+	}
 
 }

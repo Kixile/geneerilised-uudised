@@ -4,6 +4,30 @@
 	border: 0;
 }
 
+
+#items li {
+    list-style: none;
+    background-color: #000;
+    border-radius: 4px;
+	font-size: 18px;
+	color: #FFF;
+	width: 600px;
+	height: 27px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	text-align:center;
+	font-family: Tahoma, sans-serif;
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}
+
+#items li:hover {
+    background-color: #888;
+    cursor: pointer;
+	border: 3px solid #000;
+}
+
+
 html {-webkit-text-size-adjust: none;}
 
 element {
@@ -40,6 +64,13 @@ div#main {
 	margin: 0 auto;
 	min-height: 600px;
 	text-align: center;
+}
+
+
+
+#content .content div.block:first-child {
+	border-radius: 4px 0 0 0;
+	border-top: 1px solid #fff;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -268,10 +299,6 @@ div#content div.content {
 	padding-bottom: 20px;
 }
 
-div.content div.block {
-	padding: 15px;
-	margin-bottom: 20px;
-}
 
 div.content {
 	clear: both;
@@ -468,6 +495,32 @@ img.resize-sidebar{
 	
 }
 
+ol.commentlist li {
+	overflow: hidden;
+	text-align: left;
+	display: block;
+	border: 1px Solid  #ececec;
+	background: #ececec;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	margin: 0 0 10px  0;
+	padding: 10px 10px 0 10px;
+	position: relative
+}
+
+div.no-back {
+	background: #FFFFFF;
+	padding: 10px;
+}
+
+ol.commentlist li {
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	border-bottom: 1px solid rgba(0,0,0,0.05)
+}
+
 /*search bar*/
 	#tfheader{
 		background-color:#c3dfef;
@@ -514,6 +567,88 @@ img.resize-sidebar{
 	}
 	.tfclear{
 		clear:both;
+	}
+	
+	.hidden {
+    display: none;
+}
+	
+	
+	textarea#header-input {
+	font-size: 20px;
+	width: 600px;
+	height: 24px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	}
+	
+	button#makecomment {
+	font-size: 16px;
+	width: 150px;
+	height: 50px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	}
+	
+	input#alias {
+	font-size: 14px;
+	width: 600px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	}
+	
+	textarea#comment {
+	font-size: 14px;
+	width: 600px;
+	height: 64px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	}
+
+	textarea#text-input {
+	font-size: 12px;
+	width: 600px;
+	height: 500px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	}
+
+	textarea#tags-input {
+	font-size: 12px;
+	width: 600px;
+	height: 24px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	}
+
+	input#article-submit {
+	font-size: 24px;
+	text-align: centre;
+	width: 100px;
+	height: 50px;
 	}
 
 /*footer siin*/
@@ -654,6 +789,64 @@ div#footer-content div.footer-col {
 
 @media screen and (max-width: 976px) {
 
+	textarea#header-input {
+	font-size: 20px;
+	width: 95%;
+	height: 24px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	}
+
+	textarea#text-input {
+	font-size: 12px;
+	width: 95%;
+	height: 500px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	}
+
+	textarea#tags-input {
+	font-size: 12px;
+	width: 95%;
+	height: 24px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	}
+
+	#items li {
+		list-style: none;
+		background-color: #000;
+		border-radius: 4px;
+		font-size: 18px;
+		color: #FFF;
+		width: 95%;
+		height: 27px;
+		border: 3px solid #cccccc;
+		padding: 5px;
+		text-align:center;
+		font-family: Tahoma, sans-serif;
+		background-position: bottom right;
+		background-repeat: no-repeat;
+	}
+
+	#items li:hover {
+		background-color: #888;
+		cursor: pointer;
+		border: 3px solid #000;
+	}
+
 	#header-content {
 		width: auto;
 	}
@@ -714,6 +907,45 @@ div#footer-content div.footer-col {
 	
 	#sidebar div.ad-desktop > div {
 		margin: 0 auto;
+	}
+	
+	#items li {
+    list-style: none;
+    background-color: #000;
+    border-radius: 4px;
+	font-size: 18px;
+	color: #FFF;
+	width: 97%;
+	height: 27px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	text-align:center;
+	font-family: Tahoma, sans-serif;
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	}
+	
+	input#alias {
+	font-size: 14px;
+	width: 97%;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	}
+	
+	textarea#comment {
+	font-size: 14px;
+	width: 97%;
+	height: 64px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-image: url(bg.gif);
+	background-position: bottom right;
+	background-repeat: no-repeat;
 	}
 }
 
@@ -1000,14 +1232,6 @@ div#footer-content div.footer-col {
 		width: 100%;
 	}
 	
-	.ad-desktop {
-		display: none;
-	}
-	
-	.ad-mobile {
-		display: block;
-	}
-	
 }
 
 @media screen and (max-width: 480px) {
@@ -1065,31 +1289,12 @@ div#footer-content div.footer-col {
 		height: 30px;
 	}
 	
-	body div#featured-stories-wrapper ul#featured-stories {
-		height: 180px;
-	}
-	
-	body div#featured-stories-wrapper ul#featured-stories li.secondary,
-	body div#featured-stories-wrapper ul#featured-stories li.tertiary {
-		display: none;
-	}
-	
-	body div#featured-stories-wrapper ul#featured-stories li.primary {
-		width: 100%;
-	}
-	
-	body div#featured-stories-wrapper ul#featured-stories li.primary a.panel {
-		height: 180px;
-	}
 	
 	ul.categories li li a {
 		font-size: 0.85em;
 		padding: 6px 0;
 	}
 	
-	div.content div.block p.featured-block-title {
-		font-size: 10px;
-	}
 	
 	div.content div.block p,
 	div.content div.block li {
