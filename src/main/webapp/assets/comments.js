@@ -3,21 +3,21 @@
 // http://javascript.crockford.com/private.html
 // http://blog.stannard.net.au/2011/01/14/creating-namespaces-in-javascript/
 
-var auctions = auctions || {};
+var comments = comments || {};
 
-auctions.getBidsById = function(bids, id) {
+comments.getCommentsById = function(bids, id) {
     return $.grep(bids, function(elem) {
        return elem.id == id;
     });
 };
 
-auctions.BrowsingList = function(jList, viewingList) {
+comments.BrowsingList = function(jList, viewingList) {
     this.list = jList;
     this.view = viewingList;
     this.items = {};
 };
 
-auctions.BrowsingList.prototype.addItem = function(item) {
+comments.BrowsingList.prototype.addComment = function(item) {
     var self = this;
     this.items[item.id] = item;
 
@@ -33,21 +33,21 @@ auctions.BrowsingList.prototype.addItem = function(item) {
 
 
 
-auctions.ViewingList = function(jViewPanel) {
+comments.ViewingList = function(jViewPanel) {
     this.view = jViewPanel;
     this.descriptionParagraph = $('#itemdescription', jViewPanel);
     this.bidsDiv = $('#bids', jViewPanel);
     this.selectedItem = null;
 };
 
-auctions.ViewingList.prototype.setViewContent = function(itemToDisplay) {
-    this.selectedItem = itemToDisplay;
+comments.ViewingList.prototype.setViewContent = function(commentToDisplay) {
+    this.selectedItem = commentToDisplay;
     this.descriptionParagraph.html(
-        itemToDisplay.title + ": <br/>" + itemToDisplay.description);
+        commentToDisplay.title + ": <br/>" + commentToDisplay.description);
 
     this.clearBids();
-    for (var i = 0; i < itemToDisplay.bids.length; i++) {
-        this.addBid(itemToDisplay.bids[i]);
+    for (var i = 0; i < commentToDisplay.bids.length; i++) {
+        this.addBid(commentToDisplay.bids[i]);
     }
 	
 	document.getElementById('mycomment').className = "";
@@ -55,43 +55,43 @@ auctions.ViewingList.prototype.setViewContent = function(itemToDisplay) {
     //this.view.removeClass('hidden');
 };
 
-auctions.ViewingList.prototype.clearBids = function() {
+comments.ViewingList.prototype.clearBids = function() {
     this.bidsDiv.empty();
 };
 
-auctions.ViewingList.prototype.canAdd = function(bid) {
-    return this.selectedItem && this.selectedItem.id == bid.itemId;
+comments.ViewingList.prototype.canAdd = function(comment) {
+    return this.selectedItem && this.selectedItem.id == comment.itemId;
 };
 
-auctions.ViewingList.prototype.addBid = function(bid) {
-    if (!this.canAdd(bid)) {
+comments.ViewingList.prototype.addBid = function(comment) {
+    if (!this.canAdd(comment)) {
         return;
     }
 	
-    var bidElement = $('<li/>');
-	var bidElement2 = $('<div/>');
-	var bidElement3 = $('<p/>');
-	var bidElement4 = $('<p/>');
-	bidElement2.append( bidElement3.text('By ' + bid.bidder));
-	bidElement2.append(bidElement4.text(bid.amount));
-	bidElement.append(bidElement2);
-	console.log(bidElement);
-    this.bidsDiv.append(bidElement);
+    var commentElement = $('<li/>');
+	var commentElement2 = $('<div/>');
+	var commentElement3 = $('<p/>');
+	var commentElement4 = $('<p/>');
+	commentElement2.append(commentElement3.text('By ' + comment.bidder));
+	commentElement2.append(commentElement4.text(comment.amount));
+	commentElement.append(commentElement2);
+	console.log(commentElement);
+    this.bidsDiv.append(commentElement);
 };
 
 
 
-auctions.BidBuilder = function(jInputSection) {
+comments.CommentBuilder = function(jInputSection) {
     this.aliasBox = $('#alias', jInputSection);
     this.commentBox = $('#comment', jInputSection);
 };
 
-auctions.BidBuilder.prototype.clear = function() {
+comments.CommentBuilder.prototype.clear = function() {
     this.aliasBox.val('');
     this.commentBox.val('');
 };
 
-auctions.BidBuilder.prototype.buildBid = function(item) {
+comments.CommentBuilder.prototype.buildBid = function(item) {
     return {
         itemId: item.id,
         bidder: this.aliasBox.val(),

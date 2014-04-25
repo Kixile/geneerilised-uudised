@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(value = "/auctions")
+@WebServlet(value = "/comments")
 public class CommentController extends HttpServlet {
 
 	/**

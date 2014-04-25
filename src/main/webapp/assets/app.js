@@ -1,37 +1,37 @@
 
 var vldemo2 = {
-    loadAuctionItems: function(itemList) {
-        $.ajax('/auctions', {
+    loadAuctionItems: function(commentList) {
+        $.ajax('/comments', {
             dataType: 'json',
             success: function (itemsJson) {
                 console.info('ajax success');
                 for (var i = 0; i < itemsJson.length; i++) {
-                    itemList.addItem(itemsJson[i]);
+                    commentList.addComment(itemsJson[i]);
                 }
             },
             error: function (req, text) {
-                console.error('failed to load auction items: ' + text);
+                console.error('failed to commenters: ' + text);
             }
         });
     },
 
-    makeBid: function(view, bidBuilder) {
+    makeBid: function(view, CommentBuilder) {
         var item = view.selectedItem;
-        var bid = bidBuilder.buildBid(item);
-        $.ajax('/auctions', {
+        var bid = CommentBuilder.buildBid(item);
+        $.ajax('/comments', {
             type: 'POST',
             data: JSON.stringify(bid), // pack the bid object into json string
             success: function(savedBid) {
                 // server returns the bid with its new generated id
                 // syncing js&dom is a pain. angularjs may help
-                bidBuilder.clear();
-                if (!auctions.getBidsById(item.bids, savedBid.id).length) {
+                CommentBuilder.clear();
+                if (!comments.getCommentsById(item.bids, savedBid.id).length) {
                     item.bids.push(savedBid);
                     view.setViewContent(item);
                 }
             },
             error: function(req, text) {
-                console.error('failed to post bid: ' + text);
+                console.error('failed to comments: ' + text);
             }
         });
     },
@@ -45,7 +45,7 @@ var vldemo2 = {
             console.log("ws received " + evt.data);
             var bid = JSON.parse(evt.data);
             var item = allItems[bid.itemId];
-            if (!auctions.getBidsById(item.bids, bid.id).length) {
+            if (!comments.getCommentsById(item.bids, bid.id).length) {
                 item.bids.push(bid);
                 if (view.selectedItem.id == item.id) {
                     view.setViewContent(item);
@@ -59,15 +59,15 @@ $(function() {
 
     console.log("running demoapp.js");
 
-    var bidBuilder = new auctions.BidBuilder($('#mycomment'));
-    var viewingList = new auctions.ViewingList($('#viewing'));
-    var itemList = new auctions.BrowsingList($('#items'), viewingList);
+    var CommentBuilder = new comments.CommentBuilder($('#mycomment'));
+    var viewingList = new comments.ViewingList($('#viewing'));
+    var commentList = new comments.BrowsingList($('#items'), viewingList);
 
     $('#makepost').click(function() {
-        vldemo2.makeBid(viewingList, bidBuilder);
+        vldemo2.makeBid(viewingList, CommentBuilder);
     });
 
-    vldemo2.loadAuctionItems(itemList);
-    vldemo2.createWebsocket(itemList.items, viewingList);
+    vldemo2.loadAuctionItems(commentList);
+    vldemo2.createWebsocket(commentList.items, viewingList);
 
 });
