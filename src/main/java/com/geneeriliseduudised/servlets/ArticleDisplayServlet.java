@@ -28,7 +28,7 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
-@WebServlet(name = "MyEcho WebSocket Servlet", urlPatterns = { "/page/*",
+@WebServlet(name = "Display Servlet", urlPatterns = { "/page/*",
 		"index.html" })
 public class ArticleDisplayServlet extends HttpServlet {
 

@@ -34,7 +34,7 @@ element {
 }
 
 body {
-	background: url('images/background.jpg') repeat top center #1d1d1d;
+	background: url('images/background.png') repeat top center #1d1d1d;
 	text-align: center;
 	font-family: Arial,  sans-serif;
 }
@@ -785,6 +785,13 @@ div#footer-content div.footer-col {
 	#header .logo a {
 		margin-left: 10px;
 	}
+	
+	div.content div.block p.info {
+	overflow: visible;
+	width: 90%;
+	margin-bottom: 10px;
+	font-size: 13px;
+}
 }
 
 @media screen and (max-width: 976px) {
@@ -858,7 +865,7 @@ div#footer-content div.footer-col {
 	}
 	
 	#menu-utility-container ul {
-		font-size: 12px;
+		font-size: 18px;
 		margin-right: 5px;
 	}
 	
@@ -1007,7 +1014,7 @@ div#footer-content div.footer-col {
 	}
 	
 	#menu-utility-container ul {
-		margin: 10px 0 0;
+		margin: 16px 0 0;
 		padding: 0;
 		text-align: center;
 	}
