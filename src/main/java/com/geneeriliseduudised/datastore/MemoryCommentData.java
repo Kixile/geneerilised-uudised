@@ -15,9 +15,6 @@ public class MemoryCommentData implements CommentDataProvider {
 
 	public MemoryCommentData() {
 		List<Comment> firstArticleComment = new ArrayList<Comment>();
-		firstArticleComment.add(new Comment(1, 1, "Commenter1", "Hello."));
-		firstArticleComment.add(new Comment(2, 1, "Commenter2",
-				"How do you do?"));
 
 		items = new HashMap<Integer, ArticleComments>();
 		items.put(1, new ArticleComments(1, "Click to load comments.", "",
@@ -25,17 +22,14 @@ public class MemoryCommentData implements CommentDataProvider {
 		commentCounter = 2;
 	}
 
-	@Override
 	public ArticleComments findItemById(int id) {
 		return items.get(id);
 	}
 
-	@Override
 	public List<ArticleComments> findAllItems() {
 		return new ArrayList<ArticleComments>(items.values());
 	}
 
-	@Override
 	public void addComment(Comment comment) {
 		items.get(comment.itemId).bids.add(comment);
 		comment.id = ++commentCounter; // concurrency bug

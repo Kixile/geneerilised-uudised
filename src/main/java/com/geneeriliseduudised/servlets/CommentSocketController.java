@@ -57,7 +57,6 @@ public class CommentSocketController extends WebSocketServlet implements
 		publish(this, context); // so that other servlets could find us
 	}
 
-	@Override
 	public Object createWebSocket(ServletUpgradeRequest req,
 			ServletUpgradeResponse resp) {
 		return new CommentSocket(this); // socket instance created per client

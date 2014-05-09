@@ -98,30 +98,14 @@ public class ArticleWriteServlet extends HttpServlet {
 		String[] text = req.getParameterValues("text-input");
 		String[] tag = req.getParameterValues("tags-input");
 		String[] tags = tag[0].split(",");
-
 		// SimpleDateFormat formaat = new
 		// SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date today = new Date();
 		Timestamp timestamp = new Timestamp(today.getTime());
 		int userid = 1;
 
-		// String info =
-		// "INSERT INTO artikkel(pealkiri, aeg, sisu, kasutaja_id) "
-		// + "VALUES('" + head[0] + "', '" + todaystring + "', '" + text[0] +
-		// "', " + userid + ");";
 		submit(head[0], timestamp, text[0], userid, tags);
 
-		// Article a = new Article(head[0], text[0], tag[0]);
-		//
-		// Gson gson = new Gson();
-		//
-		// String json = gson.toJson(a);
-		//
-		// PrintWriter writer = new
-		// PrintWriter("src/main/webapp/json/"+head[0].replaceAll(" ","_")+".json",
-		// "UTF-8");
-		// writer.println(json);
-		// writer.close();
 
 		resp.sendRedirect("index.html");
 	}
