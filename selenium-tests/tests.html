@@ -3,53 +3,53 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="selenium.base" href="http://localhost:8080/" />
-<title>Post Article</title>
+<link rel="selenium.base" href="http://allan.dtdns.net:8080/" />
+<title>tests</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Post Article</td></tr>
+<tr><td rowspan="1" colspan="3">tests</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
-	<td>/write</td>
-	<td></td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=header-input</td>
-	<td>Autotest1</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=text-input</td>
-	<td>Autotest Text.</td>
-</tr>
-<tr>
-	<td>type</td>
-	<td>id=tags-input</td>
-	<td>tags</td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>id=article-submit</td>
+	<td>/</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>xpath=(//a[contains(text(),'&gt;&gt; Read more...')])[2]</td>
+	<td>link=&gt;&gt; Read more...</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#items &gt; li</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=alias</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=comment</td>
+	<td>Test</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=makepost</td>
 	<td></td>
 </tr>
 <tr>
 	<td>assertText</td>
-	<td>//div[@id='Autotest1']/div/div/p[3]</td>
-	<td>Autotest Text.</td>
+	<td>//div[@id='bids']/li/div/p[2]</td>
+	<td>Test</td>
 </tr>
 <tr>
 	<td>assertText</td>
-	<td>css=h2</td>
-	<td>Autotest1</td>
+	<td>css=li &gt; div &gt; p</td>
+	<td>By Test</td>
 </tr>
 
 </tbody></table>
