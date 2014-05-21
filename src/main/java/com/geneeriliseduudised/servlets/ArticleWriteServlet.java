@@ -2,6 +2,7 @@ package com.geneeriliseduudised.servlets;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +10,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Date;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -18,9 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.eclipse.jetty.util.MultiPartInputStreamParser;
-import org.eclipse.jetty.util.MultiPartOutputStream;
-import org.eclipse.jetty.util.MultiPartWriter;
+import org.apache.commons.io.IOUtils;
 
 import java.sql.DriverManager;
 import java.sql.Connection;
@@ -108,7 +106,8 @@ public class ArticleWriteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-        
+		connect();
+		
         Part filePart = req.getPart("userfile1");
         System.out.println(req.getParameter("image_name"));
         
@@ -120,7 +119,12 @@ public class ArticleWriteServlet extends HttpServlet {
         out = new FileOutputStream(new File("./src/main/webapp/" + File.separator
                 + req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1]));
         
+        
         filecontent = filePart.getInputStream();
+        
+        
+        System.out.println((int)filePart.getSize());
+        
         
         int read = 0;
         final byte[] bytes = new byte[1024];
@@ -129,14 +133,33 @@ public class ArticleWriteServlet extends HttpServlet {
             out.write(bytes, 0, read);
         }
         out.close();
+        filecontent.close();
+        String name =  req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1];
+        try{
+        	PreparedStatement ps = con.prepareStatement("INSERT INTO pilt(nimi,fail) VALUES (?,?);");
+            ps.setString(1, name);
+            ps.setBytes(2, bytes);
+            ps.execute();
+            ps.close();
+            
+            con.close();
+        }catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				con.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
         
-        resp.sendRedirect("/" +  req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1]);
-
 	}
 	
     protected void doPost( HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException
     {
         doGet( req, resp );
     }
+    
+    
  
 }
