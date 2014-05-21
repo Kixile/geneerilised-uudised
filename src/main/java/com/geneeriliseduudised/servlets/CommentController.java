@@ -38,6 +38,9 @@ public class CommentController extends HttpServlet {
 			throws ServletException, IOException {
 		resp.setHeader("Content-Type", "application/json");
 		
+		String userId = req.getParameter("userId");
+		System.out.println(userId);
+		
 		StringBuffer string = req.getRequestURL();
 		String str = string.toString();
 		String[] parts = str.split("/");

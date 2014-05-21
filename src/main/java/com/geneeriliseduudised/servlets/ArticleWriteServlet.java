@@ -1,13 +1,26 @@
 package com.geneeriliseduudised.servlets;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+import org.eclipse.jetty.util.MultiPartInputStreamParser;
+import org.eclipse.jetty.util.MultiPartOutputStream;
+import org.eclipse.jetty.util.MultiPartWriter;
 
 import java.sql.DriverManager;
 import java.sql.Connection;
@@ -17,6 +30,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 @WebServlet(name = "ArticleWriteServlet", urlPatterns = { "/postarticle" })
+@MultipartConfig
 public class ArticleWriteServlet extends HttpServlet {
 
 	/**
@@ -93,20 +107,36 @@ public class ArticleWriteServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		connect();
-		String[] head = req.getParameterValues("header");
-		String[] text = req.getParameterValues("text-input");
-		String[] tag = req.getParameterValues("tags-input");
-		String[] tags = tag[0].split(",");
-		// SimpleDateFormat formaat = new
-		// SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date today = new Date();
-		Timestamp timestamp = new Timestamp(today.getTime());
-		int userid = 1;
 
-		submit(head[0], timestamp, text[0], userid, tags);
+        
+        Part filePart = req.getPart("userfile1");
+        System.out.println(req.getParameter("image_name"));
+        
+        System.out.println(req.getPart("userfile1").getContentType().split("/")[1]);
+        
+        InputStream filecontent = null;
+        OutputStream out = null;
+        
+        out = new FileOutputStream(new File("./src/main/webapp/" + File.separator
+                + req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1]));
+        
+        filecontent = filePart.getInputStream();
+        
+        int read = 0;
+        final byte[] bytes = new byte[1024];
 
+        while ((read = filecontent.read(bytes)) != -1) {
+            out.write(bytes, 0, read);
+        }
+        out.close();
+        
+        resp.sendRedirect("/" +  req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1]);
 
-		resp.sendRedirect("index.html");
 	}
+	
+    protected void doPost( HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException
+    {
+        doGet( req, resp );
+    }
+ 
 }
