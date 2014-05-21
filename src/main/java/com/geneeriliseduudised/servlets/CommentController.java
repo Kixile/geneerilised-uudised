@@ -12,10 +12,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(value = "/comments")
+@WebServlet(value = "/comments/*")
 public class CommentController extends HttpServlet {
 
 	/**
@@ -29,15 +30,22 @@ public class CommentController extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		gson = new Gson();
-		datastore = new MemoryCommentData();
+		datastore = new MemoryCommentData(1);
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setHeader("Content-Type", "application/json");
+		
+		StringBuffer string = req.getRequestURL();
+		String str = string.toString();
+		String[] parts = str.split("/");
 
+		datastore = new MemoryCommentData(Integer.parseInt(parts[4]));
+		
 		String idString = req.getParameter("id");
+		
 		if (idString != null) {
 			replyWithSingleItem(resp, idString);
 		} else {
@@ -50,13 +58,26 @@ public class CommentController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			Comment comment = gson.fromJson(req.getReader(), Comment.class);
-			datastore.addComment(comment); // bid should be validated carefully
+			
+			
+			String string = comment.getArticleURL();
+			String[] parts = string.split("/");
+			System.out.println(parts[4]);
 
+			
+			datastore.addComment(comment); // bid should be validated carefully
+			
+			System.out.println(comment.getArticleURL());
+			
+			
+			
 			// echo the same object back for convenience and debugging
 			// also it now contains the generated id of the bid
 			String commentEcho = gson.toJson(comment);
 			resp.setHeader("Content-Type", "application/json");
 			resp.getWriter().write(commentEcho);
+			
+			
 
 			// actually this is a bad place to send the broadcast.
 			// better: attach sockets as eventlisteners to the datastore

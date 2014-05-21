@@ -1,7 +1,10 @@
 
 var vldemo2 = {
     loadAuctionItems: function(commentList) {
-        $.ajax('/comments', {
+		var str = document.URL;
+		var res = str.split("/");
+		//alert(res[4]);
+        $.ajax('/comments/'+res[4], {
             dataType: 'json',
             success: function (itemsJson) {
                 console.info('ajax success');
@@ -17,8 +20,9 @@ var vldemo2 = {
 
     makeBid: function(view, CommentBuilder) {
         var item = view.selectedItem;
+		var url = document.URL;
         var bid = CommentBuilder.buildBid(item);
-        $.ajax('/comments', {
+        $.ajax('/comments/', {
             type: 'POST',
             data: JSON.stringify(bid), // pack the bid object into json string
             success: function(savedBid) {
@@ -31,7 +35,7 @@ var vldemo2 = {
                 }
             },
             error: function(req, text) {
-                console.error('failed to comments: ' + text);
+                console.error('failed to comment: ' + text);
             }
         });
     },

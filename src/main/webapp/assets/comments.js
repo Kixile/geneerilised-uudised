@@ -82,6 +82,7 @@ comments.ViewingList.prototype.addBid = function(comment) {
 
 
 comments.CommentBuilder = function(jInputSection) {
+	
     this.aliasBox = $('#alias', jInputSection);
     this.commentBox = $('#comment', jInputSection);
 };
@@ -91,10 +92,11 @@ comments.CommentBuilder.prototype.clear = function() {
     this.commentBox.val('');
 };
 
-comments.CommentBuilder.prototype.buildBid = function(item) {
+comments.CommentBuilder.prototype.buildBid = function(item, articleURL) {
     return {
         itemId: item.id,
         bidder: this.aliasBox.val(),
-        amount: this.commentBox.val()
+        amount: this.commentBox.val(),
+		articleURL: document.URL
     };
 };
