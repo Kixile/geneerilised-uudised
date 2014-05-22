@@ -11,10 +11,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 public class AuthorityHandler {
-	private String cookie;
 	private Connection con = null;
 	private ResultSet rs = null;
-	private int email = 0;
+	private int kas_id = 0;
 
 	public AuthorityHandler() {
 	}
@@ -37,9 +36,37 @@ public class AuthorityHandler {
 		}
 		
 		connect();
-		
 		try {
 			String query = "SELECT kasutaja_id FROM sessioonid WHERE sessioon_id = '"+ aa[1] +"';";
+			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				kas_id = rs.getInt("kasutaja_id");
+				return true;
+			}
+			stmt.close();
+			rs.close();
+			con.close();
+		} catch (SQLException e3) {
+			e3.printStackTrace();
+			try {
+				stmt.close();
+				rs.close();
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
+	public boolean isEditor(){
+		Statement stmt = null;
+		
+		connect();
+		try {
+			String query = "SELECT * FROM kasutaja WHERE autor = 'true' and  kasutaja_id = '" + kas_id + "';";
 			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 			rs = stmt.executeQuery(query);
 			while (rs.next()) {

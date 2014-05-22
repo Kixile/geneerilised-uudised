@@ -206,7 +206,9 @@ public class ArticleDisplayServlet extends HttpServlet {
 		AuthorityHandler auth = new AuthorityHandler();
 		
 		boolean isauth = auth.isLegit(req);
-		context.put("cookie1", isauth);
+		boolean isedit = auth.isEditor();
+		context.put("isAuth", isauth);
+		context.put("isEdit", isedit);
 		
 		Template template = null;
 
