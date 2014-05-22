@@ -163,7 +163,7 @@ public class ArticleWriteServlet extends HttpServlet {
 			//System.out.println((int)filePart.getSize());
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write( thumbnail, "jpg", baos );
+			ImageIO.write( thumbnail, req.getPart("userfile1").getContentType().split("/")[1], baos );
 			baos.flush();
 
 
