@@ -227,9 +227,9 @@ public class OAuthCallbackServlet extends HttpServlet {
 				stmt1.close();
 			}
 			else{
-				PreparedStatement stmt1 = con.prepareStatement("UPDATE sessioonid SET kasutaja_id = ?,sessioon_id = ?  ;");
-				stmt1.setInt(1, kas_id);
-				stmt1.setString(2, id);
+				PreparedStatement stmt1 = con.prepareStatement("UPDATE sessioonid SET sessioon_id = ?  WHERE  kasutaja_id = ?;");
+				stmt1.setString(1, id);
+				stmt1.setInt(2, kas_id);
 				stmt1.executeUpdate();
 				stmt1.close();
 			}
