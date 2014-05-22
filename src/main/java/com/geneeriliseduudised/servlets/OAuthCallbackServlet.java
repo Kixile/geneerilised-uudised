@@ -152,16 +152,14 @@ public class OAuthCallbackServlet extends HttpServlet {
 
 	public void sendSession(String email, String id) {
 		connect();
-		
+
 		String sql = "SELECT kasutaja_id FROM kasutaja WHERE email = '"+ email +"';";
 		Statement stmt = null;
 		ResultSet rs = null;
 		int kas_id = -1;
-		
+
 		try {
-			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_UPDATABLE);
-			rs = stmt.executeQuery(sql);
+			rs = sqlQuery("SELECT kasutaja_id FROM kasutaja WHERE email = '"+ email +"';");
 			while (rs.next()) {
 				kas_id = rs.getInt("kasutaja_id");
 			}
@@ -177,7 +175,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 			}
 		}
 
-		
+
 		if(kas_id == -1){
 			try {
 				PreparedStatement stmt1 = con
@@ -187,19 +185,17 @@ public class OAuthCallbackServlet extends HttpServlet {
 				stmt1.setBoolean(3, true);
 				stmt1.executeUpdate();
 				stmt1.close();
-				}
+			}
 			catch (SQLException e) {
 				try {
 					con.close();
 				} catch (SQLException e1) {
 				}
-			e.printStackTrace();
+				e.printStackTrace();
 			}
-			
+
 			try {
-				stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-						ResultSet.CONCUR_UPDATABLE);
-				rs = stmt.executeQuery(sql);
+				rs = sqlQuery("SELECT kasutaja_id FROM kasutaja WHERE email = '"+ email +"';");
 				while (rs.next()) {
 					kas_id = rs.getInt("kasutaja_id");
 				}
@@ -215,24 +211,70 @@ public class OAuthCallbackServlet extends HttpServlet {
 				}
 			}
 		}
-		
-		
+
+
 		try {
-			PreparedStatement stmt1 = con
-					.prepareStatement("INSERT INTO sessioonid(kasutaja_id, 	sessioon_id) VALUES(?, ?);");
-			stmt1.setInt(1, kas_id);
-			stmt1.setString(2, id);
-			stmt1.executeUpdate();
-			stmt1.close();
-			con.close();
+
+			try {
+				rs = sqlQuery("SELECT * FROM kasutaja WHERE kasutaja_id = '"+ kas_id +"';");
+				rs.close();
+				stmt.close();
+			} catch (SQLException e3) {
+				try {
+					rs.close();
+					stmt.close();
+				} catch (SQLException e) {
+				}
 			}
+			
+			if(rs == null){
+				PreparedStatement stmt1 = con.prepareStatement("INSERT INTO sessioonid(kasutaja_id, sessioon_id) VALUES(?, ?);");
+				stmt1.setInt(1, kas_id);
+				stmt1.setString(2, id);
+				stmt1.executeUpdate();
+				stmt1.close();
+			}
+			else{
+				PreparedStatement stmt1 = con.prepareStatement("UPDATE sessioonid SET kasutaja_id = ?,sessioon_id = ?  ;");
+				stmt1.setInt(1, kas_id);
+				stmt1.setString(2, id);
+				stmt1.executeUpdate();
+				stmt1.close();
+			}
+			con.close();
+		}
 		catch (SQLException e) {
 			try {
 				con.close();
 			} catch (SQLException e1) {
 			}
-		e.printStackTrace();
+			e.printStackTrace();
+		}
+
 	}
-		
+
+	public ResultSet sqlQuery(String query) {
+		String sql = query;
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
+			rs = stmt.executeQuery(sql);
+			rs.close();
+			stmt.close();
+			return rs;
+		} catch (SQLException e3) {
+			try {
+				rs.close();
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return rs;
 	}
+
 }
