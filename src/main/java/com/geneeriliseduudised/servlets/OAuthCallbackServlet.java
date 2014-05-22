@@ -215,11 +215,24 @@ public class OAuthCallbackServlet extends HttpServlet {
 
 
 		try {
+			
+			try {
+				String query = "SELECT * FROM sessioonid WHERE kasutaja_id = '"+ kas_id +"';";
+				stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+				rs = stmt.executeQuery(query);
+				rs.close();
+				stmt.close();
+			} catch (SQLException e3) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 
-			rs = sqlQuery("SELECT * FROM kasutaja WHERE kasutaja_id = '"+ kas_id +"';");
-			rs.close();
-
-			if(rs == null){
+			if(rs.wasNull()){
 				PreparedStatement stmt1 = con.prepareStatement("INSERT INTO sessioonid(kasutaja_id, sessioon_id) VALUES(?, ?);");
 				stmt1.setInt(1, kas_id);
 				stmt1.setString(2, id);
