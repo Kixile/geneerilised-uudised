@@ -36,8 +36,9 @@ public class ArticleDisplayServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private VelocityEngine engine = new VelocityEngine();
 
-	Connection con = null;
-	ResultSet rs = null;
+	private Connection con = null;
+	private ResultSet rs = null;
+	private ResultSet rs2 = null;
 
 	public void connect() {
 		try {
@@ -46,19 +47,6 @@ public class ArticleDisplayServlet extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public ResultSet request(String sql) {
-		Statement stmt = null;
-		ResultSet rs = null;
-		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(sql);
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rs;
 	}
 
 	public void init(ServletConfig config) throws ServletException {
@@ -183,7 +171,9 @@ public class ArticleDisplayServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
 		}
-
+		
+		List<String> names = new ArrayList<String>();
+		
 		try {
 			while (rs.next() && rs2.next()) {
 				String tagstring = "";
@@ -194,10 +184,11 @@ public class ArticleDisplayServlet extends HttpServlet {
 
 				Article art = new Article(rs.getString("pealkiri"), rs
 						.getString("sisu"), tagstring, rs.getString("aeg"), rs
-						.getString("kasutaja_id"), rs.getString("lyhisisu"), rs
+						.getString("kasutajanimi"), rs.getString("lyhisisu"), rs
 						.getString("artikkel_id"), rs.getString("pilt"));
 
 				articlesList.add(art);
+				names.add(rs.getString("kasutajanimi"));
 				rowAmmount++;
 			}
 			stmt.close();

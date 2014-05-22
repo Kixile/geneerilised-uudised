@@ -32,8 +32,8 @@ public class MainArticleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private VelocityEngine engine = new VelocityEngine();
 
-	Connection con = null;
-	ResultSet rs = null;
+	public Connection con = null;
+	public ResultSet rs = null;
 
 	public void connect() {
 		try {
