@@ -156,7 +156,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 		String sql = "SELECT kasutaja_id FROM kasutaja WHERE email = '"+ email +"';";
 		Statement stmt = null;
 		ResultSet rs = null;
-		int kas_id = 0;
+		int kas_id = -1;
 		
 		try {
 			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -181,6 +181,25 @@ public class OAuthCallbackServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 				
+		}
+		
+		if(kas_id == -1){
+			try {
+				PreparedStatement stmt1 = con
+						.prepareStatement("INSERT INTO kasutaja(kasutajanimi, email, autor) VALUES(?, ?, ?);");
+				stmt1.setString(1, email);
+				stmt1.setString(2, email);
+				stmt1.setBoolean(3, true);
+				stmt1.executeUpdate();
+				stmt1.close();
+				}
+			catch (SQLException e) {
+				try {
+					con.close();
+				} catch (SQLException e1) {
+				}
+			e.printStackTrace();
+		}
 		}
 		
 		
