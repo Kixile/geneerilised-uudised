@@ -202,7 +202,12 @@ public class ArticleDisplayServlet extends HttpServlet {
 		context.put("pagein", pageIndex);
 		context.put("index", rowAmmount);
 		context.put("artList", articlesList);
-		context.put("cookie1", aa);
+		
+		AuthorityHandler auth = new AuthorityHandler();
+		
+		boolean isauth = auth.isLegit(req);
+		context.put("cookie1", isauth);
+		
 		Template template = null;
 
 		try {
