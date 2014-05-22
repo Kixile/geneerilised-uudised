@@ -117,6 +117,7 @@ public class ArticleWriteServlet extends HttpServlet {
 
 		boolean isauth = auth.isLegit(req);
 		boolean isedit = auth.isEditor();
+		int id_here = auth.getUserId(req);
 
 		if(isauth && isedit){
 
@@ -128,7 +129,11 @@ public class ArticleWriteServlet extends HttpServlet {
 			// SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date today = new Date();
 			Timestamp timestamp = new Timestamp(today.getTime());
-			int userid = 1;
+			int userid = 0;
+			if(id_here != 0 )userid = id_here;
+			
+			
+			
 
 			connect();
 
@@ -168,7 +173,7 @@ public class ArticleWriteServlet extends HttpServlet {
 				ps.execute();
 				ps.close();
 
-				String pilt = "/"+req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1];
+				String pilt = "/image/"+req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1];
 				submit(head, timestamp, text, userid, tags,pilt);
 
 				con.close();

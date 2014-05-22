@@ -16,7 +16,7 @@ public class Article {
 		this.id = id;
 		this.header = header;
 		this.text = text;
-		this.tags = tags.split(";");
+		this.tags = tags.split(",");
 		this.date = date;
 		this.username = username;
 		this.summary = summary;

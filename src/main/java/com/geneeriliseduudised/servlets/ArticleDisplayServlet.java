@@ -30,7 +30,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 @WebServlet(name = "Display Servlet", urlPatterns = { "/page/*",
-		"index.html" })
+"index.html" })
 public class ArticleDisplayServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -116,17 +116,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		// for buttons and better article scrolling
-		String uri = /*
-					 * req.getScheme() + "://" + req.getServerName() +
-					 */
-		/*
-		 * ("http".equals(req.getScheme()) && req.getServerPort() == 80 ||
-		 * "https".equals(req.getScheme()) && req.getServerPort() == 443 ? "" :
-		 * ":" + req.getServerPort() ) +
-		 */req.getRequestURI() /*
-								 * + (req.getQueryString() != null ? "?" +
-								 * req.getQueryString() : "")
-								 */;
+		String uri = req.getRequestURI() ;
 		init();
 		connect();
 		Statement stmt = null;
@@ -138,7 +128,28 @@ public class ArticleDisplayServlet extends HttpServlet {
 
 		}
 
-		String sql = "SELECT * FROM artikkel_create";
+		String[] uriSplit = uri.split("/");
+		int pageIndex = 0;
+		System.out.println("URI LEN ----------" + uriSplit.length);
+		if(uriSplit.length < 3){
+			pageIndex = 0;
+		}
+		else{
+			System.out.println(uriSplit[0]+" "+ uriSplit[1] +" "+ uriSplit[2]);
+			int index = 0;
+			try{
+				index = Integer.parseInt(uriSplit[2]);
+			}catch(Exception e){
+				
+			}
+			pageIndex = index;
+		}
+		
+		
+
+
+		String sql = "SELECT * FROM artikkel_create LIMIT 5 OFFSET "+ pageIndex * 5 +";";
+
 
 		try {
 			rs = stmt.executeQuery(sql);
@@ -149,13 +160,43 @@ public class ArticleDisplayServlet extends HttpServlet {
 		int rowAmmount = 0;
 
 		List<Article> articlesList = new ArrayList<Article>();
+		Statement stmt2 = null;
+		ResultSet rs2 = null;
+
+		String sql2 = "SELECT artikkel_tag.artikkel_id, string_agg(tag.nimi, ', ') "
+				+ "FROM tag, artikkel_tag where tag.tag_id = artikkel_tag.tag_id "
+				+ "GROUP BY artikkel_tag.artikkel_id ORDER BY artikkel_tag.artikkel_id "
+				+ "DESC LIMIT 5 OFFSET "+ 0 +";";
+
 
 		try {
-			while (rs.next()) {
-				articlesList.add(new Article(rs.getString("pealkiri"), rs
-						.getString("sisu"), "helo", rs.getString("aeg"), rs
+			stmt2 = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
+		} catch (SQLException e3) {
+
+		}
+
+		try {
+			rs2 = stmt2.executeQuery(sql2);
+		} catch (SQLException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+
+		try {
+			while (rs.next() && rs2.next()) {
+				String tagstring = "";
+
+				tagstring = rs2.getString("string_agg");
+
+				if(tagstring == null) tagstring = "";
+
+				Article art = new Article(rs.getString("pealkiri"), rs
+						.getString("sisu"), tagstring, rs.getString("aeg"), rs
 						.getString("kasutaja_id"), rs.getString("lyhisisu"), rs
-						.getString("artikkel_id"), rs.getString("pilt")));
+						.getString("artikkel_id"), rs.getString("pilt"));
+
+				articlesList.add(art);
 				rowAmmount++;
 			}
 			con.close();
@@ -164,45 +205,23 @@ public class ArticleDisplayServlet extends HttpServlet {
 		}
 
 		VelocityContext context = new VelocityContext();
+		System.out.println(articlesList.size());
 
-		String[] uriSplit = uri.split("/");
-		int pageIndex = 1;
-		System.out.println(uriSplit.length);
-		if (uriSplit.length < 3) {
-			articlesList = articlesList.subList(0, 5);
-		} else if (isInteger(uriSplit[2])) {
-			pageIndex = Integer.parseInt(uriSplit[2].replaceAll("\\D+", ""));
-			if (pageIndex * 5 >= rowAmmount) {
-				articlesList = articlesList.subList((pageIndex - 1) * 5,
-						rowAmmount);
-			} else {
-				articlesList = articlesList.subList((pageIndex - 1) * 5,
-						(pageIndex) * 5);
-			}
-			if (pageIndex == 1) {
-				pageIndex = 1;
-				articlesList = articlesList.subList(0, 5);
-			}
-
-		} else {
-			articlesList = articlesList.subList(0, 1);
-		}
 
 		context.put("next", "/page/" + (pageIndex + 1));
 		context.put("previous", "/page/" + (pageIndex - 1));
-		context.put("nextPagecheck", (pageIndex * 5 >= rowAmmount));
 		context.put("uri", uri);
 		context.put("pagein", pageIndex);
 		context.put("index", rowAmmount);
 		context.put("artList", articlesList);
-		
+
 		AuthorityHandler auth = new AuthorityHandler();
-		
+
 		boolean isauth = auth.isLegit(req);
 		boolean isedit = auth.isEditor();
 		context.put("isAuth", isauth);
 		context.put("isEdit", isedit);
-		
+
 		Template template = null;
 
 		try {
