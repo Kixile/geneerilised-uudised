@@ -99,6 +99,12 @@ public class ArticleWriteServlet extends HttpServlet {
 			stmt5.close();
 			con.close();
 		} catch (SQLException e) {
+			try {
+				con.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 	}
@@ -106,7 +112,7 @@ public class ArticleWriteServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
+
 		String head = req.getParameter("header");
 		String text = req.getParameter("text-input");
 		String tag = req.getParameter("tags-input");
@@ -118,48 +124,48 @@ public class ArticleWriteServlet extends HttpServlet {
 		int userid = 1;
 
 		connect();
-		
-		
-		
-        Part filePart = req.getPart("userfile1");
-        System.out.println(req.getParameter("image_name"));
-        
-        System.out.println(req.getPart("userfile1").getContentType().split("/")[1]);
-        
-        InputStream filecontent = null;
-        OutputStream out = null;
-        
-        out = new FileOutputStream(new File("./src/main/webapp/" + File.separator
-                + req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1]));
-        
-        
-        filecontent = filePart.getInputStream();
-        
-        
-        System.out.println((int)filePart.getSize());
-        
-        
-        int read = 0;
-        final byte[] bytes = new byte[(int) filePart.getSize()];
 
-        while ((read = filecontent.read(bytes)) != -1) {
-            out.write(bytes, 0, read);
-        }
-        out.close();
-        filecontent.close();
-        String name =  req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1];
-        try{
-        	PreparedStatement ps = con.prepareStatement("INSERT INTO pilt(nimi,fail) VALUES (?,?);");
-            ps.setString(1, name);
-            ps.setBytes(2, bytes);
-            ps.execute();
-            ps.close();
-            
-            String pilt = "/"+req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1];
-        	submit(head, timestamp, text, userid, tags,pilt);
-            
-            con.close();
-        }catch (SQLException e) {
+
+
+		Part filePart = req.getPart("userfile1");
+		System.out.println(req.getParameter("image_name"));
+
+		System.out.println(req.getPart("userfile1").getContentType().split("/")[1]);
+
+		InputStream filecontent = null;
+		OutputStream out = null;
+
+		out = new FileOutputStream(new File("./src/main/webapp/" + File.separator
+				+ req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1]));
+
+
+		filecontent = filePart.getInputStream();
+
+
+		System.out.println((int)filePart.getSize());
+
+
+		int read = 0;
+		final byte[] bytes = new byte[(int) filePart.getSize()];
+
+		while ((read = filecontent.read(bytes)) != -1) {
+			out.write(bytes, 0, read);
+		}
+		out.close();
+		filecontent.close();
+		String name =  req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1];
+		try{
+			PreparedStatement ps = con.prepareStatement("INSERT INTO pilt(nimi,fail) VALUES (?,?);");
+			ps.setString(1, name);
+			ps.setBytes(2, bytes);
+			ps.execute();
+			ps.close();
+
+			String pilt = "/"+req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1];
+			submit(head, timestamp, text, userid, tags,pilt);
+
+			con.close();
+		}catch (SQLException e) {
 			e.printStackTrace();
 			try {
 				con.close();
@@ -168,14 +174,12 @@ public class ArticleWriteServlet extends HttpServlet {
 				e1.printStackTrace();
 			}
 		}
-        
+
 	}
-	
-    protected void doPost( HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException
-    {
-        doGet( req, resp );
-    }
-    
-    
- 
+
+	protected void doPost( HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException
+	{
+		doGet( req, resp );
+	}
+
 }

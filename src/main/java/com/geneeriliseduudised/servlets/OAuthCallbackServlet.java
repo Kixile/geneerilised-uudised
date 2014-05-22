@@ -1,6 +1,13 @@
 package com.geneeriliseduudised.servlets;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +32,13 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import com.geneeriliseduudised.commentdata.Comment;
 import com.google.common.collect.ImmutableMap;
 
 @WebServlet(name = "OAuthCallbackServlet", urlPatterns = { "/oauth2callback" })
 public class OAuthCallbackServlet extends HttpServlet {
+
+	Connection con = null;
 
 	/**
 	 * Handles the token request callback from Google, inited by
@@ -52,14 +62,14 @@ public class OAuthCallbackServlet extends HttpServlet {
 		String body = post(
 				"https://accounts.google.com/o/oauth2/token",
 				ImmutableMap
-						.<String, String> builder()
-						.put("code", code)
-						.put("client_id", OAuthSigninServlet.OAUTH_CLIENT_ID)
-						.put("client_secret",
-								OAuthSigninServlet.OAUTH_CLIENT_SECRET)
+				.<String, String> builder()
+				.put("code", code)
+				.put("client_id", OAuthSigninServlet.OAUTH_CLIENT_ID)
+				.put("client_secret",
+						OAuthSigninServlet.OAUTH_CLIENT_SECRET)
 						.put("redirect_uri",
 								OAuthSigninServlet.OAUTH_REDIRECT_URI)
-						.put("grant_type", "authorization_code").build());
+								.put("grant_type", "authorization_code").build());
 
 		JSONObject jsonObject = null;
 
@@ -73,7 +83,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 		// use token to get user info from Google
 		String userDataString = get(new StringBuilder(
 				"https://www.googleapis.com/oauth2/v2/userinfo?access_token=")
-				.append(accessToken).toString());
+		.append(accessToken).toString());
 
 		JSONObject userDataJsonObject = new JSONObject(userDataString);
 		String userId = userDataJsonObject.getString("email");
@@ -128,5 +138,66 @@ public class OAuthCallbackServlet extends HttpServlet {
 		}
 
 		return body;
+	}
+
+	public void connect() {
+		try {
+			con = DriverManager
+					.getConnection("jdbc:postgresql://ec2-54-246-101-204.eu-west-1.compute.amazonaws.com:5432/dc09hcdktafoks?user=ahheansgceypsj&password=gVrdggxl82Anv12TSTDqxlrDaG&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void sendSession(String email, String id) {
+		connect();
+		
+		String sql = "SELECT kasutaja_id FROM kasutaja WHERE email = '"+ email +"';";
+		Statement stmt = null;
+		ResultSet rs = null;
+		int kas_id = 0;
+		
+		try {
+			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
+		} catch (SQLException e3) {
+
+		}
+		
+		try {
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				kas_id = rs.getInt("kasutaja_id");
+			}
+			rs.close();
+			stmt.close();
+			} catch (SQLException e3) {
+				try {
+					rs.close();
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+		}
+		
+		
+		try {
+			PreparedStatement stmt1 = con
+					.prepareStatement("INSERT INTO sessioonid(kasutaja_id, 	sessioon_id) VALUES(?, ?);");
+			stmt1.setInt(1, kas_id);
+			stmt1.setString(2, id);
+			stmt1.executeUpdate();
+			stmt1.close();
+			}
+		catch (SQLException e) {
+			try {
+				con.close();
+			} catch (SQLException e1) {
+			}
+		e.printStackTrace();
+	}
+		
 	}
 }
