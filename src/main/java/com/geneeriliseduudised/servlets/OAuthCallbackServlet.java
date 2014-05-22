@@ -184,7 +184,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 						.prepareStatement("INSERT INTO kasutaja(kasutajanimi, email, autor) VALUES(?, ?, ?);");
 				stmt1.setString(1, email);
 				stmt1.setString(2, email);
-				stmt1.setBoolean(3, true);
+				stmt1.setBoolean(3, false);
 				stmt1.executeUpdate();
 				stmt1.close();
 			}
