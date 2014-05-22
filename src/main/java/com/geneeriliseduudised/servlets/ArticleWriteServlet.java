@@ -158,7 +158,7 @@ public class ArticleWriteServlet extends HttpServlet {
 			
 			BufferedImage imBuff = ImageIO.read(filecontent);
 			
-			BufferedImage thumbnail = Scalr.resize(imBuff, 200);
+			BufferedImage thumbnail = Scalr.resize(imBuff, 500);
 
 			//System.out.println((int)filePart.getSize());
 			
