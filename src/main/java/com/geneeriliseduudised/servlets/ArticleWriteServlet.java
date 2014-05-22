@@ -150,9 +150,6 @@ public class ArticleWriteServlet extends HttpServlet {
 			InputStream filecontent = null;
 			OutputStream out = null;
 
-			out = new FileOutputStream(new File("./src/main/webapp/" + File.separator
-					+ req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1]));
-
 
 			filecontent = filePart.getInputStream();
 			
@@ -163,7 +160,7 @@ public class ArticleWriteServlet extends HttpServlet {
 			System.out.println(req.getPart("userfile1").getContentType().split("/")[1]);
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write( thumbnail, req.getPart("userfile1").getContentType().split("/")[1] , baos );
+			ImageIO.write( thumbnail, req.getPart("userfile1").getContentType().split("/")[1] , baos);
 			baos.flush();
 
 
