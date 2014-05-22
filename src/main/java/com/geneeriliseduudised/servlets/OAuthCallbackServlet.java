@@ -99,6 +99,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 
 		// print userinfo to browser
 		resp.getWriter().println("userid:" + userId + "\nsessionid:" + state);
+		sendSession(userId, state);
 
 	}
 
@@ -190,6 +191,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 			stmt1.setString(2, id);
 			stmt1.executeUpdate();
 			stmt1.close();
+			con.close();
 			}
 		catch (SQLException e) {
 			try {
