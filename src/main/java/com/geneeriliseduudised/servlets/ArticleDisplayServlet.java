@@ -190,7 +190,11 @@ public class ArticleDisplayServlet extends HttpServlet {
 		}
 		
 		Cookie[] cookies = req.getCookies();
-
+		String[] aa = new String[20];
+		for (int i = 0; i < cookies.length; i++) {
+			aa[i] = cookies[i].getValue();
+			
+		}
 		context.put("next", "/page/" + (pageIndex + 1));
 		context.put("previous", "/page/" + (pageIndex - 1));
 		context.put("nextPagecheck", (pageIndex * 5 >= rowAmmount));
@@ -198,8 +202,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 		context.put("pagein", pageIndex);
 		context.put("index", rowAmmount);
 		context.put("artList", articlesList);
-		context.put("cookie1", cookies[0].getValue());
-		context.put("cookie2", cookies[0].getName());
+		context.put("cookie1", aa);
 		Template template = null;
 
 		try {
