@@ -125,4 +125,80 @@ public class AuthorityHandler {
 			e.printStackTrace();
 		}
 	}
+
+	public String getName(HttpServletRequest req){
+		String id = getSessionId(req);
+		Statement stmt = null;
+		
+		connect();
+		
+		try {
+			String query = "SELECT kasutajanimi FROM kasutaja_sessioon WHERE sessioon_id = '"+ id +"';";
+			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				return rs.getString("kasutajanimi");
+			}
+			stmt.close();
+			rs.close();
+			con.close();
+		} catch (SQLException e3) {
+			e3.printStackTrace();
+			try {
+				stmt.close();
+				rs.close();
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	public String getSessionId(HttpServletRequest req){
+		Statement stmt = null;
+		Cookie[] cookies = req.getCookies();
+		String[] aa = new String[2];
+		try{
+			for (int i = 0; i < cookies.length; i++) {
+				aa[i] = cookies[i].getValue();
+			}
+		}
+		catch (Exception e){
+			return null;
+		}
+		return aa[1];
+	}
+	
+	public int getUserId(HttpServletRequest req){
+		String id = getSessionId(req);
+		Statement stmt = null;
+
+		connect();
+		try {
+			String query = "SELECT kasutaja.kasutaja_id FROM kasutaja, sessioonid where sessioonid.sessioon_id = '"+ id +"' "
+					+ "AND sessioonid.kasutaja_id = kasutaja.kasutaja_id;";
+			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				return rs.getInt("kasutaja_id");
+			}
+			stmt.close();
+			rs.close();
+			con.close();
+		} catch (SQLException e3) {
+			e3.printStackTrace();
+			try {
+				stmt.close();
+				rs.close();
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
+
 }

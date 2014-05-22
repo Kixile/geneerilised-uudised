@@ -34,7 +34,7 @@ public class CommentController extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		gson = new Gson();
-		datastore = new MemoryCommentData(1);
+		datastore = new MemoryCommentData(0);
 	}
 
 	@Override
@@ -48,9 +48,14 @@ public class CommentController extends HttpServlet {
 		StringBuffer string = req.getRequestURL();
 		String str = string.toString();
 		String[] parts = str.split("/");
-
+		
+		try{
 		datastore = new MemoryCommentData(Integer.parseInt(parts[4]));
-
+		}
+		catch (Exception e){
+			datastore = new MemoryCommentData(0);
+		}
+		
 		String idString = req.getParameter("id");
 
 		if (idString != null) {
@@ -79,7 +84,7 @@ public class CommentController extends HttpServlet {
 				ReCaptchaResponse response = captcha.checkAnswer(req.getRemoteAddr(), b, a);
 
 				if (response.isValid()) {
-					datastore.addComment(comment);
+					datastore.addComment(comment,req);
 				}
 				else{
 					System.out.println("FuckYou");

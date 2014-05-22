@@ -53,6 +53,7 @@
 											<div id="bids"></div>
 										</ol>
 									<div id="mycomment" class="hidden">
+									#if ($isAuth == true)
 									<p>
 										<h3>Alias</h3>
 										<input id="alias" type="text"></input>
@@ -61,8 +62,13 @@
 										<h3>Comment</h3>
 										<textarea id="comment" type="text" ></textarea>
 									</p>
+									
 									<div id="recaptcha_div"></div>
+									
 									<p><button id="makepost">Post comment</button></p>
+									#else
+									<h2><a href="/login">Login to comment...</a></h2>
+									#end
 									</div>
 								</div>
 							</div>

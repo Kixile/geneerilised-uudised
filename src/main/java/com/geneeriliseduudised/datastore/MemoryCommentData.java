@@ -3,6 +3,7 @@ package com.geneeriliseduudised.datastore;
 import com.geneeriliseduudised.commentdata.ArticleComments;
 import com.geneeriliseduudised.commentdata.Comment;
 import com.geneeriliseduudised.servlets.Article;
+import com.geneeriliseduudised.servlets.AuthorityHandler;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,6 +17,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 public class MemoryCommentData implements CommentDataProvider {
 
@@ -71,9 +74,13 @@ public class MemoryCommentData implements CommentDataProvider {
 		return new ArrayList<ArticleComments>(items.values());
 	}
 
-	public void addComment(Comment comment) {
+	public void addComment(Comment comment, HttpServletRequest req) {
 		items.get(comment.itemId).bids.add(comment);
 		init();
+		
+		AuthorityHandler auth = new AuthorityHandler();
+
+		int userID = auth.getUserId(req);
 		
 		try{
 		String string = comment.getArticleURL();
