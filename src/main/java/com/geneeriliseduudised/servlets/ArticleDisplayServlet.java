@@ -125,7 +125,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
 		} catch (SQLException e3) {
-
+			System.out.println("hmmm...");
 		}
 
 		String[] uriSplit = uri.split("/");
