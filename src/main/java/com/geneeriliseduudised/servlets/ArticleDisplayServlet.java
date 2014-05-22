@@ -189,12 +189,15 @@ public class ArticleDisplayServlet extends HttpServlet {
 			articlesList = articlesList.subList(0, 1);
 		}
 		
-		String state = null;
+		String state = "";
 		try {
 			state = req.getSession().getAttribute("state").toString();
 		} finally {
 		}
 		Cookie sessionIdCookie = new Cookie("SESSIONID", state);
+		if (state == null){
+			state = "nullpointer";
+		}
 
 		context.put("next", "/page/" + (pageIndex + 1));
 		context.put("previous", "/page/" + (pageIndex - 1));
