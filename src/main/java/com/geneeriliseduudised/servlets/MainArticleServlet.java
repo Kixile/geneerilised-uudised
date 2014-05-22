@@ -157,9 +157,11 @@ public class MainArticleServlet extends HttpServlet {
 							rs.getString("artikkel_id"), rs.getString("pilt"));
 				}
 			} catch (SQLException e1) {
-				// e1.printStackTrace();
+				close();
 			}
-
+			
+			close();
+			
 			VelocityContext context = new VelocityContext();
 			
 			AuthorityHandler auth = new AuthorityHandler();
@@ -200,8 +202,7 @@ public class MainArticleServlet extends HttpServlet {
 			writer.println(sw);
 		}
 
-		else
-			resp.sendRedirect("#");
+		else resp.sendRedirect("#");
 		
 		close();
 	}

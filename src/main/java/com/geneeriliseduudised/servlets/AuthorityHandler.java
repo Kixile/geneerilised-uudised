@@ -27,7 +27,7 @@ public class AuthorityHandler {
 		}
 	}
 
-	public boolean isLegit(HttpServletRequest req){
+	public boolean isLegit(HttpServletRequest req){ //kaput with dB
 		Statement stmt = null;
 		Cookie[] cookies = req.getCookies();
 		String[] aa = new String[2];
@@ -39,7 +39,7 @@ public class AuthorityHandler {
 		catch (Exception e){
 			return false;
 		}
-
+		close();
 		connect();
 		
 		try {
@@ -61,9 +61,9 @@ public class AuthorityHandler {
 		return false;
 	}
 
-	public boolean isEditor(){
+	public boolean isEditor(){ //kaput with DB
 		Statement stmt = null;
-
+		close();
 		connect();
 		try {
 			String query = "SELECT * FROM kasutaja WHERE autor = 'true' and  kasutaja_id = '" + kas_id + "';";
@@ -73,8 +73,7 @@ public class AuthorityHandler {
 				return true;
 			}
 			stmt.close();
-			rs.close();
-			close();;
+			close();
 		} catch (SQLException e3) {
 			close();
 		}
@@ -85,6 +84,7 @@ public class AuthorityHandler {
 	}
 
 	public void logout(HttpServletRequest req){
+		close();
 		connect();
 
 		Statement stmt = null;
@@ -115,7 +115,7 @@ public class AuthorityHandler {
 	public String getName(HttpServletRequest req){
 		String id = getSessionId(req);
 		Statement stmt = null;
-
+		close();
 		connect();
 
 		try {
@@ -155,7 +155,7 @@ public class AuthorityHandler {
 	public int getUserId(HttpServletRequest req){
 		String id = getSessionId(req);
 		Statement stmt = null;
-
+		close();
 		connect();
 		
 		try {
