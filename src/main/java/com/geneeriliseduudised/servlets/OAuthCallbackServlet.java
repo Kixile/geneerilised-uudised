@@ -161,27 +161,22 @@ public class OAuthCallbackServlet extends HttpServlet {
 		try {
 			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
-		} catch (SQLException e3) {
-
-		}
-		
-		try {
 			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				kas_id = rs.getInt("kasutaja_id");
 			}
 			rs.close();
 			stmt.close();
-			} catch (SQLException e3) {
-				try {
-					rs.close();
-					stmt.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
+		} catch (SQLException e3) {
+			try {
+				rs.close();
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+
 		
 		if(kas_id == -1){
 			try {
@@ -199,7 +194,26 @@ public class OAuthCallbackServlet extends HttpServlet {
 				} catch (SQLException e1) {
 				}
 			e.printStackTrace();
-		}
+			}
+			
+			try {
+				stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+						ResultSet.CONCUR_UPDATABLE);
+				rs = stmt.executeQuery(sql);
+				while (rs.next()) {
+					kas_id = rs.getInt("kasutaja_id");
+				}
+				rs.close();
+				stmt.close();
+			} catch (SQLException e3) {
+				try {
+					rs.close();
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		
