@@ -154,14 +154,18 @@ public class OAuthCallbackServlet extends HttpServlet {
 		connect();
 
 		ResultSet rs = null;
+		Statement stmt = null;
 		int kas_id = -1;
 
 		try {
-			rs = sqlQuery("SELECT kasutaja_id FROM kasutaja WHERE email = '"+ email +"';");
+			String query = "SELECT kasutaja_id FROM kasutaja WHERE email = '"+ email +"';";
+			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				kas_id = rs.getInt("kasutaja_id");
 			}
 			rs.close();
+			stmt.close();
 		} catch (SQLException e3) {
 			try {
 				rs.close();
@@ -191,11 +195,14 @@ public class OAuthCallbackServlet extends HttpServlet {
 			}
 
 			try {
-				rs = sqlQuery("SELECT kasutaja_id FROM kasutaja WHERE email = '"+ email +"';");
+				String query = "SELECT kasutaja_id FROM kasutaja WHERE email = '"+ email +"';";
+				stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+				rs = stmt.executeQuery(query);
 				while (rs.next()) {
 					kas_id = rs.getInt("kasutaja_id");
 				}
 				rs.close();
+				stmt.close();
 			} catch (SQLException e3) {
 				try {
 					rs.close();
@@ -209,16 +216,9 @@ public class OAuthCallbackServlet extends HttpServlet {
 
 		try {
 
-			try {
-				rs = sqlQuery("SELECT * FROM kasutaja WHERE kasutaja_id = '"+ kas_id +"';");
-				rs.close();
-			} catch (SQLException e3) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-				}
-			}
-			
+			rs = sqlQuery("SELECT * FROM kasutaja WHERE kasutaja_id = '"+ kas_id +"';");
+			rs.close();
+
 			if(rs == null){
 				PreparedStatement stmt1 = con.prepareStatement("INSERT INTO sessioonid(kasutaja_id, sessioon_id) VALUES(?, ?);");
 				stmt1.setInt(1, kas_id);
@@ -250,8 +250,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 		ResultSet rs = null;
 
 		try {
-			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_UPDATABLE);
+			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 			rs = stmt.executeQuery(query);
 			rs.close();
 			stmt.close();
