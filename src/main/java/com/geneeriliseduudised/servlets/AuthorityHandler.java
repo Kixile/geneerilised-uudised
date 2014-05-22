@@ -17,7 +17,7 @@ public class AuthorityHandler {
 
 	public AuthorityHandler() {
 	}
-	
+
 	public void connect() {
 		try {
 			con = DriverManager
@@ -26,7 +26,7 @@ public class AuthorityHandler {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public boolean isLegit(HttpServletRequest req){
 		Statement stmt = null;
 		Cookie[] cookies = req.getCookies();
@@ -34,7 +34,7 @@ public class AuthorityHandler {
 		for (int i = 0; i < cookies.length; i++) {
 			aa[i] = cookies[i].getValue();
 		}
-		
+
 		connect();
 		try {
 			String query = "SELECT kasutaja_id FROM sessioonid WHERE sessioon_id = '"+ aa[1] +"';";
@@ -60,10 +60,10 @@ public class AuthorityHandler {
 		}
 		return false;
 	}
-	
+
 	public boolean isEditor(){
 		Statement stmt = null;
-		
+
 		connect();
 		try {
 			String query = "SELECT * FROM kasutaja WHERE autor = 'true' and  kasutaja_id = '" + kas_id + "';";
@@ -88,5 +88,32 @@ public class AuthorityHandler {
 		}
 		return false;
 	}
-	
+
+	public void logout(HttpServletRequest req){
+		connect();
+		
+		Statement stmt = null;
+		Cookie[] cookies = req.getCookies();
+		String[] aa = new String[2];
+		for (int i = 0; i < cookies.length; i++) {
+			aa[i] = cookies[i].getValue();
+		}
+
+		try {
+			PreparedStatement stmt1 = con.prepareStatement("UPDATE sessioonid SET sessioon_id = ?  WHERE  sessioon_id = ?;");
+			stmt1.setString(1, "");
+			stmt1.setString(2, aa[2]);
+			stmt1.executeUpdate();
+			stmt1.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

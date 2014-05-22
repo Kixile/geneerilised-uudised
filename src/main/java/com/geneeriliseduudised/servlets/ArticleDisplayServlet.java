@@ -191,9 +191,10 @@ public class ArticleDisplayServlet extends HttpServlet {
 		
 		Cookie[] cookies = req.getCookies();
 		String[] aa = new String[20];
+		
+		
 		for (int i = 0; i < cookies.length; i++) {
 			aa[i] = cookies[i].getValue();
-			
 		}
 		context.put("next", "/page/" + (pageIndex + 1));
 		context.put("previous", "/page/" + (pageIndex - 1));
