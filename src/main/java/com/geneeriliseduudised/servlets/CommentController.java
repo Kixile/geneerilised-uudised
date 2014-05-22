@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.tanesha.recaptcha.ReCaptcha;
+import net.tanesha.recaptcha.ReCaptchaFactory;
+import net.tanesha.recaptcha.ReCaptchaResponse;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -60,18 +64,30 @@ public class CommentController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			Comment comment = gson.fromJson(req.getReader(), Comment.class);
+			Comment comment = gson.fromJson(req.getParameter("json_1"), Comment.class);
 			
 			
 			String string = comment.getArticleURL();
 			String[] parts = string.split("/");
-			System.out.println(parts[4]);
+			System.out.println(req.getParameter("json_3"));
+			String a = req.getParameter("json_2").split(":")[1].replaceAll("\"","");
+			String b = req.getParameter("json_3").split(":")[1].replaceAll("\"","");
+			System.out.println(a+ "   "+ b);
+			
+			try{
+			ReCaptcha captcha = ReCaptchaFactory.newReCaptcha("6Le37vMSAAAAAKoR2M1Bbg2RTCb-0X5rBdRaHHsk", "6Le37vMSAAAAAKP0O50B7ReJnVZX9v0QwqhQ2pNp", false);
+			ReCaptchaResponse response = captcha.checkAnswer(req.getRemoteAddr(), b, a);
 
-			
-			datastore.addComment(comment); // bid should be validated carefully
-			
-			System.out.println(comment.getArticleURL());
-			
+			if (response.isValid()) {
+				datastore.addComment(comment);
+			}
+			else{
+				System.out.println("FuckYou");
+			}
+			}
+			catch(Exception e){
+				
+			}
 			
 			
 			// echo the same object back for convenience and debugging

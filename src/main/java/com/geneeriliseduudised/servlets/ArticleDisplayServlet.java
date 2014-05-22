@@ -155,7 +155,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 				articlesList.add(new Article(rs.getString("pealkiri"), rs
 						.getString("sisu"), "helo", rs.getString("aeg"), rs
 						.getString("kasutaja_id"), rs.getString("lyhisisu"), rs
-						.getString("artikkel_id"), "omg"));
+						.getString("artikkel_id"), rs.getString("pilt")));
 				rowAmmount++;
 			}
 			con.close();

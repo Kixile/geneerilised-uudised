@@ -98,5 +98,7 @@ comments.CommentBuilder.prototype.buildBid = function(item, articleURL) {
         bidder: this.aliasBox.val(),
         amount: this.commentBox.val(),
 		articleURL: document.URL
+		//captchaPart1: document.URL;
+		//captchaPart2: this.recaptcha_response_field.val();
     };
 };

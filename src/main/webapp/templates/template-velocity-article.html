@@ -5,6 +5,15 @@
 	<script src="/assets/jquery-2.1.0.js"></script>
 	<script src="/assets/comments.js"></script>
 	<script src="/assets/app.js"></script>
+	<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+	<script type="text/javascript">
+         function showRecaptcha(element) {
+           Recaptcha.create("6Le37vMSAAAAAKoR2M1Bbg2RTCb-0X5rBdRaHHsk", element, {
+             theme: "red",
+             callback: Recaptcha.focus_response_field});
+         }
+      </script>
+
 
 </head>
 
@@ -20,11 +29,11 @@
 				<div class="content">
 				
 					<div id="$art.header.replace(" ", "_")" class="block"> <!-- article example -->
-						<div class="post-inner">
+						<div class="post-inner">								
 							<h2>$art.header</h2>
 							<div class="entry">
 								<p class="info">By $art.username on $art.date</p> <!-- here is submition info-->
-								<p><img alt="" src="/images/placeholder2.png" title="placeholder"></p><!-- illustrative image -->
+								<p><img alt="" src="$art.image" title="placeholder"></p><!-- illustrative image -->
 								<p><!-- article text -->
 									$art.text
 								</p>
@@ -38,7 +47,7 @@
 							</p>	
 							<div>				
 								<h1>Comments: </h1>
-								<ul id="items"></ul>
+								<ul id="items" onclick="showRecaptcha('recaptcha_div');"></ul>
 									<div id="viewing">
 										<ol class="commentlist">
 											<div id="bids"></div>
@@ -51,7 +60,8 @@
 									<p>
 										<h3>Comment</h3>
 										<textarea id="comment" type="text" ></textarea>
-										</p>
+									</p>
+									<div id="recaptcha_div"></div>
 									<p><button id="makepost">Post comment</button></p>
 									</div>
 								</div>

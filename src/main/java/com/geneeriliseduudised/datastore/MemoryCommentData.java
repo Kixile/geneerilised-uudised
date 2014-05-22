@@ -49,7 +49,7 @@ public class MemoryCommentData implements CommentDataProvider {
 		
 		try {
 			while (rs.next()) {
-				firstArticleComment.add(new Comment(1,1, rs.getString("kasutaja_id"),rs.getString("sisu") , ""));
+				firstArticleComment.add(new Comment(1,1, rs.getString("kasutaja_id"),rs.getString("sisu") , "","",""));
 				commentCounter ++;
 			}
 			con.close();

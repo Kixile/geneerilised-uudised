@@ -156,7 +156,7 @@ public class MainArticleServlet extends HttpServlet {
 							rs.getString("sisu"), "helo", rs.getString("aeg"),
 							rs.getString("kasutajanimi"),
 							rs.getString("lyhisisu"),
-							rs.getString("artikkel_id"), "omg");
+							rs.getString("artikkel_id"), rs.getString("pilt"));
 				}
 			} catch (SQLException e1) {
 				// e1.printStackTrace();

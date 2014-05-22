@@ -48,14 +48,15 @@ public class ArticleWriteServlet extends HttpServlet {
 	}
 
 	public void submit(String header, Timestamp timestamp, String text,
-			int userid, String[] tags) {
+			int userid, String[] tags, String pilt) {
 		try {
 			PreparedStatement stmt1 = con
-					.prepareStatement("INSERT INTO artikkel(pealkiri, aeg, sisu, kasutaja_id) VALUES(?, ?, ?, ?);");
+					.prepareStatement("INSERT INTO artikkel(pealkiri, aeg, sisu, kasutaja_id,pilt) VALUES(?, ?, ?, ?, ?);");
 			stmt1.setString(1, header);
 			stmt1.setTimestamp(2, timestamp);
 			stmt1.setString(3, text);
 			stmt1.setInt(4, userid);
+			stmt1.setString(5, pilt);
 			stmt1.execute();
 			stmt1.close();
 
@@ -105,8 +106,20 @@ public class ArticleWriteServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		String head = req.getParameter("header");
+		String text = req.getParameter("text-input");
+		String tag = req.getParameter("tags-input");
+		String[] tags = tag.split(",");
+		// SimpleDateFormat formaat = new
+		// SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date today = new Date();
+		Timestamp timestamp = new Timestamp(today.getTime());
+		int userid = 1;
 
 		connect();
+		
+		
 		
         Part filePart = req.getPart("userfile1");
         System.out.println(req.getParameter("image_name"));
@@ -127,7 +140,7 @@ public class ArticleWriteServlet extends HttpServlet {
         
         
         int read = 0;
-        final byte[] bytes = new byte[1024];
+        final byte[] bytes = new byte[(int) filePart.getSize()];
 
         while ((read = filecontent.read(bytes)) != -1) {
             out.write(bytes, 0, read);
@@ -141,6 +154,9 @@ public class ArticleWriteServlet extends HttpServlet {
             ps.setBytes(2, bytes);
             ps.execute();
             ps.close();
+            
+            String pilt = "/"+req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1];
+        	submit(head, timestamp, text, userid, tags,pilt);
             
             con.close();
         }catch (SQLException e) {

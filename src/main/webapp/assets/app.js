@@ -20,11 +20,12 @@ var vldemo2 = {
 
     makeBid: function(view, CommentBuilder) {
         var item = view.selectedItem;
-		var url = document.URL;
         var bid = CommentBuilder.buildBid(item);
+		var one = {"one" : document.getElementById('recaptcha_response_field').value};
+		var two = {"two" : document.getElementById('recaptcha_challenge_field').value};
         $.ajax('/comments/', {
             type: 'POST',
-            data: JSON.stringify(bid), // pack the bid object into json string
+            data: {json_1:JSON.stringify(bid), json_2:JSON.stringify(one), json_3:JSON.stringify(two)}, // pack the bid object into json string
             success: function(savedBid) {
                 // server returns the bid with its new generated id
                 // syncing js&dom is a pain. angularjs may help
