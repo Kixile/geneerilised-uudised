@@ -202,6 +202,8 @@ public class ArticleDisplayServlet extends HttpServlet {
 			}
 			stmt.close();
 			stmt2.close();
+			rs.close();
+			rs2.close();
 			con.close();
 		} catch (SQLException e1) {
 			e1.printStackTrace();

@@ -82,8 +82,15 @@ public class AuthorityHandler {
 				e.printStackTrace();
 			}
 			close();
+			
 		}
-
+		
+		try {
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		close();
 
 		return false;
