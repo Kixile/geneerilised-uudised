@@ -116,6 +116,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		// for buttons and better article scrolling
+		close();
 		String uri = req.getRequestURI() ;
 		init();
 		connect();
