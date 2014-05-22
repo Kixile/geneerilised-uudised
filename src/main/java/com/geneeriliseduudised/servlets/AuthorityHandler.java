@@ -102,7 +102,7 @@ public class AuthorityHandler {
 		try {
 			PreparedStatement stmt1 = con.prepareStatement("UPDATE sessioonid SET sessioon_id = ?  WHERE  sessioon_id = ?;");
 			stmt1.setString(1, "");
-			stmt1.setString(2, aa[2]);
+			stmt1.setString(2, aa[1]);
 			stmt1.executeUpdate();
 			stmt1.close();
 		} catch (SQLException e) {
