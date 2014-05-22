@@ -199,11 +199,6 @@ public class AuthorityHandler {
 			}
 			con = null;
 		}
-		
-		try {
-			con.close();
-		} catch (SQLException ex) { /* ignore */
-		}
 	}
 
 }
