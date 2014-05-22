@@ -41,6 +41,7 @@ public class AuthorityHandler {
 		}
 
 		connect();
+		
 		try {
 			String query = "SELECT kasutaja_id FROM sessioonid WHERE sessioon_id = '"+ aa[1] +"';";
 			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
@@ -50,26 +51,12 @@ public class AuthorityHandler {
 				return true;
 			}
 			stmt.close();
-			rs.close();
-			con.close();
+			close();
 		} catch (SQLException e3) {
-			e3.printStackTrace();
-			try {
-				stmt.close();
-				rs.close();
-				con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		close();
 
 		return false;
 	}
@@ -87,25 +74,12 @@ public class AuthorityHandler {
 			}
 			stmt.close();
 			rs.close();
-			con.close();
+			close();;
 		} catch (SQLException e3) {
-			e3.printStackTrace();
-			try {
-				stmt.close();
-				rs.close();
-				con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		close();
 
 		return false;
 	}
@@ -130,17 +104,12 @@ public class AuthorityHandler {
 			stmt1.setString(2, aa[1]);
 			stmt1.executeUpdate();
 			stmt1.close();
+			close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			close();
 		}
 		
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		close();
 	}
 
 	public String getName(HttpServletRequest req){
@@ -158,26 +127,12 @@ public class AuthorityHandler {
 			}
 			stmt.close();
 			rs.close();
-			con.close();
+			close();
 		} catch (Exception e3) {
-			e3.printStackTrace();
-			try {
-				con.close();
-				stmt.close();
-				rs.close();
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		close();
 		
 		return null;
 	}
@@ -213,27 +168,31 @@ public class AuthorityHandler {
 			}
 			stmt.close();
 			rs.close();
-			con.close();
+			close();
 		} catch (Exception e3) {
-			e3.printStackTrace();
-			try {
-				con.close();
-				stmt.close();
-				rs.close();
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close();
 		}
 		
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		close();
 		return 0;
+	}
+
+	
+	public void close() {
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException ex) { /* ignore */
+			}
+			rs = null;
+		}
+		if (con != null) {
+			try {
+				con.close();
+			} catch (SQLException ex) { /* ignore */
+			}
+			con = null;
+		}
 	}
 
 }

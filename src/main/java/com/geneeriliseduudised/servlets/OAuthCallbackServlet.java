@@ -39,6 +39,7 @@ import com.google.common.collect.ImmutableMap;
 public class OAuthCallbackServlet extends HttpServlet {
 
 	Connection con = null;
+	ResultSet rs = null;
 
 	/**
 	 * Handles the token request callback from Google, inited by
@@ -155,7 +156,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 	public void sendSession(String email, String id) {
 		connect();
 
-		ResultSet rs = null;
+		
 		Statement stmt = null;
 		int kas_id = -1;
 
@@ -169,13 +170,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 			rs.close();
 			stmt.close();
 		} catch (SQLException e3) {
-			try {
-				rs.close();
-				con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			close();
 			
 		}
 
@@ -191,11 +186,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 				stmt1.close();
 			}
 			catch (SQLException e) {
-				try {
-					con.close();
-				} catch (SQLException e1) {
-				}
-				e.printStackTrace();
+				close();
 			}
 
 			try {
@@ -208,13 +199,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 				rs.close();
 				stmt.close();
 			} catch (SQLException e3) {
-				try {
-					rs.close();
-					con.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				close();
 			}
 		}
 
@@ -231,12 +216,13 @@ public class OAuthCallbackServlet extends HttpServlet {
 					check = true;
 					break;
 				}
+				rs.close();
 				stmt.close();
 			} catch (SQLException e3) {
 				e3.printStackTrace();
 				try {
-					con.close();
-					rs.close();
+					close();
+					stmt.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -245,7 +231,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 			
 
 			if(!check){
-				rs.close();
+				
 				PreparedStatement stmt1 = con.prepareStatement("INSERT INTO sessioonid(kasutaja_id, sessioon_id) VALUES(?, ?);");
 				stmt1.setInt(1, kas_id);
 				stmt1.setString(2, id);
@@ -259,24 +245,30 @@ public class OAuthCallbackServlet extends HttpServlet {
 				stmt1.executeUpdate();
 				stmt1.close();
 			}
-			con.close();
+			close();
 		}
 		catch (SQLException e) {
-			try {
-				con.close();
-			} catch (SQLException e1) {
-			}
-			e.printStackTrace();
+			close();
 		}
 		
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		close();
 	}
 	
-	
+	public void close() {
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException ex) { /* ignore */
+			}
+			rs = null;
+		}
+		if (con != null) {
+			try {
+				con.close();
+			} catch (SQLException ex) { /* ignore */
+			}
+			con = null;
+		}
+	}
 
 }
