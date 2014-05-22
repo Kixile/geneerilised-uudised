@@ -39,6 +39,13 @@ public class ArticleWritePageServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		AuthorityHandler auth = new AuthorityHandler();
+
+		boolean isauth = auth.isLegit(req);
+		boolean isedit = auth.isEditor();
+
+		if(isauth && isedit){
 
 		init();
 		Template template = null;
@@ -68,6 +75,11 @@ public class ArticleWritePageServlet extends HttpServlet {
 		resp.setCharacterEncoding("UTF-8");
 		PrintWriter writer = resp.getWriter();
 		writer.println(sw);
+		
+		}
+		else{
+			resp.sendRedirect("/");
+		}
 
 	}
 }

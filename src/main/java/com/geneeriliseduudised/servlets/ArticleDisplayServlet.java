@@ -188,14 +188,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 		} else {
 			articlesList = articlesList.subList(0, 1);
 		}
-		
-		Cookie[] cookies = req.getCookies();
-		String[] aa = new String[20];
-		
-		
-		for (int i = 0; i < cookies.length; i++) {
-			aa[i] = cookies[i].getValue();
-		}
+
 		context.put("next", "/page/" + (pageIndex + 1));
 		context.put("previous", "/page/" + (pageIndex - 1));
 		context.put("nextPagecheck", (pageIndex * 5 >= rowAmmount));
