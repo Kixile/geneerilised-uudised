@@ -216,11 +216,16 @@ public class OAuthCallbackServlet extends HttpServlet {
 
 		try {
 			
+			boolean check = false;
+			
 			try {
-				rs = null;
 				String query = "SELECT * FROM sessioonid WHERE kasutaja_id = '"+ kas_id +"';";
 				stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 				rs = stmt.executeQuery(query);
+				while (rs.next()) {
+					check = true;
+					break;
+				}
 				stmt.close();
 			} catch (SQLException e3) {
 				e3.printStackTrace();
@@ -233,7 +238,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 			}
 			
 
-			if(rs == null){
+			if(!check){
 				rs.close();
 				PreparedStatement stmt1 = con.prepareStatement("INSERT INTO sessioonid(kasutaja_id, sessioon_id) VALUES(?, ?);");
 				stmt1.setInt(1, kas_id);
@@ -258,29 +263,6 @@ public class OAuthCallbackServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-	}
-
-	public ResultSet sqlQuery(String query) {
-		Statement stmt = null;
-		ResultSet rs = null;
-
-		try {
-			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-			rs = stmt.executeQuery(query);
-			rs.close();
-			stmt.close();
-			return rs;
-		} catch (SQLException e3) {
-			try {
-				e3.printStackTrace();
-				rs.close();
-				stmt.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return rs;
 	}
 
 }
