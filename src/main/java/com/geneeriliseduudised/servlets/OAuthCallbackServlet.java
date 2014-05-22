@@ -100,6 +100,8 @@ public class OAuthCallbackServlet extends HttpServlet {
 		// print userinfo to browser
 		resp.getWriter().println("userid:" + userId + "\nsessionid:" + state);
 		sendSession(userId, state);
+		
+		resp.sendRedirect("/");
 
 	}
 
