@@ -59,11 +59,7 @@ public class TagSearchServlet extends HttpServlet{
 		else{
 			System.out.println(uriChop[4]);
 			tag = uriChop[4];
-			
-			PreparedStatement stmt1 = con
-					.prepareStatement("INSERT INTO artikkel(pealkiri, aeg, sisu, kasutaja_id,pilt) VALUES(?, ?, ?, ?, ?);");
-			stmt1.execute();
-			stmt1.close();
+
 		}
 	}
 }
