@@ -200,6 +200,8 @@ public class ArticleDisplayServlet extends HttpServlet {
 				articlesList.add(art);
 				rowAmmount++;
 			}
+			stmt.close();
+			stmt2.close();
 			con.close();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
