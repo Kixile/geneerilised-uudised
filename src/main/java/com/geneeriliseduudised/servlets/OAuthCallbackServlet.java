@@ -153,8 +153,6 @@ public class OAuthCallbackServlet extends HttpServlet {
 	public void sendSession(String email, String id) {
 		connect();
 
-		String sql = "SELECT kasutaja_id FROM kasutaja WHERE email = '"+ email +"';";
-		Statement stmt = null;
 		ResultSet rs = null;
 		int kas_id = -1;
 
@@ -164,11 +162,9 @@ public class OAuthCallbackServlet extends HttpServlet {
 				kas_id = rs.getInt("kasutaja_id");
 			}
 			rs.close();
-			stmt.close();
 		} catch (SQLException e3) {
 			try {
 				rs.close();
-				stmt.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -200,11 +196,9 @@ public class OAuthCallbackServlet extends HttpServlet {
 					kas_id = rs.getInt("kasutaja_id");
 				}
 				rs.close();
-				stmt.close();
 			} catch (SQLException e3) {
 				try {
 					rs.close();
-					stmt.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -218,11 +212,9 @@ public class OAuthCallbackServlet extends HttpServlet {
 			try {
 				rs = sqlQuery("SELECT * FROM kasutaja WHERE kasutaja_id = '"+ kas_id +"';");
 				rs.close();
-				stmt.close();
 			} catch (SQLException e3) {
 				try {
 					rs.close();
-					stmt.close();
 				} catch (SQLException e) {
 				}
 			}
