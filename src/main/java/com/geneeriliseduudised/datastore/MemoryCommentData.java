@@ -63,6 +63,13 @@ public class MemoryCommentData implements CommentDataProvider {
 		
 		items = new HashMap<Integer, ArticleComments>();
 		items.put(1, new ArticleComments(1, "Click to load comments.", "",firstArticleComment));
+		
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

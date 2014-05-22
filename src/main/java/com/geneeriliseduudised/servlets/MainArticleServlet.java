@@ -1,7 +1,6 @@
 package com.geneeriliseduudised.servlets;
 
 import java.io.IOException;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.Connection;
@@ -124,7 +123,6 @@ public class MainArticleServlet extends HttpServlet {
 								 * + (req.getQueryString() != null ? "?" +
 								 * req.getQueryString() : "")
 								 */;
-		close();
 		init();
 		connect();
 		Statement stmt = null;
@@ -163,6 +161,15 @@ public class MainArticleServlet extends HttpServlet {
 			}
 
 			VelocityContext context = new VelocityContext();
+			
+			AuthorityHandler auth = new AuthorityHandler();
+			
+			boolean isauth = auth.isLegit(req);
+			boolean isedit = auth.isEditor();
+			
+			
+			context.put("isAuth", isauth);
+			context.put("isEdit", isedit);
 
 			context.put("uri", uriSplit[2]);
 			context.put("urisplit", uriSplit);
@@ -195,6 +202,7 @@ public class MainArticleServlet extends HttpServlet {
 
 		else
 			resp.sendRedirect("#");
+		
 		close();
 	}
 }

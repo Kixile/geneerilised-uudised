@@ -20,7 +20,13 @@
 <body class="home blog">
 
 	<div id="header"> <!-- Header start -->
-		#include("./src/main/webapp/templates/template-header.html")
+		#if ($isAuth == false && $isEdit == false)
+			#include("./src/main/webapp/templates/template-header.html")
+		#elseif ($isAuth == true && $isEdit == false)
+			#include("./src/main/webapp/templates/template-header-auth.html")
+		#else
+			#include("./src/main/webapp/templates/template-header-auth-author.html")
+		#end
 	</div> <!-- header end -->
 
 	<div id="page-wrapper"> <!-- News start here -->

@@ -171,10 +171,12 @@ public class OAuthCallbackServlet extends HttpServlet {
 		} catch (SQLException e3) {
 			try {
 				rs.close();
+				con.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 		}
 
 
@@ -208,6 +210,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 			} catch (SQLException e3) {
 				try {
 					rs.close();
+					con.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -232,6 +235,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 			} catch (SQLException e3) {
 				e3.printStackTrace();
 				try {
+					con.close();
 					rs.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -264,7 +268,15 @@ public class OAuthCallbackServlet extends HttpServlet {
 			}
 			e.printStackTrace();
 		}
-
+		
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
+	
 
 }

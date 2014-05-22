@@ -127,7 +127,6 @@ public class ArticleDisplayServlet extends HttpServlet {
 								 * + (req.getQueryString() != null ? "?" +
 								 * req.getQueryString() : "")
 								 */;
-		close();
 		init();
 		connect();
 		Statement stmt = null;

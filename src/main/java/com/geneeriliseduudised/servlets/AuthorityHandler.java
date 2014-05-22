@@ -63,6 +63,14 @@ public class AuthorityHandler {
 				e.printStackTrace();
 			}
 		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return false;
 	}
 
@@ -91,6 +99,14 @@ public class AuthorityHandler {
 				e.printStackTrace();
 			}
 		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return false;
 	}
 
@@ -118,6 +134,7 @@ public class AuthorityHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		try {
 			con.close();
 		} catch (SQLException e) {
@@ -129,9 +146,9 @@ public class AuthorityHandler {
 	public String getName(HttpServletRequest req){
 		String id = getSessionId(req);
 		Statement stmt = null;
-		
+
 		connect();
-		
+
 		try {
 			String query = "SELECT kasutajanimi FROM kasutaja_sessioon WHERE sessioon_id = '"+ id +"';";
 			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
@@ -142,17 +159,26 @@ public class AuthorityHandler {
 			stmt.close();
 			rs.close();
 			con.close();
-		} catch (SQLException e3) {
+		} catch (Exception e3) {
 			e3.printStackTrace();
 			try {
+				con.close();
 				stmt.close();
 				rs.close();
-				con.close();
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
@@ -170,12 +196,13 @@ public class AuthorityHandler {
 		}
 		return aa[1];
 	}
-	
+
 	public int getUserId(HttpServletRequest req){
 		String id = getSessionId(req);
 		Statement stmt = null;
 
 		connect();
+		
 		try {
 			String query = "SELECT kasutaja.kasutaja_id FROM kasutaja, sessioonid where sessioonid.sessioon_id = '"+ id +"' "
 					+ "AND sessioonid.kasutaja_id = kasutaja.kasutaja_id;";
@@ -187,16 +214,24 @@ public class AuthorityHandler {
 			stmt.close();
 			rs.close();
 			con.close();
-		} catch (SQLException e3) {
+		} catch (Exception e3) {
 			e3.printStackTrace();
 			try {
+				con.close();
 				stmt.close();
 				rs.close();
-				con.close();
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return 0;
 	}
