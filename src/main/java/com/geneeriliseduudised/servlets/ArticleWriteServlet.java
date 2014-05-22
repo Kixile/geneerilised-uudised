@@ -160,10 +160,10 @@ public class ArticleWriteServlet extends HttpServlet {
 			
 			BufferedImage thumbnail = Scalr.resize(imBuff, 500);
 
-			//System.out.println((int)filePart.getSize());
+			System.out.println(req.getPart("userfile1").getContentType().split("/")[1]);
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write( thumbnail, req.getPart("userfile1").getContentType().split("/")[1], baos );
+			ImageIO.write( thumbnail, req.getPart("userfile1").getContentType().split("/")[1] , baos );
 			baos.flush();
 
 
