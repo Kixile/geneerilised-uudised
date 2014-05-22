@@ -31,8 +31,13 @@ public class AuthorityHandler {
 		Statement stmt = null;
 		Cookie[] cookies = req.getCookies();
 		String[] aa = new String[2];
-		for (int i = 0; i < cookies.length; i++) {
-			aa[i] = cookies[i].getValue();
+		try{
+			for (int i = 0; i < cookies.length; i++) {
+				aa[i] = cookies[i].getValue();
+			}
+		}
+		catch (Exception e){
+			return false;
 		}
 
 		connect();
@@ -91,12 +96,16 @@ public class AuthorityHandler {
 
 	public void logout(HttpServletRequest req){
 		connect();
-		
+
 		Statement stmt = null;
 		Cookie[] cookies = req.getCookies();
 		String[] aa = new String[2];
-		for (int i = 0; i < cookies.length; i++) {
-			aa[i] = cookies[i].getValue();
+		try{
+			for (int i = 0; i < cookies.length; i++) {
+				aa[i] = cookies[i].getValue();
+			}
+		}
+		catch (Exception e){
 		}
 
 		try {
