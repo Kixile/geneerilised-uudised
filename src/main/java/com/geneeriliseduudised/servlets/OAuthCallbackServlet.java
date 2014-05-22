@@ -217,11 +217,13 @@ public class OAuthCallbackServlet extends HttpServlet {
 		try {
 			
 			try {
+				rs = null;
 				String query = "SELECT * FROM sessioonid WHERE kasutaja_id = '"+ kas_id +"';";
 				stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 				rs = stmt.executeQuery(query);
 				stmt.close();
 			} catch (SQLException e3) {
+				e3.printStackTrace();
 				try {
 					rs.close();
 				} catch (SQLException e) {
@@ -231,7 +233,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 			}
 			
 
-			if(rs.wasNull()){
+			if(rs == null){
 				rs.close();
 				PreparedStatement stmt1 = con.prepareStatement("INSERT INTO sessioonid(kasutaja_id, sessioon_id) VALUES(?, ?);");
 				stmt1.setInt(1, kas_id);
