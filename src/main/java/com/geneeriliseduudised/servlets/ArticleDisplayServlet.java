@@ -14,6 +14,7 @@ import java.util.List;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -187,6 +188,13 @@ public class ArticleDisplayServlet extends HttpServlet {
 		} else {
 			articlesList = articlesList.subList(0, 1);
 		}
+		
+		String state = null;
+		try {
+			state = req.getSession().getAttribute("state").toString();
+		} finally {
+		}
+		Cookie sessionIdCookie = new Cookie("SESSIONID", state);
 
 		context.put("next", "/page/" + (pageIndex + 1));
 		context.put("previous", "/page/" + (pageIndex - 1));
@@ -195,6 +203,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 		context.put("pagein", pageIndex);
 		context.put("index", rowAmmount);
 		context.put("artList", articlesList);
+		context.put("state", state);
 		Template template = null;
 
 		try {

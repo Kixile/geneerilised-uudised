@@ -41,18 +41,18 @@ public class CommentController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setHeader("Content-Type", "application/json");
-		
+
 		String userId = req.getParameter("userId");
 		System.out.println(userId);
-		
+
 		StringBuffer string = req.getRequestURL();
 		String str = string.toString();
 		String[] parts = str.split("/");
 
 		datastore = new MemoryCommentData(Integer.parseInt(parts[4]));
-		
+
 		String idString = req.getParameter("id");
-		
+
 		if (idString != null) {
 			replyWithSingleItem(resp, idString);
 		} else {
@@ -65,44 +65,43 @@ public class CommentController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			Comment comment = gson.fromJson(req.getParameter("json_1"), Comment.class);
-			
-			
+
+
 			String string = comment.getArticleURL();
 			String[] parts = string.split("/");
 			System.out.println(req.getParameter("json_3"));
 			String a = req.getParameter("json_2").split(":")[1].replaceAll("\"","");
 			String b = req.getParameter("json_3").split(":")[1].replaceAll("\"","");
 			System.out.println(a+ "   "+ b);
-			
-			try{
-			ReCaptcha captcha = ReCaptchaFactory.newReCaptcha("6Le37vMSAAAAAKoR2M1Bbg2RTCb-0X5rBdRaHHsk", "6Le37vMSAAAAAKP0O50B7ReJnVZX9v0QwqhQ2pNp", false);
-			ReCaptchaResponse response = captcha.checkAnswer(req.getRemoteAddr(), b, a);
 
-			if (response.isValid()) {
-				datastore.addComment(comment);
-			}
-			else{
-				System.out.println("FuckYou");
-			}
+			try{
+				ReCaptcha captcha = ReCaptchaFactory.newReCaptcha("6Le37vMSAAAAAKoR2M1Bbg2RTCb-0X5rBdRaHHsk", "6Le37vMSAAAAAKP0O50B7ReJnVZX9v0QwqhQ2pNp", false);
+				ReCaptchaResponse response = captcha.checkAnswer(req.getRemoteAddr(), b, a);
+
+				if (response.isValid()) {
+					datastore.addComment(comment);
+				}
+				else{
+					System.out.println("FuckYou");
+				}
 			}
 			catch(Exception e){
-				
+
 			}
-			
-			
+
+
 			// echo the same object back for convenience and debugging
 			// also it now contains the generated id of the bid
 			String commentEcho = gson.toJson(comment);
 			resp.setHeader("Content-Type", "application/json");
 			resp.getWriter().write(commentEcho);
-			
-			
+
+
 
 			// actually this is a bad place to send the broadcast.
 			// better: attach sockets as eventlisteners to the datastore
 			// even better: use message queues for servlet-datastore events
-			CommentSocketController.find(req.getServletContext()).broadcast(
-					commentEcho);
+			CommentSocketController.find(req.getServletContext()).broadcast(commentEcho);
 		} catch (JsonParseException ex) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
 		}
