@@ -246,19 +246,19 @@ public class OAuthCallbackServlet extends HttpServlet {
 	}
 
 	public ResultSet sqlQuery(String query) {
-		String sql = query;
 		Statement stmt = null;
 		ResultSet rs = null;
 
 		try {
 			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE);
-			rs = stmt.executeQuery(sql);
+			rs = stmt.executeQuery(query);
 			rs.close();
 			stmt.close();
 			return rs;
 		} catch (SQLException e3) {
 			try {
+				e3.printStackTrace();
 				rs.close();
 				stmt.close();
 			} catch (SQLException e) {
