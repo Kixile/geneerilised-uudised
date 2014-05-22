@@ -63,7 +63,7 @@ public class TagSearchServlet extends HttpServlet{
 			throws ServletException, IOException {
 		String[] uriChop = req.getRequestURL().toString().split("/");
 
-
+		close();
 		if (uriChop.length < 5){
 			resp.sendRedirect("/");
 		}
@@ -101,15 +101,8 @@ public class TagSearchServlet extends HttpServlet{
 				System.out.println(tag);
 				Integer[] array = new Integer[articles.size()];
 				articles.toArray(array);
-				PreparedStatement ps = con.prepareStatement("SELECT artikkel_create.artikkel_id, artikkel_create.pealkiri, "
-						+ "artikkel_create.sisu, artikkel_create.aeg, artikkel_create.kasutaja_id, "
-						+ "artikkel_create.kasutajanimi , artikkel_create.lyhisisu, artikkel_create.pilt, "
-						+ "string_agg(tag.nimi, ', ') FROM artikkel_create, tag, artikkel_tag where "
-						+ "artikkel_create.artikkel_id = artikkel_tag.artikkel_id AND artikkel_create.artikkel_id =  "
-						+ "ANY (?) AND tag.tag_id = artikkel_tag.tag_id GROUP BY "
-						+ "artikkel_create.artikkel_id, artikkel_create.pealkiri, artikkel_create.sisu, "
-						+ "artikkel_create.aeg, artikkel_create.kasutaja_id, artikkel_create.kasutajanimi , "
-						+ "artikkel_create.lyhisisu, artikkel_create.pilt");
+				PreparedStatement ps = con.prepareStatement("SELECT * FROM tagid WHERE "
+						+ "artikkel_id = ANY (?)");
 				ps.setArray(1, con.createArrayOf("int", array));
 				
 				rs = ps.executeQuery();
@@ -163,8 +156,11 @@ public class TagSearchServlet extends HttpServlet{
 			PrintWriter writer = resp.getWriter();
 			writer.println(sw);
 			
-			resp.sendRedirect("/lol");
-			
 		}
+	}
+	
+	protected void doPost( HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException
+	{
+		doGet( req, resp );
 	}
 }

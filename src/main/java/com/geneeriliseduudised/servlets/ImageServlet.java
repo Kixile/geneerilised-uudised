@@ -78,7 +78,8 @@ public class ImageServlet extends HttpServlet{
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
+		close();
+		
 		connect();
 
 

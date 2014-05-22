@@ -1,6 +1,7 @@
 package com.geneeriliseduudised.servlets;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,6 +11,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
+import org.imgscalr.Scalr;
 
 import java.sql.DriverManager;
 import java.sql.Connection;
@@ -152,13 +155,20 @@ public class ArticleWriteServlet extends HttpServlet {
 
 
 			filecontent = filePart.getInputStream();
+			
+			BufferedImage imBuff = ImageIO.read(filecontent);
+			
+			BufferedImage thumbnail = Scalr.resize(imBuff, 200);
 
-
-			System.out.println((int)filePart.getSize());
+			//System.out.println((int)filePart.getSize());
+			
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write( thumbnail, "jpg", baos );
+			baos.flush();
 
 
 			int read = 0;
-			final byte[] bytes = new byte[(int) filePart.getSize()];
+			final byte[] bytes = baos.toByteArray();
 
 			while ((read = filecontent.read(bytes)) != -1) {
 				out.write(bytes, 0, read);
@@ -186,7 +196,7 @@ public class ArticleWriteServlet extends HttpServlet {
 					e1.printStackTrace();
 				}
 			}
-
+			resp.sendRedirect("/");
 		}
 		else{
 			resp.sendRedirect("/");

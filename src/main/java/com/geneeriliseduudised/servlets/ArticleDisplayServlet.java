@@ -152,7 +152,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 		Statement stmt2 = null;
 		ResultSet rs2 = null;
 
-		String sql2 = "SELECT artikkel_tag.artikkel_id, string_agg(tag.nimi, ', ') "
+		String sql2 = "SELECT artikkel_tag.artikkel_id, string_agg(tag.nimi, ',') "
 				+ "FROM tag, artikkel_tag where tag.tag_id = artikkel_tag.tag_id "
 				+ "GROUP BY artikkel_tag.artikkel_id ORDER BY artikkel_tag.artikkel_id "
 				+ "DESC LIMIT 5 OFFSET "+ 0 +";";

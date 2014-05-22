@@ -1,7 +1,7 @@
 <div class="block"> <!-- search block -->
-	<h3>Search</h3>
-	<form id="tfnewsearch" method="get" action="/tag/">
-		<input type="text" class="tftextinput" name="q" size="21" maxlength="120"><input type="submit" value="search" class="tfbutton">
+	<h3>Search (By 1 tag)</h3>
+	<form id="tfnewsearch" method="post" action="/search">
+		<input type="text" name="tftextinput" class="tftextinput" name="q" size="21" maxlength="120"><input type="submit" value="search" class="tfbutton">
 	</form>
 	<div class="clear"></div>
 </div>
