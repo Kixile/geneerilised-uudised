@@ -127,8 +127,8 @@ public class MainArticleServlet extends HttpServlet {
 		String[] uriSplit = uri.split("/");
 
 		if (isInteger(uriSplit[2])) {
-			String sql = "SELECT * FROM artikkel_create where artikkel_id = "
-					+ uriSplit[2];
+			String sql = "SELECT * FROM artikkel_edit where artikkel_id = "
+					+ uriSplit[2]+ " AND on_kustutatud = false;";
 
 			try {
 				rs = stmt.executeQuery(sql);

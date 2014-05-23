@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://geneerilised-uudised.herokuapp.com/" />
-<title>Login</title>
+<title>Comment test</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Login</td></tr>
+<tr><td rowspan="1" colspan="3">Comment test</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -18,18 +18,48 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>link=Login</td>
+	<td>link=&gt;&gt; Read more...</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#items &gt; li</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=comment</td>
+	<td>Comment</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=recaptcha_response_field</td>
+	<td>58528588 27</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=makepost</td>
 	<td></td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=submit_approve_access</td>
+	<td>link=Generic news</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertElementPresent</td>
-	<td>css=pre</td>
+	<td>clickAndWait</td>
+	<td>link=&gt;&gt; Read more...</td>
 	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#items &gt; li</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>//div[@id='bids']/li/div/p[2]</td>
+	<td>Comment</td>
 </tr>
 
 </tbody></table>

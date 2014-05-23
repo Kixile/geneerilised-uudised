@@ -4,12 +4,12 @@
 <head profile="http://selenium-ide.openqa.org/profiles/test-case">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="selenium.base" href="http://geneerilised-uudised.herokuapp.com/" />
-<title>Login</title>
+<title>Tag search test</title>
 </head>
 <body>
 <table cellpadding="1" cellspacing="1" border="1">
 <thead>
-<tr><td rowspan="1" colspan="3">Login</td></tr>
+<tr><td rowspan="1" colspan="3">Tag search test</td></tr>
 </thead><tbody>
 <tr>
 	<td>open</td>
@@ -17,19 +17,19 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=Login</td>
-	<td></td>
+	<td>type</td>
+	<td>name=tftextinput</td>
+	<td>seleniumtag1</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>id=submit_approve_access</td>
+	<td>css=input.tfbutton</td>
 	<td></td>
 </tr>
 <tr>
-	<td>assertElementPresent</td>
-	<td>css=pre</td>
-	<td></td>
+	<td>assertText</td>
+	<td>css=h2</td>
+	<td>Selenium Test</td>
 </tr>
 
 </tbody></table>
