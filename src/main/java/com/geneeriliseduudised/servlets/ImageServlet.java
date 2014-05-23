@@ -79,9 +79,8 @@ public class ImageServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		close();
-
 		connect();
-
+		
 
 		StringBuffer string = req.getRequestURL();
 		String str = string.toString();
@@ -90,6 +89,8 @@ public class ImageServlet extends HttpServlet{
 		String[] parts2 = filename.split("\\.");
 
 		if(filename.contains(".")){
+			System.out.println(filename);
+			
 			try {
 
 				PreparedStatement ps = con.prepareStatement("SELECT fail FROM pilt WHERE nimi = ?");
@@ -98,16 +99,19 @@ public class ImageServlet extends HttpServlet{
 				if (rs != null) {
 					while (rs.next()) {
 						imgBytes = rs.getBytes(1);
+						break;
 						// use the data in some way here
 					}
 					rs.close();
 				}
 				ps.close();
+				close();
 				resp.setHeader("Content-Type", "image/"+parts2[1]);
 				resp.setContentLength(imgBytes.length);
 				resp.getOutputStream().write(imgBytes);
-				close();
+				
 			} catch (SQLException e) {
+				System.out.println("eeeeaaaa");
 				// TODO Auto-generated catch block
 				close();
 				//e.printStackTrace();
