@@ -51,7 +51,6 @@ public class MemoryCommentData implements CommentDataProvider {
 		}
 		
 		try {
-			AuthorityHandler auth = new AuthorityHandler();
 			while (rs.next()) {
 				firstArticleComment.add(new Comment(1,1, rs.getString("kasutaja_id"),rs.getString("sisu") , "","",""));
 				commentCounter ++;
@@ -88,7 +87,14 @@ public class MemoryCommentData implements CommentDataProvider {
 		
 		AuthorityHandler auth = new AuthorityHandler();
 
-		int userID = auth.getUserId(req);
+		int userID = -1;
+		
+		try {
+			userID = auth.getUserId(req);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		try{
 		String string = comment.getArticleURL();
