@@ -177,16 +177,6 @@ public class ArticleWriteServlet extends HttpServlet {
 			int read = 0;
 			final byte[] bytes = baos.toByteArray();
 
-			while ((read = filecontent.read(bytes)) != -1) {
-				out.write(bytes, 0, read);
-			}
-			
-			try{
-			out.close();
-			}
-			catch(Exception e){
-				
-			}
 			filecontent.close();
 			String name =  req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1];
 			try{
