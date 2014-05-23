@@ -30,19 +30,20 @@ public class TagSearchServlet extends HttpServlet{
 	
 	String tag = "";
 
-	Connection con = null;
-	ResultSet rs = null;
 
-	public void connect() {
+	public Connection connect() {
+		Connection con = null;
 		try {
 			con = DriverManager
 					.getConnection("jdbc:postgresql://ec2-54-246-101-204.eu-west-1.compute.amazonaws.com:5432/dc09hcdktafoks?user=ahheansgceypsj&password=gVrdggxl82Anv12TSTDqxlrDaG&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return con;
 	}
 
-	public void close() {
+	public void close(Connection con , ResultSet rs) {
 		if (rs != null) {
 			try {
 				rs.close();
@@ -63,14 +64,13 @@ public class TagSearchServlet extends HttpServlet{
 			throws ServletException, IOException {
 		String[] uriChop = req.getRequestURL().toString().split("/");
 
-		close();
 		if (uriChop.length < 5){
 			resp.sendRedirect("/");
 		}
 		else{
 			System.out.println(uriChop[4]);
 			tag = uriChop[4].replace("%20", " ");
-			connect();
+			Connection con = connect();
 			ResultSet rs = null;
 			List<Integer> articles = new ArrayList<Integer>();
 			List<Article> art = new ArrayList<Article>();
@@ -93,9 +93,9 @@ public class TagSearchServlet extends HttpServlet{
 				e.printStackTrace();
 			}
 			
-			close();
+			close(con, rs);
 			
-			connect();
+			con = connect();
 			
 			try {
 				System.out.println(tag);
@@ -122,7 +122,7 @@ public class TagSearchServlet extends HttpServlet{
 				e.printStackTrace();
 			}
 			
-			close();
+			close(con, rs);
 			
 			VelocityContext context = new VelocityContext();
 
