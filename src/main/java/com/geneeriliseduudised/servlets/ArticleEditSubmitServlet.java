@@ -83,9 +83,11 @@ public class ArticleEditSubmitServlet extends HttpServlet {
 			PreparedStatement stmt4 = con
 					.prepareStatement("SELECT artikkel_id FROM artikkel WHERE pealkiri = ? AND aeg = ?");
 			PreparedStatement stmt5 = con
-					.prepareStatement("INSERT INTO artikkel_tag(artikkel_id, tag_id) VALUES (?, ?) LIMIT 1");
+					.prepareStatement("INSERT INTO artikkel_tag(artikkel_id, tag_id) VALUES (?, ?) NOT EXISTS ( SELECT * FROM artikkel_tag WHERE artikkel_id = ? AND tag_id = ?);");
 			stmt4.setString(1, header);
 			stmt4.setTimestamp(2, timestamp);
+			stmt4.setString(3, header);
+			stmt4.setTimestamp(4, timestamp);
 			currentArticle = stmt4.executeQuery();
 			int currentArticleID = id;
 			while(currentArticle.next()){
