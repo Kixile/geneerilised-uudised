@@ -83,7 +83,7 @@ public class ArticleEditSubmitServlet extends HttpServlet {
 			PreparedStatement stmt4 = con
 					.prepareStatement("SELECT artikkel_id FROM artikkel WHERE pealkiri = ? AND aeg = ?");
 			PreparedStatement stmt5 = con
-					.prepareStatement("INSERT INTO artikkel_tag(artikkel_id, tag_id) VALUES (?, ?)");
+					.prepareStatement("INSERT INTO artikkel_tag(artikkel_id, tag_id) VALUES (?, ?) LIMIT 1");
 			stmt4.setString(1, header);
 			stmt4.setTimestamp(2, timestamp);
 			currentArticle = stmt4.executeQuery();
@@ -155,9 +155,6 @@ public class ArticleEditSubmitServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-
-		isauth = true;
-		isedit = true;
 
 		if(isauth && isedit){
 			

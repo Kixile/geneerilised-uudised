@@ -74,9 +74,7 @@ public class ArticleEditServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		isauth = true;
-		isedit = true;
+
 
 		if(isauth && isedit){
 			String[] uriChop = req.getRequestURL().toString().split("/");
@@ -104,13 +102,16 @@ public class ArticleEditServlet extends HttpServlet {
 								rs.getString("lyhisisu"), rs.getInt("artikkel_id"), rs.getString("pilt"));
 					}
 					else{
-						resp.sendRedirect("/restricted");
+						String lastpageurl = (String) req.getSession().getAttribute("lastpageurl");
+						resp.sendRedirect(lastpageurl);
 					}
 					ps.close();
 					
 				} catch (SQLException e) {
+					close(con, rs);
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					
 				}
 				
 				Template template = null;
@@ -131,6 +132,8 @@ public class ArticleEditServlet extends HttpServlet {
 				} catch (Exception e) {
 
 				}
+				
+				close(con, rs);
 				
 				context.put("article", editable);
 				context.put("isAuth", isauth);

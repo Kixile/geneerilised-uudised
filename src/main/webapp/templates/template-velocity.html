@@ -60,16 +60,19 @@
 					#end
 					<div class="navigations">
 					
-							#if( $previous == "/page/-1")
+							#if( $previous == "/page/-1" && $artList.size() != 0)
 							<div class="alignright">
 								<a href="$next">Next page &#62; &#62;</a>
 							</div>
 							
 
-							#elseif ($artList.size() != 5)
+							#elseif ($artList.size() != 5 && $artList.size() != 0)
 							<div class="alignleft">
 								<a href="$previous">&#60; &#60; Previous page </a>
 							</div>
+							
+							#elseif ($artList.size() == 0)
+							No pages
 							#else
 							
 							<div class="alignleft">
