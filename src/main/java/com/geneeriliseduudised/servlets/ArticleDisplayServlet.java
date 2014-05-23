@@ -192,6 +192,8 @@ public class ArticleDisplayServlet extends HttpServlet {
 						.getString("kasutajanimi"), rs.getString("lyhisisu"), rs
 						.getInt("artikkel_id"), rs.getString("pilt"));
 
+				art.setWriterId(rs.getInt("kasutaja_id"));
+				
 				articlesList.add(art);
 				names.add(rs.getString("kasutajanimi"));
 				rowAmmount++;
@@ -221,7 +223,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 		}
 
 		for(Article i: articlesList){//for edit button
-			if(i.getId() == idGet){
+			if(i.getWriterId() == idGet){
 				hasEdit.add(true);
 			}
 			else{

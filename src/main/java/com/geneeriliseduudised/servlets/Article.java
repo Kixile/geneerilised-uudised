@@ -9,6 +9,7 @@ public class Article {
 	private String username;
 	private String summary;
 	private String image;
+	private int writerId;
 
 	public Article(String header, String text, String tags, String date,
 			String username, String summary, int id, String image) {
@@ -22,6 +23,20 @@ public class Article {
 		this.summary = summary;
 		this.image = image;
 	}
+
+	
+	
+	public int getWriterId() {
+		return writerId;
+	}
+
+
+
+	public void setWriterId(int writerId) {
+		this.writerId = writerId;
+	}
+
+
 
 	public Article() {
 		// TODO Auto-generated constructor stub
