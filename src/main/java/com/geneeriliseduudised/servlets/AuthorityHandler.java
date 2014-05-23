@@ -18,12 +18,32 @@ public class AuthorityHandler {
 	public AuthorityHandler() {
 	}
 
-	public void connect() {
+	public Connection connect() {
+		Connection con = null;
 		try {
 			con = DriverManager
 					.getConnection("jdbc:postgresql://ec2-54-246-101-204.eu-west-1.compute.amazonaws.com:5432/dc09hcdktafoks?user=ahheansgceypsj&password=gVrdggxl82Anv12TSTDqxlrDaG&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+		
+		return con;
+	}
+
+	public void close(Connection con , ResultSet rs) {
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException ex) { /* ignore */
+			}
+			rs = null;
+		}
+		if (con != null) {
+			try {
+				con.close();
+			} catch (SQLException ex) { /* ignore */
+			}
+			con = null;
 		}
 	}
 
@@ -39,8 +59,8 @@ public class AuthorityHandler {
 		catch (Exception e){
 			return false;
 		}
-		close();
-		connect();
+		
+		Connection con = connect();
 		
 		try {
 			String query = "SELECT kasutaja_id FROM sessioonid WHERE sessioon_id = '"+ aa[1] +"';";
@@ -51,20 +71,19 @@ public class AuthorityHandler {
 				return true;
 			}
 			stmt.close();
-			close();
+			close(con, rs);
 		} catch (SQLException e3) {
-			close();
+			close(con, rs);
 		}
 
-		close();
+		close(con, rs);
 
 		return false;
 	}
 
 	public boolean isEditor(){ //kaput with DB
 		Statement stmt = null;
-		close();
-		connect();
+		Connection con = connect();
 		try {
 			String query = "SELECT * FROM kasutaja WHERE autor = 'true' and  kasutaja_id = '" + kas_id + "';";
 			stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
@@ -73,7 +92,7 @@ public class AuthorityHandler {
 				return true;
 			}
 			stmt.close();
-			close();
+			close(con, rs);
 		} catch (SQLException e3) {
 			try {
 				stmt.close();
@@ -81,7 +100,7 @@ public class AuthorityHandler {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			close();
+			close(con, rs);
 			
 		}
 		
@@ -91,14 +110,13 @@ public class AuthorityHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		close();
+		close(con, rs);
 
 		return false;
 	}
 
 	public void logout(HttpServletRequest req){
-		close();
-		connect();
+		Connection con = connect();
 
 		Statement stmt = null;
 		Cookie[] cookies = req.getCookies();
@@ -117,19 +135,18 @@ public class AuthorityHandler {
 			stmt1.setString(2, aa[1]);
 			stmt1.executeUpdate();
 			stmt1.close();
-			close();
+			close(con, rs);
 		} catch (SQLException e) {
-			close();
+			close(con, rs);
 		}
 		
-		close();
+		close(con, rs);
 	}
 
 	public String getName(HttpServletRequest req){
 		String id = getSessionId(req);
 		Statement stmt = null;
-		close();
-		connect();
+		Connection con = connect();
 
 		try {
 			String query = "SELECT kasutajanimi FROM kasutaja_sessioon WHERE sessioon_id = '"+ id +"';";
@@ -140,12 +157,12 @@ public class AuthorityHandler {
 			}
 			stmt.close();
 			rs.close();
-			close();
+			close(con, rs);
 		} catch (Exception e3) {
-			close();
+			close(con, rs);
 		}
 
-		close();
+		close(con, rs);
 		
 		return null;
 	}
@@ -168,8 +185,7 @@ public class AuthorityHandler {
 	public int getUserId(HttpServletRequest req){
 		String id = getSessionId(req);
 		Statement stmt = null;
-		close();
-		connect();
+		Connection con = connect();
 		
 		try {
 			String query = "SELECT kasutaja.kasutaja_id FROM kasutaja, sessioonid where sessioonid.sessioon_id = '"+ id +"' "
@@ -181,31 +197,14 @@ public class AuthorityHandler {
 			}
 			stmt.close();
 			rs.close();
-			close();
+			close(con, rs);
 		} catch (Exception e3) {
-			close();
+			close(con, rs);
 		}
 		
-		close();
+		close(con, rs);
 		return 0;
 	}
 
-	
-	public void close() {
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException ex) { /* ignore */
-			}
-			rs = null;
-		}
-		if (con != null) {
-			try {
-				con.close();
-			} catch (SQLException ex) { /* ignore */
-			}
-			con = null;
-		}
-	}
 
 }

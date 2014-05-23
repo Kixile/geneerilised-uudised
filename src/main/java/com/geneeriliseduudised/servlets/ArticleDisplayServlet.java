@@ -36,30 +36,19 @@ public class ArticleDisplayServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private VelocityEngine engine = new VelocityEngine();
 
-	private Connection con = null;
-	private ResultSet rs = null;
-	private ResultSet rs2 = null;
-
-	public void connect() {
+	public Connection connect() {
+		Connection con = null;
 		try {
 			con = DriverManager
 					.getConnection("jdbc:postgresql://ec2-54-246-101-204.eu-west-1.compute.amazonaws.com:5432/dc09hcdktafoks?user=ahheansgceypsj&password=gVrdggxl82Anv12TSTDqxlrDaG&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return con;
 	}
 
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		engine.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-		engine.setProperty("classpath.resource.loader.class",
-				ClasspathResourceLoader.class.getName());
-		engine.init();
-		Velocity.setProperty(Velocity.INPUT_ENCODING, "UTF-8");
-		Velocity.setProperty(Velocity.OUTPUT_ENCODING, "UTF-8");
-	}
-
-	public void close() {
+	public void close(Connection con , ResultSet rs) {
 		if (rs != null) {
 			try {
 				rs.close();
@@ -75,6 +64,17 @@ public class ArticleDisplayServlet extends HttpServlet {
 			con = null;
 		}
 	}
+
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		engine.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+		engine.setProperty("classpath.resource.loader.class",
+				ClasspathResourceLoader.class.getName());
+		engine.init();
+		Velocity.setProperty(Velocity.INPUT_ENCODING, "UTF-8");
+		Velocity.setProperty(Velocity.OUTPUT_ENCODING, "UTF-8");
+	}
+
 
 	public static boolean isInteger(String str) {
 		if (str == null) {
@@ -102,12 +102,15 @@ public class ArticleDisplayServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		Connection con = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
 
 		// for buttons and better article scrolling
-		close();
 		String uri = req.getRequestURI() ;
 		init();
-		connect();
+		con = connect();
 		Statement stmt = null;
 
 		try {
@@ -150,7 +153,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 
 		List<Article> articlesList = new ArrayList<Article>();
 		Statement stmt2 = null;
-		ResultSet rs2 = null;
+		rs2 = null;
 
 		String sql2 = "SELECT artikkel_tag.artikkel_id, string_agg(tag.nimi, ',') "
 				+ "FROM tag, artikkel_tag where tag.tag_id = artikkel_tag.tag_id "
@@ -257,6 +260,6 @@ public class ArticleDisplayServlet extends HttpServlet {
 		PrintWriter writer = resp.getWriter();
 		writer.println(sw);
 
-		close();
+		close(con, rs);
 	}
 }

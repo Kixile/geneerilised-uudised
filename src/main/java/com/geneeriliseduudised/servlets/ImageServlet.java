@@ -33,33 +33,23 @@ public class ImageServlet extends HttpServlet{
 	 */
 	private static final long serialVersionUID = 517782719731754231L;
 
-	Connection con = null;
-	ResultSet rs = null;
+	
+	
 	byte[] imgBytes;
 
-	public void connect() {
+	public Connection connect() {
+		Connection con = null;
 		try {
 			con = DriverManager
 					.getConnection("jdbc:postgresql://ec2-54-246-101-204.eu-west-1.compute.amazonaws.com:5432/dc09hcdktafoks?user=ahheansgceypsj&password=gVrdggxl82Anv12TSTDqxlrDaG&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return con;
 	}
 
-	public ResultSet request(String sql) {
-		Statement stmt = null;
-		ResultSet rs = null;
-		try {
-			stmt = con.createStatement();
-			rs = stmt.executeQuery(sql);
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rs;
-	}
-
-	public void close() {
+	public void close(Connection con , ResultSet rs) {
 		if (rs != null) {
 			try {
 				rs.close();
@@ -78,8 +68,9 @@ public class ImageServlet extends HttpServlet{
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		close();
-		connect();
+		Connection con = connect();
+		
+		ResultSet rs = null;
 		
 
 		StringBuffer string = req.getRequestURL();
@@ -89,13 +80,13 @@ public class ImageServlet extends HttpServlet{
 		String[] parts2 = filename.split("\\.");
 
 		if(filename.contains(".")){
-			System.out.println(filename);
+			System.out.println("This i sthe file I am getting : "+ filename);
 			
 			try {
 
 				PreparedStatement ps = con.prepareStatement("SELECT fail FROM pilt WHERE nimi = ?");
 				ps.setString(1, filename);
-				ResultSet rs = ps.executeQuery();
+				rs = ps.executeQuery();
 				if (rs != null) {
 					while (rs.next()) {
 						imgBytes = rs.getBytes(1);
@@ -105,7 +96,7 @@ public class ImageServlet extends HttpServlet{
 					rs.close();
 				}
 				ps.close();
-				close();
+				close(con, rs);
 				resp.setHeader("Content-Type", "image/"+parts2[1]);
 				resp.setContentLength(imgBytes.length);
 				resp.getOutputStream().write(imgBytes);
@@ -113,12 +104,12 @@ public class ImageServlet extends HttpServlet{
 			} catch (SQLException e) {
 				System.out.println("eeeeaaaa");
 				// TODO Auto-generated catch block
-				close();
+				close(con, rs);
 				//e.printStackTrace();
 			}
 		}
 
-		close();
+		close(con, rs);
 
 	}
 
