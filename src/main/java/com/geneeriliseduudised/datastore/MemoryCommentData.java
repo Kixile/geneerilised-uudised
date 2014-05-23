@@ -51,6 +51,7 @@ public class MemoryCommentData implements CommentDataProvider {
 		}
 		
 		try {
+			AuthorityHandler auth = new AuthorityHandler();
 			while (rs.next()) {
 				firstArticleComment.add(new Comment(1,1, rs.getString("kasutaja_id"),rs.getString("sisu") , "","",""));
 				commentCounter ++;

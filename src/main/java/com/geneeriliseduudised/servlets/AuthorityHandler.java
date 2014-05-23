@@ -11,8 +11,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 public class AuthorityHandler {
-	private Connection con = null;
-	private ResultSet rs = null;
 	private int kas_id = 0;
 
 	public AuthorityHandler() {
@@ -51,6 +49,7 @@ public class AuthorityHandler {
 		Statement stmt = null;
 		Cookie[] cookies = req.getCookies();
 		String[] aa = new String[2];
+		ResultSet rs = null;
 		try{
 			for (int i = 0; i < cookies.length; i++) {
 				aa[i] = cookies[i].getValue();
@@ -83,6 +82,7 @@ public class AuthorityHandler {
 
 	public boolean isEditor(){ //kaput with DB
 		Statement stmt = null;
+		ResultSet rs = null;
 		Connection con = connect();
 		try {
 			String query = "SELECT * FROM kasutaja WHERE autor = 'true' and  kasutaja_id = '" + kas_id + "';";
@@ -117,6 +117,7 @@ public class AuthorityHandler {
 
 	public void logout(HttpServletRequest req){
 		Connection con = connect();
+		ResultSet rs = null;
 
 		Statement stmt = null;
 		Cookie[] cookies = req.getCookies();
@@ -145,6 +146,7 @@ public class AuthorityHandler {
 
 	public String getName(HttpServletRequest req){
 		String id = getSessionId(req);
+		ResultSet rs = null;
 		Statement stmt = null;
 		Connection con = connect();
 
@@ -184,6 +186,7 @@ public class AuthorityHandler {
 
 	public int getUserId(HttpServletRequest req){
 		String id = getSessionId(req);
+		ResultSet rs = null;
 		Statement stmt = null;
 		Connection con = connect();
 		
