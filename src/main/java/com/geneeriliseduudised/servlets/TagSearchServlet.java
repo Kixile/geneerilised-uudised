@@ -113,7 +113,7 @@ public class TagSearchServlet extends HttpServlet{
 					art.add(new Article(rs.getString("pealkiri"), rs
 						.getString("sisu"), rs.getString("string_agg"), rs.getString("aeg"), rs
 						.getString("kasutajanimi"), rs.getString("lyhisisu"), rs
-						.getString("artikkel_id"), rs.getString("pilt")));
+						.getInt("artikkel_id"), rs.getString("pilt")));
 				}
 				ps.close();
 				

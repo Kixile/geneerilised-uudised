@@ -174,6 +174,8 @@ public class ArticleDisplayServlet extends HttpServlet {
 		
 		List<String> names = new ArrayList<String>();
 		
+		List<Boolean> hasEdit = new ArrayList<Boolean>();
+		
 		try {
 			while (rs.next() && rs2.next()) {
 				String tagstring = "";
@@ -185,7 +187,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 				Article art = new Article(rs.getString("pealkiri"), rs
 						.getString("sisu"), tagstring, rs.getString("aeg"), rs
 						.getString("kasutajanimi"), rs.getString("lyhisisu"), rs
-						.getString("artikkel_id"), rs.getString("pilt"));
+						.getInt("artikkel_id"), rs.getString("pilt"));
 
 				articlesList.add(art);
 				names.add(rs.getString("kasutajanimi"));
@@ -202,19 +204,30 @@ public class ArticleDisplayServlet extends HttpServlet {
 
 		VelocityContext context = new VelocityContext();
 		System.out.println(articlesList.size());
+		AuthorityHandler auth = new AuthorityHandler();
 
+		boolean isauth = auth.isLegit(req);
+		boolean isedit = auth.isEditor();
+		int idGet = auth.getUserId(req);
+		for(Article i: articlesList){//for edit button
+			if(i.getId() == idGet){
+				hasEdit.add(true);
+			}
+			else{
+				hasEdit.add(false);
+			}
+		}
 
+		
 		context.put("next", "/page/" + (pageIndex + 1));
 		context.put("previous", "/page/" + (pageIndex - 1));
 		context.put("uri", uri);
 		context.put("pagein", pageIndex);
 		context.put("index", rowAmmount);
 		context.put("artList", articlesList);
+		context.put("editRights", hasEdit);
 
-		AuthorityHandler auth = new AuthorityHandler();
-
-		boolean isauth = auth.isLegit(req);
-		boolean isedit = auth.isEditor();
+		
 		context.put("isAuth", isauth);
 		context.put("isEdit", isedit);
 

@@ -1,7 +1,7 @@
 package com.geneeriliseduudised.servlets;
 
 public class Article {
-	private String id;
+	private int id;
 	private String header;
 	private String text;
 	private String[] tags;
@@ -11,7 +11,7 @@ public class Article {
 	private String image;
 
 	public Article(String header, String text, String tags, String date,
-			String username, String summary, String id, String image) {
+			String username, String summary, int id, String image) {
 		super();
 		this.id = id;
 		this.header = header;
@@ -35,11 +35,11 @@ public class Article {
 		this.image = image;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

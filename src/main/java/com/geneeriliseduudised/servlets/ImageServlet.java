@@ -79,7 +79,7 @@ public class ImageServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		close();
-		
+
 		connect();
 
 
@@ -89,26 +89,29 @@ public class ImageServlet extends HttpServlet{
 		String filename = parts[parts.length-1];
 		String[] parts2 = filename.split("\\.");
 
-		try {
+		if(filename.contains(".")){
+			try {
 
-			PreparedStatement ps = con.prepareStatement("SELECT fail FROM pilt WHERE nimi = ?");
-			ps.setString(1, filename);
-			ResultSet rs = ps.executeQuery();
-			if (rs != null) {
-				while (rs.next()) {
-					imgBytes = rs.getBytes(1);
-					// use the data in some way here
+				PreparedStatement ps = con.prepareStatement("SELECT fail FROM pilt WHERE nimi = ?");
+				ps.setString(1, filename);
+				ResultSet rs = ps.executeQuery();
+				if (rs != null) {
+					while (rs.next()) {
+						imgBytes = rs.getBytes(1);
+						// use the data in some way here
+					}
+					rs.close();
 				}
-				rs.close();
+				ps.close();
+				resp.setHeader("Content-Type", "image/"+parts2[1]);
+				resp.setContentLength(imgBytes.length);
+				resp.getOutputStream().write(imgBytes);
+				close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				close();
+				//e.printStackTrace();
 			}
-			ps.close();
-			resp.setHeader("Content-Type", "image/"+parts2[1]);
-			resp.setContentLength(imgBytes.length);
-			resp.getOutputStream().write(imgBytes);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			close();
-			//e.printStackTrace();
 		}
 
 		close();

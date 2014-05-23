@@ -19,18 +19,9 @@
 	<div id="page-wrapper"> <!-- News start here -->
 		<div id="page">
 			<div id="content">
-				#set($editable = 0)
 				<div class="content">
-					#foreach($product in $artList)
-					
-					$isAuth
-					$isEdit
-					$editRights.get($editable)
-					#if ( $editRights.get($editable) == false)
-						<button type="button" disabled>Disabled editing (WIP)</button>
-					#else
-						<button type="button">Enabled editing (WIP)</button> 
-					#end
+					#foreach($product in $articles)
+
 					
 					<div id="$product.header.replace(" ", "_")" class="block"> <!-- article example -->
 						<div class="post-inner">
@@ -47,7 +38,7 @@
 							<p class="tags"><!-- tags column -->
 								
 								#foreach($product2 in $product.tags)
-								<a rel="" href="/tag/$product2">$product2</a>, 
+								<a rel="/tag/$product2" href="">$product2</a>, 
 								#end
 							</p>
 							<p class="comments">
@@ -56,34 +47,7 @@
 						</div>
 					</div>
 					
-					#set($editable = $editable + 1)
 					#end
-					<div class="navigations">
-							#if( $uri == "" || $uri == "/page/1" || $pagein == 1 || $previous == "/page/-1")
-							<div class="alignright">
-								<a href="$next">Next page &#62; &#62;</a>
-							</div>
-							
-							#elseif ($articlesList.size() != 5)
-							<div class="alignleft">
-								<a href="$previous">&#60; &#60; Previous page </a>
-							</div>
-							
-							#else
-							
-							<div class="alignleft">
-								<a href="$previous">&#60; &#60; Previous page </a>
-							</div>
-								
-							<div class="alignright">
-								<a href="$next">Next page &#62; &#62;</a>
-							</div>
-							
-							#end
-							
-							
-							<div class="clear"></div>
-					</div>
 				</div>
 				<div id="sidebar">
 					#include("./src/main/webapp/templates/template-sidebar.html")
