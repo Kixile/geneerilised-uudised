@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -50,6 +51,19 @@ public class ArticleWriteServlet extends HttpServlet {
 		}
 	}
 
+	public String nameGenerator(int size){
+		Random r = new Random();
+		
+		String output = "";
+		
+	    String alphabet = "abcdefghijklmnopqrtsuvwxyz1234567890";
+	    for (int i = 0; i < size; i++) {
+	    	output = output + alphabet.charAt(r.nextInt(alphabet.length()));
+	    }
+	    
+	    return output;
+	}
+	
 	public void submit(String header, Timestamp timestamp, String text,
 			int userid, String[] tags, String pilt) {
 		try {
@@ -153,7 +167,6 @@ public class ArticleWriteServlet extends HttpServlet {
 
 
 			Part filePart = req.getPart("userfile1");
-			System.out.println(req.getParameter("image_name"));
 
 			System.out.println(req.getPart("userfile1").getContentType().split("/")[1]);
 
@@ -178,7 +191,7 @@ public class ArticleWriteServlet extends HttpServlet {
 			final byte[] bytes = baos.toByteArray();
 
 			filecontent.close();
-			String name =  req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1];
+			String name =  nameGenerator(20) +"." +req.getPart("userfile1").getContentType().split("/")[1];
 			try{
 				PreparedStatement ps = con.prepareStatement("INSERT INTO pilt(nimi,fail) VALUES (?,?);");
 				ps.setString(1, name);
@@ -186,7 +199,7 @@ public class ArticleWriteServlet extends HttpServlet {
 				ps.execute();
 				ps.close();
 
-				String pilt = "/image/"+req.getParameter("image_name")+"." +req.getPart("userfile1").getContentType().split("/")[1];
+				String pilt = "/image/"+ name;
 				submit(head, timestamp, text, userid, tags,pilt);
 
 				con.close();
