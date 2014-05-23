@@ -22,7 +22,8 @@ public class LogoutServlet extends HttpServlet{
 		AuthorityHandler auth = new AuthorityHandler();
 		auth.logout(req);
 		
-		resp.sendRedirect("/");
+		String lastpageurl = (String) req.getSession().getAttribute("lastpageurl");
+		resp.sendRedirect(lastpageurl);
 	}
 
 }
