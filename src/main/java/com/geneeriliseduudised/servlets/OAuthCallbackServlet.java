@@ -102,7 +102,8 @@ public class OAuthCallbackServlet extends HttpServlet {
 		resp.getWriter().println("userid:" + userId + "\nsessionid:" + state);
 		sendSession(userId, state);
 		
-		resp.sendRedirect("/");
+		String lastpageurl = (String) req.getSession().getAttribute("lastpageurl");
+		resp.sendRedirect(lastpageurl);
 
 	}
 

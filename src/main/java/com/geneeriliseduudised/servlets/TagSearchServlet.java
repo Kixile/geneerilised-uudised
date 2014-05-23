@@ -63,6 +63,19 @@ public class TagSearchServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String[] uriChop = req.getRequestURL().toString().split("/");
+		
+		boolean isauth = false;
+		boolean isedit = false;
+		
+		AuthorityHandler auth = new AuthorityHandler();
+		
+		try {
+			isauth = auth.isLegit(req);
+			isedit = auth.isEditor();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		if (uriChop.length < 5){
 			resp.sendRedirect("/");
@@ -127,6 +140,8 @@ public class TagSearchServlet extends HttpServlet{
 			VelocityContext context = new VelocityContext();
 
 			context.put("articles", art);
+			context.put("isAuth", isauth);
+			context.put("isEdit", isedit);
 			
 			Template template = null;
 			

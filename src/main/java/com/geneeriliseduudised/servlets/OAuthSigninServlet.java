@@ -47,6 +47,11 @@ public class OAuthSigninServlet extends HttpServlet {
 			state = new BigInteger(130, new SecureRandom()).toString(32);
 			req.getSession().setAttribute("state", state);
 		}
+		
+		String lastpageurl = req.getHeader("Referer");
+		req.getSession().setAttribute("lastpageurl", lastpageurl);
+
+		
 		StringBuilder oauthUrl = new StringBuilder()
 				.append("https://accounts.google.com/o/oauth2/auth")
 				.append("?client_id=").append(OAUTH_CLIENT_ID)

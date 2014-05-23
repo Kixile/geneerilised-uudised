@@ -112,17 +112,7 @@ public class MainArticleServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		// for buttons and better article scrolling
-		String uri = /*
-					 * req.getScheme() + "://" + req.getServerName() +
-					 */
-		/*
-		 * ("http".equals(req.getScheme()) && req.getServerPort() == 80 ||
-		 * "https".equals(req.getScheme()) && req.getServerPort() == 443 ? "" :
-		 * ":" + req.getServerPort() ) +
-		 */req.getRequestURI() /*
-								 * + (req.getQueryString() != null ? "?" +
-								 * req.getQueryString() : "")
-								 */;
+		String uri = req.getRequestURI();
 		init();
 		connect();
 		Statement stmt = null;

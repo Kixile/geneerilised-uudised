@@ -2,9 +2,9 @@
 
 <head>
 	#include("./src/main/webapp/templates/template-head.html")
-	<script src="/assets/jquery-2.1.0.js"></script>
-	<script src="/assets/comments.js"></script>
-	<script src="/assets/app.js"></script>
+	<script type="text/javascript" src="/assets/jquery-2.1.0.js"></script>
+	<script type="text/javascript" src="/assets/comments.js"></script>
+	<script type="text/javascript" src="/assets/app.js"></script>
 	<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 	<script type="text/javascript">
          function showRecaptcha(element) {
@@ -56,17 +56,15 @@
 								<ul id="items" onclick="showRecaptcha('recaptcha_div');"></ul>
 									<div id="viewing">
 										<ol class="commentlist">
-											<div id="bids"></div>
+											<div id="bids">
+											<!-- commend -->
+											</div>
 										</ol>
 									<div id="mycomment" class="hidden">
 									#if ($isAuth == true)
 									<p>
-										<h3>Alias</h3>
-										<input id="alias" type="text"></input>
-									</p>
-									<p>
 										<h3>Comment</h3>
-										<textarea id="comment" type="text" ></textarea>
+										<textarea id="comment" rows="4" cols="50" ></textarea>
 									</p>
 									
 									<div id="recaptcha_div"></div>

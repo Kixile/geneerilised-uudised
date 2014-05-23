@@ -140,7 +140,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 
 
 
-		String sql = "SELECT * FROM artikkel_create LIMIT 5 OFFSET "+ pageIndex * 5 +";";
+		String sql = "SELECT * FROM artikkel_edit where on_kustutatud = false ORDER BY aeg DESC LIMIT 5 OFFSET "+ pageIndex * 5 +";";
 
 
 		try {
