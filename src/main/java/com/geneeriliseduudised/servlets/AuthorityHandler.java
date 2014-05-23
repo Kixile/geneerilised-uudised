@@ -45,7 +45,7 @@ public class AuthorityHandler {
 		}
 	}
 
-	public boolean isLegit(HttpServletRequest req){ //kaput with dB
+	public boolean isLegit(HttpServletRequest req) throws SQLException{ //kaput with dB
 		Statement stmt = null;
 		Cookie[] cookies = req.getCookies();
 		String[] aa = new String[2];
@@ -71,7 +71,7 @@ public class AuthorityHandler {
 			}
 			stmt.close();
 			close(con, rs);
-		} catch (SQLException e3) {
+		} finally {
 			close(con, rs);
 		}
 
@@ -80,7 +80,7 @@ public class AuthorityHandler {
 		return false;
 	}
 
-	public boolean isEditor(){ //kaput with DB
+	public boolean isEditor() throws SQLException{ //kaput with DB
 		Statement stmt = null;
 		ResultSet rs = null;
 		Connection con = connect();
@@ -91,17 +91,9 @@ public class AuthorityHandler {
 			while (rs.next()) {
 				return true;
 			}
-			stmt.close();
 			close(con, rs);
-		} catch (SQLException e3) {
-			try {
-				stmt.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		} finally{
 			close(con, rs);
-			
 		}
 		
 		try {
@@ -111,7 +103,7 @@ public class AuthorityHandler {
 			e.printStackTrace();
 		}
 		close(con, rs);
-
+		
 		return false;
 	}
 
@@ -184,7 +176,7 @@ public class AuthorityHandler {
 		return aa[1];
 	}
 
-	public int getUserId(HttpServletRequest req){
+	public int getUserId(HttpServletRequest req) throws SQLException{
 		String id = getSessionId(req);
 		ResultSet rs = null;
 		Statement stmt = null;
@@ -201,7 +193,7 @@ public class AuthorityHandler {
 			stmt.close();
 			rs.close();
 			close(con, rs);
-		} catch (Exception e3) {
+		} finally {
 			close(con, rs);
 		}
 		

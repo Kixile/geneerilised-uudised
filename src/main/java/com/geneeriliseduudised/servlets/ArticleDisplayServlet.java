@@ -44,7 +44,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return con;
 	}
 
@@ -102,7 +102,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
+
 		Connection con = null;
 		ResultSet rs = null;
 		ResultSet rs2 = null;
@@ -132,12 +132,12 @@ public class ArticleDisplayServlet extends HttpServlet {
 			try{
 				index = Integer.parseInt(uriSplit[2]);
 			}catch(Exception e){
-				
+
 			}
 			pageIndex = index;
 		}
-		
-		
+
+
 
 
 		String sql = "SELECT * FROM artikkel_create LIMIT 5 OFFSET "+ pageIndex * 5 +";";
@@ -174,11 +174,11 @@ public class ArticleDisplayServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e3.printStackTrace();
 		}
-		
+
 		List<String> names = new ArrayList<String>();
-		
+
 		List<Boolean> hasEdit = new ArrayList<Boolean>();
-		
+
 		try {
 			while (rs.next() && rs2.next()) {
 				String tagstring = "";
@@ -209,9 +209,17 @@ public class ArticleDisplayServlet extends HttpServlet {
 		System.out.println(articlesList.size());
 		AuthorityHandler auth = new AuthorityHandler();
 
-		boolean isauth = auth.isLegit(req);
-		boolean isedit = auth.isEditor();
-		int idGet = auth.getUserId(req);
+		boolean isauth = false;
+		boolean isedit = false;
+		int idGet = -1;
+		try{
+			isauth = auth.isLegit(req);
+			isedit = auth.isEditor();
+			idGet = auth.getUserId(req);
+		}catch (Exception e){
+			
+		}
+
 		for(Article i: articlesList){//for edit button
 			if(i.getId() == idGet){
 				hasEdit.add(true);
@@ -221,7 +229,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 			}
 		}
 
-		
+
 		context.put("next", "/page/" + (pageIndex + 1));
 		context.put("previous", "/page/" + (pageIndex - 1));
 		context.put("uri", uri);
@@ -230,7 +238,7 @@ public class ArticleDisplayServlet extends HttpServlet {
 		context.put("artList", articlesList);
 		context.put("editRights", hasEdit);
 
-		
+
 		context.put("isAuth", isauth);
 		context.put("isEdit", isedit);
 

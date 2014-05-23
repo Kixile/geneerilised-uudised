@@ -3,6 +3,7 @@ package com.geneeriliseduudised.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.sql.SQLException;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -42,8 +43,18 @@ public class ArticleWritePageServlet extends HttpServlet {
 		
 		AuthorityHandler auth = new AuthorityHandler();
 
-		boolean isauth = auth.isLegit(req);
-		boolean isedit = auth.isEditor();
+		boolean isauth = false;
+		boolean isedit = false;
+		
+		
+		try {
+			isauth = auth.isLegit(req);
+			isedit = auth.isEditor();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 
 		if(isauth && isedit){
 

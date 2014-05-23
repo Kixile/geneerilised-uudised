@@ -118,9 +118,19 @@ public class ArticleWriteServlet extends HttpServlet {
 
 		AuthorityHandler auth = new AuthorityHandler();
 
-		boolean isauth = auth.isLegit(req);
-		boolean isedit = auth.isEditor();
-		int id_here = auth.getUserId(req);
+		boolean isauth = false;
+		boolean isedit = false;
+		int id_here = -1;
+		try {
+			isauth = auth.isLegit(req);
+			isedit = auth.isEditor();
+			id_here = auth.getUserId(req);
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		
 
 		if(isauth && isedit){
 

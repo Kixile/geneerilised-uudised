@@ -166,8 +166,17 @@ public class MainArticleServlet extends HttpServlet {
 			
 			AuthorityHandler auth = new AuthorityHandler();
 			
-			boolean isauth = auth.isLegit(req);
-			boolean isedit = auth.isEditor();
+			boolean isauth = false;
+			boolean isedit = false;
+			
+			
+			try {
+				isauth = auth.isLegit(req);
+				isedit = auth.isEditor();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			
 			context.put("isAuth", isauth);
