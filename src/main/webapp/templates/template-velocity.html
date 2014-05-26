@@ -22,11 +22,7 @@
 				#set($editable = 0)
 				<div class="content">
 					#foreach($product in $artList)
-					
-					$isAuth
-					$isEdit
-					$editRights.get($editable)
-					$editRights.get($editable)
+
 					#if ( $editRights.get($editable) == false)
 					#else
 						<a rel="" href="/edit/$product.id">Edit article ...</a>

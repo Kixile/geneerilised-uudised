@@ -126,8 +126,7 @@ public class ArticleWriteServlet extends HttpServlet {
 		}
 	}
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
 		AuthorityHandler auth = new AuthorityHandler();
@@ -219,10 +218,4 @@ public class ArticleWriteServlet extends HttpServlet {
 		}
 
 	}
-
-	protected void doPost( HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException
-	{
-		doGet( req, resp );
-	}
-
 }

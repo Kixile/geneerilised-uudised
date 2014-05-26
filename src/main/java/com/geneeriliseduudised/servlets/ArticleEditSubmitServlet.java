@@ -130,7 +130,7 @@ public class ArticleEditSubmitServlet extends HttpServlet {
 		}
 	}
 
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
 		Connection con = connect();
@@ -241,11 +241,5 @@ public class ArticleEditSubmitServlet extends HttpServlet {
 			resp.sendRedirect("/");
 		}
 
-	}
-
-
-	protected void doPost( HttpServletRequest req, HttpServletResponse resp ) throws ServletException, IOException
-	{
-		doGet( req, resp );
 	}
 }

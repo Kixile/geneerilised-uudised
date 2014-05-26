@@ -48,7 +48,7 @@ public class OAuthCallbackServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1055758581569443293L;
 
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		// if error validating
 		if (req.getParameter("error") != null) {

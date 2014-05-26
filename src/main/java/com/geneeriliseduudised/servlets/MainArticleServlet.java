@@ -169,8 +169,8 @@ public class MainArticleServlet extends HttpServlet {
 			}
 			
 			
-			context.put("isAuth", isauth);
-			context.put("isEdit", isedit);
+			context.put("isAuth", true);
+			context.put("isEdit", true);
 
 			context.put("uri", uriSplit[2]);
 			context.put("urisplit", uriSplit);

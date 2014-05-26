@@ -76,3 +76,9 @@ $(function() {
     vldemo2.createWebsocket(commentList.items, viewingList);
 
 });
+
+         function showRecaptcha(element) {
+           Recaptcha.create("6Le37vMSAAAAAKoR2M1Bbg2RTCb-0X5rBdRaHHsk", element, {
+             theme: "red",
+             callback: Recaptcha.focus_response_field});
+         }
